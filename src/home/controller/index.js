@@ -54,7 +54,7 @@ export default class extends Base {
     //auto render template file indexcommunitydetail.html
     let data = await global.theme(this);
     let marked = require('marked'), fs = require("fs");
-    let mdData = fs.readFileSync(think.MD_PATH, 'utf-8').toString();
+    let mdData = fs.readFileSync(think.MD_PATH + 'jwcrew.md', 'utf-8').toString();
     this.assign('themes', data);
     this.assign('title', global.title);
     this.assign('crewrule', marked(mdData));

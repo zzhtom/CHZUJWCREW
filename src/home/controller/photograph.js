@@ -17,6 +17,10 @@ export default class extends Base {
   }
   detail1Action() {
     //auto render template file photograph_detail1.html
+    let marked = require('marked'), fs = require("fs");
+    let mdData = fs.readFileSync(think.MD_PATH + 'img_intro.md', 'utf-8').toString();
+    // this.assign('ImgIntro', marked(mdData))this.assign('ImgIntro');
+    this.assign('ImgIntro', marked(mdData))
     this.assign('title', global.title);
     this.assign('picname', this.get('picname'));
     this.assign('picid', this.get('picid'));
@@ -25,6 +29,10 @@ export default class extends Base {
   }
   detail2Action() {
     //auto render template file photograph_detail2.html
+    let marked = require('marked'), fs = require("fs");
+    let mdData = fs.readFileSync(think.MD_PATH + 'img_intro1.md', 'utf-8').toString();
+    // this.assign('ImgIntro', marked(mdData))this.assign('ImgIntro');
+    this.assign('ImgIntro', marked(mdData))
     this.assign('title', global.title);
     this.assign('picname', this.get('picname'));
     this.assign('picid', this.get('picid'));
