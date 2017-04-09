@@ -1,0 +1,16 @@
+<!--<script>
+	window.onload=function(){
+		var videoSrc = window.location.href.split("=")[1];
+		console.log(videoSrc);
+		document.getElementById("video").src =videoSrc;
+		}
+</script>-->
+	<%include inc/header.html%> 	
+      <div id="main_dv">
+	        <h2 align="center" style="margin-top:25px;">视频视界</h2><br />
+			<hr size="4" color="#FFFF99" width="100%" /><br />									
+			<div align="center" style=" height:485px;">
+				<embed id="video" src="<%-videoSrc%>" allowFullScreen="true" quality="high" width="865" height="485" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+			</div>
+      </div>	
+<%include inc/footer.html%>   

@@ -1,0 +1,83 @@
+<%include inc/header.html%>
+	<script>
+		window.onload = function () {
+			var img1 = document.getElementById("img1");
+			var i = 2;
+			var timer = setInterval(function () {
+				img1.style.filter = 'alpha(opacity:' + 10 + ')';
+				img1.style.opacity = 0.1;
+				if (i <= 6) {
+
+					img1.src = '/static/img/' + i + '.jpg';
+					i++;
+					startmove(img1, { opacity: 100 });
+				}
+				if (i > 6) {
+					i = 1;
+					img1.src = '/static/img/' + i + '.jpg';
+					startmove(img1, { opacity: 100 });
+				}
+			}, 10000);
+		};
+	</script>
+	<div id="mainframe">
+		<div id="mainleft"><img src="/static/img/1.jpg" id="img1" /></div>
+		<div id="maincenter">
+			<div class="two">
+				<p><%-pagetitles.newspaperone%></p>
+				<div id="title">
+					<ul id="ul2">
+						<%news.forEach(function(item){%>
+							<li>
+								<a href="#">
+									<%-item.newsname%>
+								</a>
+							</li>
+							<%})%>
+					</ul>
+				</div>
+			</div>
+			<div class="two">
+				<p><%-pagetitles.newspapertwo%></p>
+				<div id="title">
+					<ul id="ul3">
+						<%activitys.forEach(function(item){%>
+							<li>
+								<a href="#">
+									<%-item.aname%>
+								</a>
+							</li>
+							<%})%>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="mainright">
+			<div class="three"><img src="/static/img/f2-a4.gif" style="float:left;" />
+				<p style="float: left; margin:20px; font-family:'新宋体' ; color:#FFCC00; font-size:18px;
+			font-weight:bold;"><%-pagetitles.poster%></p>
+				<div id="rightone">
+					<img src="/static/img/dzhb.jpg" style="width:198px; height:180px;" />
+					<p align="center" style="font-size:11px;"><a href="#">滁州学院第五届街舞大赛圆满落幕</a></p>
+				</div>
+			</div>
+			<div class="three2">
+				<p align="center" style="margin-top:10px; font:'黑体' bold; color:#FFCC00;"><%-pagetitles.sitelink%></p>
+				<label>
+			      <div align="center"  style="margin-top:20px;">
+			        <select  name="select" onchange="goto_site(this)" style="width:150px;">
+					  <option selected="selected"><%-pagetitles.siteprompt%></option>
+					  <%sites.forEach(function(item){%>
+					  		<option value="<%-item.siteurl%>"><%-item.sitename%></option>
+							<%})%>
+		            </select>
+		          </div>
+			    </label>
+			</div>
+		</div>
+	</div>
+	<canvas style="position: fixed; top: 0px; left: 0px; z-index: 5000; pointer-events: none;" id="canvas_snow" width="1366"
+	 height="307"></canvas>
+	<canvas style="position: fixed; top: 0px; left: 0px; z-index: 5000; pointer-events: none;" id="canvas_snow" width="1366"
+	 height="307"></canvas>
+	<%include inc/footer.html%>

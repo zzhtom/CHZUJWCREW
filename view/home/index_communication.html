@@ -1,0 +1,84 @@
+<%include inc/header.html%>
+	<script>
+		window.onload = function () {
+			var img1 = document.getElementById("img1");
+			var i = 2;
+			var timer = setInterval(function () {
+				img1.style.filter = 'alpha(opacity:' + 0.1 + ')';
+				img1.style.opacity = 0.1;
+				if (i <= 6) {
+
+					img1.src = '/static/img/' + i + '.jpg';
+					i++;
+					startmove(img1, { opacity: 100 });
+				}
+				if (i > 6) {
+					i = 1;
+					img1.src = '/static/img/' + i + '.jpg';
+					startmove(img1, { opacity: 100 });
+				}
+			}, 10000);
+
+			var txt1 = document.getElementById("txt1");
+			var btn1 = document.getElementById("btn1");
+			var ul1 = document.getElementById("oul2");
+			btn1.onclick = function () {
+				var oli = document.createElement("li");
+				oli.innerHTML = txt1.value;
+				txt1.value = " ";
+				if (ul1.children.length > 0) {
+					ul1.insertBefore(oli, ul1.children[0]);
+				}
+				else {
+					ul1.appendChild(oli);
+				}
+				var iheight = oli.offsetHeight;
+				oli.style.height = 0;
+				startmove(oli, { height: iheight, opacity: 100 });
+			};
+		};
+	</script>
+	<div id="mainframe">
+		<div id="mainleft"><img src="/static/img/1.jpg" id="img1" /></div>
+		<div id="maincenter">
+			<div class="two">
+				<p>交流讨论</p>
+				<div id="title">
+					<ul id="oul2" style="width:362px; height:140px; border:1px solid  #CCCCCC; margin:20px 30px;overflow-y: scroll;">
+					</ul>
+				</div>
+			</div>
+			<div class="two">
+				<p>发表言论</p>
+				<div id="title">
+					<div id="titletwo" align="center">
+						<textarea name="textarea" cols="50" rows="6" id="txt1" style="margin-top:20px; margin-left:10px; width:362px; height:140px;"></textarea>
+						<input name="button" type="submit" id="btn1" value=" 提 交 " />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="mainright">
+			<div class="three"><img src="/static/img/f2-a4.gif" style="float:left;" />
+				<p style="float: left; margin:20px; font-family:'新宋体' ; color:#FFCC00; font-size:18px;
+			font-weight:bold;">&nbsp;<span class="STYLE1">公告</span></p>
+				<div id="gonggao" style=" width:180px;height:200px; margin:70px auto; border: 2px dotted #CCCCCC;">
+					<p style="font-size:14px; font-family:'黑体'; text-indent:2em;" id="p1">关于暑假的最新消息：妈蛋嗨起来啊。</p>
+				</div>
+			</div>
+			<div class="three2">
+				<p align="center" style="margin-top:10px; font:'黑体' bolder; font-weight:bold; color:000000;">友情链接</p>
+				<label>
+			      <div align="center"  style="margin-top:20px;">
+			        <select  name="select" onchange="goto_site(this)" style="width:150px;">
+					  <option selected="selected">请选择您想要的链接</option>
+			          <option value="http://www.chzu.edu.cn">滁州学院</option>
+			          <option value="http://bb.chzu.edu.cn">滁州旅游网</option>
+			          <option value="http://bb.chzu.edu.cn">毕博平台</option>
+		            </select>
+		          </div>
+			    </label>
+			</div>
+		</div>
+	</div>
+	<%include inc/footer.html%>
