@@ -47,7 +47,7 @@
 			var t = jQuery(this),
 				button = t.find('.button');
 			var random = $.getUrlParam('random');
-			if(random != null){
+			if (random != null) {
 				t.toggleClass('hide');
 			}
 			button.click(function (e) {
@@ -64,7 +64,12 @@
 			});
 
 		});
-
+		$('#zoom_pic').elevateZoom({
+			zoomType: "lens",
+			lensShape: "round",
+			lensSize: 200
+		});
+		$('#zoom_pic2').elevateZoom({scrollZoom : true});
 		// Footer.
 		$footer.each(function () {
 
@@ -78,9 +83,7 @@
 			});
 
 		});
-
 	});
-
 	//extend function
 	$.getUrlParam = function (name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
