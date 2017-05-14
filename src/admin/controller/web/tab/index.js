@@ -1,14 +1,14 @@
 'use strict';
 
-import Base from './base.js';
+import Base from '../../base.js';
 
 export default class extends Base {
   /**
-   * index action
+   * tab action
    * @return {Promise} []
    */
-  indexAction(){
-    //auto render template file index_index.html
+  tabAction(){
+    //auto render template file index_tab.html
     return this.display();
   }
 }
