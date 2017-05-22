@@ -30,3 +30,6 @@ global.sites = function(self){
 global.pagetitles = function(self){
     return self.model('pagetitles').find();
 }
+global.verificateAdmin = function(self,uname,password){
+    return self.model('admin').where({username: uname,passwd:password}).find();
+}

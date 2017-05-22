@@ -7,15 +7,23 @@ export default class extends Base {
    * mian action
    * @return {Promise} []
    */
-  mainAction(){
+  async mainAction() {
     //auto render template file index_mian.html
+    let parms = this.post();
+    console.log(parms);
+    let verficate = await global.verificateAdmin(this, parms.username, parms.password);
+    if(think.isEmpty(verficate)){
+      // return this.display('main');
+      this.assign('msg', '用户名或者密码错误！');
+      return this.redirect('/admin/login/login');
+    }
     return this.display();
   }
   /**
    * top action
    * @return {Promise} []
    */
-  topAction(){
+  topAction() {
     //auto render template file index_top.html
     return this.display();
   }
@@ -23,7 +31,7 @@ export default class extends Base {
    * center action
    * @return {Promise} []
    */
-  centerAction(){
+  centerAction() {
     //auto render template file index_center.html
     return this.display();
   }
@@ -31,7 +39,7 @@ export default class extends Base {
    * down action
    * @return {Promise} []
    */
-  downAction(){
+  downAction() {
     //auto render template file index_down.html
     return this.display();
   }
@@ -39,7 +47,7 @@ export default class extends Base {
    * left action
    * @return {Promise} []
    */
-  leftAction(){
+  leftAction() {
     //auto render template file index_left.html
     return this.display();
   }
