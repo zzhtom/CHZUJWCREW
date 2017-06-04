@@ -19,10 +19,10 @@ global.theme = function(self){
     return self.model('theme').field('tname,action').select();
 }
 global.news = function(self){
-    return self.model('news').field('newsname,newsaction').select();
+    return self.model('news').field('newsname,action,mdname').select();
 }
 global.activitys = function(self){
-    return self.model('activity').field('aname,aaction').select();
+    return self.model('activity').field('aname,aaction,mdname').select();
 }
 global.sites = function(self){
     return self.model('sites').field('sitename,siteurl').select();

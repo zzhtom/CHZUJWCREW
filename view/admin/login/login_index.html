@@ -25,8 +25,9 @@
       <div class="topbar">
         <div class="spanColor"></div>
         <fieldset>
-          <input type="text" class="input" id="username" placeholder="username" required />
-          <input type="password" class="input" id="password" placeholder="Password" />
+          <!--<legend style="color:red">管理员登陆</legend>-->
+          <input type="text" class="input" id="username" placeholder="username" value="<%=userInfo.username%>" required />
+          <input type="password" class="input" id="password" placeholder="Password" value autocomplete="off" />
         </fieldset>
       </div>
       <button type="submit" class="submit" id="submit">Login</button>

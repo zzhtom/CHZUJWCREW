@@ -29,7 +29,7 @@
 					<ul id="ul2">
 						<%news.forEach(function(item){%>
 							<li>
-								<a href="#">
+								<a href="<%-item.action%>?mdn=<%-item.mdname%> ">
 									<%-item.newsname%>
 								</a>
 							</li>
@@ -43,7 +43,7 @@
 					<ul id="ul3">
 						<%activitys.forEach(function(item){%>
 							<li>
-								<a href="#">
+								<a href="<%-item.aaction%>?mdn=<%-item.mdname%>">
 									<%-item.aname%>
 								</a>
 							</li>

@@ -58,6 +58,11 @@ export default class extends Base {
       username: socket.username,
       message: self.http.data
     });
+    console.log("连接信息：" + thinkCache(thinkCache.WEBSOCKET));
+    var userinfor = thinkCache(thinkCache.WEBSOCKET);
+    userinfor.forEach(function(element) {
+      console.log(element.username);
+    }, this);
   }
   typingAction(self) {
     var socket = self.http.socket;

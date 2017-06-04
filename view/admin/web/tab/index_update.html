@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>修改个人信息</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="contact" action="" method="post">
+            <h3>Person Information</h3>
+            <h4>The following is your Information</h4>
+            <fieldset>
+                <input id="input1" placeholder="Your name" type="text" tabindex="1" value="<%-data.username%>" disabled required autofocus>
+            </fieldset>
+            <fieldset>
+                <input placeholder="Your Email Address" type="email" tabindex="2" value="<%-data.email%>" disabled required>
+            </fieldset>
+            <fieldset>
+                <input placeholder="Your Phone Number" type="tel" tabindex="3" value="<%-data.telphone%>" disabled required>
+            </fieldset>
+            <fieldset>
+                <input placeholder="Your Web Site starts with http://" type="url" tabindex="4" value="<%-data.website%>" disabled required>
+            </fieldset>
+            <fieldset>
+                <textarea placeholder="Type your Message Here...." tabindex="5" disabled required><%-data.introduction%></textarea>
+            </fieldset>
+            <fieldset>
+                <button name="submit" type="submit" id="submit" data-submit="...Sending">Update</button>
+            </fieldset>
+        </form>
+        <script src="/static/js/admin/web/tab/update.js"></script>
+    </div>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

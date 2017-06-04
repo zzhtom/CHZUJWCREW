@@ -10,13 +10,14 @@ export default class extends Base {
   async mainAction() {
     //auto render template file index_mian.html
     let parms = this.post();
-    console.log(parms);
     let verficate = await global.verificateAdmin(this, parms.username, parms.password);
-    if(think.isEmpty(verficate)){
+    if (think.isEmpty(verficate)) {
       // return this.display('main');
       this.assign('msg', '用户名或者密码错误！');
-      return this.redirect('/admin/login/login');
+      return this.fail(this.assign("msg"));
+      // return this.redirect('/admin/login/login');
     }
+    await this.session('userInfo', parms);
     return this.display();
   }
   /**
