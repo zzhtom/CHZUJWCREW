@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>最新活动</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="/static/css/simplemde/simplemde.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/simplemde/simplemde.js"></script>
+    <script>
+        $(document).ready(function(){
+            var simplemde = new SimpleMDE();
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="contact" action="activity" method="post">
+            <h3>Activity Information</h3>
+            <h4>The following is add activity Information</h4>
+            <fieldset>
+                <input name="title" placeholder="activity title" type="text" tabindex="1"  required autofocus>
+            </fieldset>
+            <fieldset>
+                <input name="mdname" placeholder="markdown file name" type="text" tabindex="2"  required>
+            </fieldset>
+            <fieldset>
+                <textarea name="content" placeholder=" please write your activity message...." tabindex="3" ></textarea>
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit" data-submit="...Sending">Add</button>
+            </fieldset>
+        </form>
+    </div>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>修改个人信息</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="contact" action="passwd" method="post">
+            <h3>密码</h3>
+            <h4>密码信息修改</h4>
+            <fieldset>
+                <input name="passwd" type="password" tabindex="1" placeholder="password" required autofocus>
+            </fieldset>
+            <fieldset>
+                <input name="npasswd" type="password" tabindex="2" placeholder="new password" required autofocus>
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit" data-submit="...Sending">修改</button>
+            </fieldset>
+        </form>
+        <p style="color:red">
+            <%-msg%>
+        </p>
+        <script src="/static/js/admin/web/tab/update.js"></script>
+    </div>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

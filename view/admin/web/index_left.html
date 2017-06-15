@@ -105,13 +105,31 @@ function MM_swapImage() { //v3.0
             <td style="line-height:4px; background:url(/static/img/admin/web/main_38.gif)">&nbsp;</td>
           </tr>
           <tr align='center'>
+            <td><a onclick='setFresh("/admin/web/tab/index/passwd")' href="/admin/web/tab/index/passwd" target="I1">修改密码</a></td>
+          </tr>
+          <tr align='center'>
             <!-- <td><img src="/static/img/admin/web/left_tree.gif" width="144" height="141" /></td> -->
-            <td><a href="/admin/web/tab/index/theme" target="I1">主题修改</a></td>
+            <td><a onclick='setFresh("/admin/web/tab/index/theme")' href="/admin/web/tab/index/theme" target="I1">主题修改</a></td>
+          </tr>
+          <tr align='center'>
+            <!-- <td><img src="/static/img/admin/web/left_tree.gif" width="144" height="141" /></td> -->
+            <td><a onclick='setFresh("/admin/web/tab/index/news")' href="/admin/web/tab/index/news" target="I1">新增新闻</a></td>
+          </tr>
+           <tr align='center'>
+            <!-- <td><img src="/static/img/admin/web/left_tree.gif" width="144" height="141" /></td> -->
+            <td><a onclick='setFresh("/admin/web/tab/index/activity")' href="/admin/web/tab/index/activity" target="I1">新增活动</a></td>
           </tr>
         </table>
       </td>
     </tr>
   </table>
+  <script>
+    function setFresh(url) {
+      var frame = top.frames.mainFrame;
+      var setSrc = frame.document.getElementsByName("I1")[0];
+      setSrc.src = url;
+    };
+  </script>
 </body>
 
 </html>

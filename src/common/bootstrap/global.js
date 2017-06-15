@@ -22,7 +22,7 @@ global.news = function(self){
     return self.model('news').field('newsname,action,mdname').select();
 }
 global.activitys = function(self){
-    return self.model('activity').field('aname,aaction,mdname').select();
+    return self.model('activity').field('title,action,mdname').select();
 }
 global.sites = function(self){
     return self.model('sites').field('sitename,siteurl').select();
@@ -31,5 +31,5 @@ global.pagetitles = function(self){
     return self.model('pagetitles').find();
 }
 global.verificateAdmin = function(self,uname,password){
-    return self.model('admin').where({username: uname,passwd:password}).find();
+    return self.model('admin').where({username: uname,passwd:think.md5(password)}).find();
 }
