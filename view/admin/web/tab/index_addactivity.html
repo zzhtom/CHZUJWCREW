@@ -11,32 +11,29 @@
     <link rel="stylesheet" href="/static/css/simplemde/simplemde.css" media="screen" type="text/css" />
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/simplemde/simplemde.js"></script>
-    <script>
-        $(document).ready(function(){
-            var simplemde = new SimpleMDE();
-        });
-    </script>
+    <script src="/static/js/admin/web/tab/add.activity.js"></script>
 </head>
 
 <body>
 
     <div class="container">
-        <form id="contact" action="activity" method="post">
+        <div id="contact">
             <h3>Activity Information</h3>
             <h4>The following is add activity Information</h4>
+            <span id="tips" style="color:red"></span>
             <fieldset>
-                <input name="title" placeholder="activity title" type="text" tabindex="1"  required autofocus>
+                <input id="title" placeholder="activity title" type="text" tabindex="1"  required autofocus>
             </fieldset>
             <fieldset>
-                <input name="mdname" placeholder="markdown file name" type="text" tabindex="2"  required>
+                <input id="mdname" placeholder="markdown file name" type="text" tabindex="2"  required>
             </fieldset>
             <fieldset>
-                <textarea name="content" placeholder=" please write your activity message...." tabindex="3" ></textarea>
+                <textarea id="content" placeholder=" please write your activity message...." tabindex="3" ></textarea>
             </fieldset>
             <fieldset>
-                <button type="submit" id="submit" data-submit="...Sending">Add</button>
+                <button type="submit" id="submit">Add</button>
             </fieldset>
-        </form>
+        </div>
     </div>
     <div style="text-align:center;clear:both">
     </div>

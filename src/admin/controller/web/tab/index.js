@@ -11,6 +11,12 @@ export default class extends Base {
     //auto render template file index_tab.html
     return this.display();
   }
+  async showactivityAction() {
+    //auto render template file index_shownews.html
+    let data = await this.model('activity').page(this.get('page'), 10).countSelect();
+    this.assign('activity', data);
+    return this.display();
+  }
   async updateAction() {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
@@ -108,17 +114,23 @@ export default class extends Base {
         fs.writeFile(think.MD_PATH + '/news/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
           console.log('The file has been saved!');
-          return this.display();
+          return this.json({
+            success: true,
+            title: data.newsname
+          });
         });
         await model.commit();
       } catch (e) {
         await model.rollback();
+        return this.json({
+          success: false,
+          title: data.newsname
+        });
       }
     }
-
     return this.display();
   }
-  async activityAction() {
+  async addactivityAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let fs = require("fs"), model = this.model('activity');
@@ -133,14 +145,79 @@ export default class extends Base {
         fs.writeFile(think.MD_PATH + '/activity/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
           console.log('The file has been saved!');
-          return this.display();
+          return this.json({
+            success: true,
+            title: data.title
+          });
         });
         await model.commit();
       } catch (e) {
         await model.rollback();
+        return this.json({
+          success: false,
+          title: data.title
+        });
       }
     }
 
     return this.display();
+  }
+  async delactivityAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let fs = require("fs"), model = this.model('activity');
+      let data = this.post();
+      try {
+        await model.startTrans();
+        await model.where({ aid: data.aid }).delete();
+        fs.unlink(think.MD_PATH + '/activity/' + data.mdname + '.md', (err) => {
+          if (err) {
+            throw err;
+          }
+          console.log('文件:' + data.title + '删除成功！');
+          return this.json({
+            success: true,
+            title: data.title
+          });
+        })
+
+        await model.commit();
+      } catch (e) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          title: data.title
+        });
+      }
+    }
+  }
+  editactivityAction() {
+    //auto render template file index_tab.html
+    let fs = require("fs");
+    if (this.isPost()) {
+      let data = this.post();
+      try {
+        fs.writeFile(think.MD_PATH + '/activity/' + data.mdname + '.md', data.content, (err) => {
+          if (err) throw err;
+          console.log('The file has been edited!');
+          return this.json({
+            success: true,
+            title: data.title
+          });
+        });
+      } catch (e) {
+        return this.json({
+          success: false,
+          title: data.title
+        });
+      }
+    }
+    fs.readFile(think.MD_PATH + '/activity/' + this.get().mdname + '.md', 'utf8', (err, data) => {
+      if (err) throw err;
+      this.assign('title', this.get().title);
+      this.assign('mdname', this.get().mdname);
+      this.assign('content', data);
+      return this.display();
+    });
   }
 }
