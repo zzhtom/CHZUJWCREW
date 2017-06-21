@@ -11,6 +11,27 @@ export default class extends Base {
     //auto render template file index_tab.html
     return this.display();
   }
+  async uactivityAction() {
+    //auto render template file index_uactivity.html
+    if (this.isPost()) {
+      let model = this.model('activity');
+      let affectedRows = await model.where({ aid: this.post().aid }).update({ title: this.post().title });
+      if (affectedRows != 1)
+        return this.json({
+          success: false,
+          aid: this.post().aid,
+          title: this.post().title
+        });
+      return this.json({
+        success: true,
+        aid: this.post().aid,
+        title: this.post().title
+      });
+    }
+    this.assign('aid', this.get().aid);
+    this.assign('title', this.get().title);
+    return this.display();
+  }
   async showactivityAction() {
     //auto render template file index_shownews.html
     let data = await this.model('activity').page(this.get('page'), 10).countSelect();
@@ -187,6 +208,34 @@ export default class extends Base {
         return this.json({
           success: false,
           title: data.title
+        });
+      }
+    }
+  }
+  async batchdelactivityAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let fs = require("fs"), model = this.model('activity');
+      let _list = JSON.parse(this.post().data);
+      try {
+        await model.startTrans();
+        _list.forEach(async (item) => {
+          await model.where({ aid: item.aid }).delete();
+          fs.unlink(think.MD_PATH + '/activity/' + item.mdname + '.md', (err) => {
+            if (err) {
+              throw err;
+            }
+            console.log('文件:' + item.mdname + '删除成功！');
+            return this.json({
+              success: true
+            });
+          });
+        });
+        await model.commit();
+      } catch (e) {
+        await model.rollback();
+        return this.json({
+          success: false
         });
       }
     }
