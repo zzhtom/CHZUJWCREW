@@ -38,6 +38,12 @@ export default class extends Base {
     this.assign('activity', data);
     return this.display();
   }
+  async shownewsAction() {
+    //auto render template file index_shownews.html
+    let data = await this.model('news').page(this.get('page'), 10).countSelect();
+    this.assign('news', data);
+    return this.display();
+  }
   async updateAction() {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');

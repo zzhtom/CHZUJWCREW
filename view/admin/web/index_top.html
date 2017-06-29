@@ -19,6 +19,25 @@
 
     -->
   </style>
+  <script language="javascript">
+      function exit() {
+        window.open('/admin/login/login', '_top')
+      };
+      function getFresh() {
+        /*window.open(top.frames.mainFrame.document.getElementsByName("I1")[0].src, 'I1');*/
+        top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.location.reload()
+        /*window.open(mFrame.src, 'I1');*/
+      };
+      function goBack() {
+        top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.history.go(-1);
+      }
+
+      function goForward() {
+        top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.history.go(1);
+      }
+
+  </script>
+
 </head>
 
 <body>
@@ -90,25 +109,5 @@
 
   <map name="Map" id="Map"><area shape="rect" coords="3,1,49,22"  href="/admin/web/tab/index/tab" target="I1" /><area shape="rect" coords="52,2,95,21" href="#" onclick='goBack()' /><area shape="rect" coords="102,2,144,21" href="#"  onclick='goForward()'/><area shape="rect" coords="150,1,197,22" href="#" onclick="getFresh()" /><area shape="rect" coords="210,2,304,20" href="/admin/web/tab/index/update" target="I1" /><area shape="rect" coords="314,1,361,23" onclick="exit()" /></map>
 </body>
-<script language="javascript">
-  var frame = top.frames.mainFrame;
-  var mFrame = frame.document.getElementsByName("I1")[0];
-  function exit() {
-    window.open('/admin/login/login', '_top')
-  };
-  function getFresh() {
-    /*window.open(top.frames.mainFrame.document.getElementsByName("I1")[0].src, 'I1');*/
-    mFrame.contentWindow.location.reload()
-    /*window.open(mFrame.src, 'I1');*/
-  };
-  function goBack() {
-    mFrame.contentWindow.history.go(-1);
-  }
-
-  function goForward() {
-    mFrame.contentWindow.history.go(1);
-  }
-
-</script>
 
 </html>

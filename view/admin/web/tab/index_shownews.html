@@ -1,5 +1,5 @@
 <%include inc/show_header.html%>
-  <%for(var i=1; i <= activity.data.length;i++){%>
+  <%for(var i=1; i <= news.data.length;i++){%>
     <tr>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center" class="STYLE1">
@@ -7,7 +7,7 @@
         </div>
       </td>
       <td style="display: none">
-        <%-activity.data[i-1].aid%>
+        <%-news.data[i-1].nid%>
       </td>
       <td height="18" bgcolor="#FFFFFF" class="STYLE2">
         <div align="center" class="STYLE2 STYLE1">
@@ -16,27 +16,27 @@
       </td>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center" class="STYLE2 STYLE1">
-          <%-activity.data[i-1].title%>
+          <%-news.data[i-1].newsname%>
         </div>
       </td>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center" class="STYLE2 STYLE1">
-          <%-activity.data[i-1].mdname%>
+          <%-news.data[i-1].mdname%>
         </div>
       </td>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center" class="STYLE2 STYLE1">
-          <%-activity.data[i-1].cuser%>
+          <%-news.data[i-1].cnewsuser%>
         </div>
       </td>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center" class="STYLE2 STYLE1">
-          <%-activity.data[i-1].ctime%>
+          <%-news.data[i-1].cnewstime%>
         </div>
       </td>
       <td height="18" bgcolor="#FFFFFF">
         <div align="center"><img src="/static/img/admin/web/tab/037.gif" width="9" height="9" /><span class="STYLE1"> [</span>
-          <a class="singleEdit" href="editactivity?title=<%-activity.data[i-1].title%>&mdname=<%-activity.data[i-1].mdname%>" target="I1">编辑</a>
+          <a class="singleEdit" href="editnews?title=<%-news.data[i-1].newname%>&mdname=<%-news.data[i-1].mdname%>" target="I1">编辑</a>
           <span class="STYLE1">]</span>
         </div>
       </td>
@@ -62,9 +62,9 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td width="25%" height="29" nowrap="nowrap">
-                      <span class="STYLE1">共<%=activity.count%>条纪录，当前第
-                      <span id="currentPage"><%=activity.currentPage%></span>/<span id="totalPages"><%=activity.totalPages%></span>页，每页
-                      <span id="numsPerPage"><%=activity.numsPerPage%></span>条纪录
+                      <span class="STYLE1">共<%=news.count%>条纪录，当前第
+                      <span id="currentPage"><%=news.currentPage%></span>/<span id="totalPages"><%=news.totalPages%></span>页，每页
+                      <span id="numsPerPage"><%=news.numsPerPage%></span>条纪录
                       </span>
                     </td>
 
