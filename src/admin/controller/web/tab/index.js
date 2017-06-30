@@ -15,33 +15,28 @@ export default class extends Base {
     //auto render template file index_uactivity.html
     if (this.isPost()) {
       let model = this.model('activity');
-      let affectedRows = await model.where({ aid: this.post().aid }).update({ title: this.post().title });
+      let affectedRows = await model.where({ id: this.post().id }).update({ title: this.post().title });
       if (affectedRows != 1)
         return this.json({
           success: false,
-          aid: this.post().aid,
+          id: this.post().id,
           title: this.post().title
         });
       return this.json({
         success: true,
-        aid: this.post().aid,
+        id: this.post().id,
         title: this.post().title
       });
     }
-    this.assign('aid', this.get().aid);
+    this.assign('id', this.get().id);
     this.assign('title', this.get().title);
     return this.display();
   }
-  async showactivityAction() {
+  async showmodelAction() {
     //auto render template file index_shownews.html
-    let data = await this.model('activity').page(this.get('page'), 10).countSelect();
-    this.assign('activity', data);
-    return this.display();
-  }
-  async shownewsAction() {
-    //auto render template file index_shownews.html
-    let data = await this.model('news').page(this.get('page'), 10).countSelect();
-    this.assign('news', data);
+    let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
+    this.assign('model', data);
+    this.assign('showModel', this.get().model);
     return this.display();
   }
   async updateAction() {
@@ -135,15 +130,15 @@ export default class extends Base {
       try {
         await model.startTrans();
         let newsId = await model.add({
-          newsname: data.newsname, cnewsuser: userInfo.username, mdname: data.mdname,
-          action: '/news/index', cnewstime: think.datetime()
+          title: data.title, cuser: userInfo.username, mdname: data.mdname,
+          action: '/news/index', ctime: think.datetime(), utime: think.datetime()
         });
         fs.writeFile(think.MD_PATH + '/news/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
           console.log('The file has been saved!');
           return this.json({
             success: true,
-            title: data.newsname
+            title: data.title
           });
         });
         await model.commit();
@@ -151,7 +146,7 @@ export default class extends Base {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.newsname
+          title: data.title
         });
       }
     }
@@ -167,7 +162,7 @@ export default class extends Base {
         await model.startTrans();
         let activityId = await model.add({
           title: data.title, cuser: userInfo.username, mdname: data.mdname,
-          action: '/activity/index', ctime: think.datetime()
+          action: '/activity/index', ctime: think.datetime(), utime: think.datetime()
         });
         fs.writeFile(think.MD_PATH + '/activity/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
@@ -196,7 +191,7 @@ export default class extends Base {
       let data = this.post();
       try {
         await model.startTrans();
-        await model.where({ aid: data.aid }).delete();
+        await model.where({ id: data.id }).delete();
         fs.unlink(think.MD_PATH + '/activity/' + data.mdname + '.md', (err) => {
           if (err) {
             throw err;
@@ -226,7 +221,7 @@ export default class extends Base {
       try {
         await model.startTrans();
         _list.forEach(async (item) => {
-          await model.where({ aid: item.aid }).delete();
+          await model.where({ id: item.id }).delete();
           fs.unlink(think.MD_PATH + '/activity/' + item.mdname + '.md', (err) => {
             if (err) {
               throw err;
@@ -246,13 +241,13 @@ export default class extends Base {
       }
     }
   }
-  editactivityAction() {
+  editmodelAction() {
     //auto render template file index_tab.html
     let fs = require("fs");
     if (this.isPost()) {
       let data = this.post();
       try {
-        fs.writeFile(think.MD_PATH + '/activity/' + data.mdname + '.md', data.content, (err) => {
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
           console.log('The file has been edited!');
           return this.json({
@@ -267,11 +262,12 @@ export default class extends Base {
         });
       }
     }
-    fs.readFile(think.MD_PATH + '/activity/' + this.get().mdname + '.md', 'utf8', (err, data) => {
+    fs.readFile(think.MD_PATH + '/'+this.get().model+'/' + this.get().mdname + '.md', 'utf8', (err, data) => {
       if (err) throw err;
       this.assign('title', this.get().title);
       this.assign('mdname', this.get().mdname);
       this.assign('content', data);
+      this.assign('showModel', this.get().model);
       return this.display();
     });
   }

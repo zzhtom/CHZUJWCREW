@@ -1,10 +1,10 @@
 $(document).ready(function () {
     var simplemde = new SimpleMDE();
     $('#submit').click(function () {
-        if ($('#newsname').val().length == 0) {
+        if ($('#title').val().length == 0) {
             // $('#newsname').get(0).setCustomValidity("该字段不能为空！");
             $('#tips').html('<b>标题不能为空！</b>');
-            $('#newsname').focus().select();
+            $('#title').focus().select();
             return false;
         }
         if ($('#mdname').val().length == 0) {
@@ -16,7 +16,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'news',// 跳转到 action  
             data: {
-                newsname: $('#newsname').val(),
+                newsname: $('#title').val(),
                 mdname: $('#mdname').val(),
                 content: simplemde.value(),
             },

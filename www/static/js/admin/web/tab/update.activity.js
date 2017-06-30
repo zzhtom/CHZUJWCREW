@@ -14,7 +14,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'uactivity',
             data: {
-                aid: $("input[name='aid']").val(),
+                id: $("input[name='id']").val(),
                 title: $("input[name='title']").val(),
             },
             type: 'post',

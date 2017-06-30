@@ -19,7 +19,7 @@ global.theme = function(self){
     return self.model('theme').field('tname,action').select();
 }
 global.news = function(self){
-    return self.model('news').field('newsname,action,mdname').select();
+    return self.model('news').field('title,action,mdname').select();
 }
 global.activitys = function(self){
     return self.model('activity').field('title,action,mdname').select();

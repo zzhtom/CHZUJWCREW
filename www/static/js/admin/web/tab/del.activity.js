@@ -2,10 +2,10 @@
 $(document).ready(function () {
     var model = getUrlParam('model');
     $('#firstPage').click(function () {
-        $(this).attr('href', 'show'+model+'?page=1&model='+model);
+        $(this).attr('href', 'showmodel?page=1&model=' + model);
     });
     $('#lastPage').click(function () {
-        $(this).attr('href', 'show'+model+'?page=' + $('#totalPages').text()+'&model='+model);
+        $(this).attr('href', 'showmodel?page=' + $('#totalPages').text()+'&model=' + model);
     });
     $('#backPage').click(function () {
         var dirPage = $('#currentPage').text() - 1;
@@ -13,7 +13,7 @@ $(document).ready(function () {
             alert('目前已是第一页');
             return false;
         }
-        $(this).attr('href', 'show'+model+'?page=' + dirPage + '&model=' + model);
+        $(this).attr('href', 'showmodel?page=' + dirPage + '&model=' + model);
     });
     $('#nextPage').click(function () {
         var dirPage = $('#currentPage').text() * 1 + 1 * 1;
@@ -22,7 +22,7 @@ $(document).ready(function () {
             alert('目前已是最后一页');
             return false;
         }
-        $(this).attr('href', 'show'+model+'?page=' + dirPage + '&model=' + model);
+        $(this).attr('href', 'showmodel?page=' + dirPage + '&model=' + model);
     });
     $('#jumpPage').click(function () {
         if (isNaN($('#jumpNum').val())) {
@@ -37,7 +37,7 @@ $(document).ready(function () {
             alert('页码不在有效范围内！')
             return false;
         }
-        $(this).attr('href', 'show'+model+'?page=' + $('#jumpNum').val() + '&model=' + model);
+        $(this).attr('href', 'showmodel?page=' + $('#jumpNum').val() + '&model=' + model);
     });
     $('#allSelect').change(function () {
         if ($(this).prop('checked')) {
@@ -64,7 +64,7 @@ $(document).ready(function () {
             return false;
         }
         var $td = $("input[name='checkbox']:checked").first().parent().parent().parent().find('td');
-        window.open('u'+model+'?aid=' + $.trim($td.eq(1).text()) + "&title=" + $.trim($td.eq(3).text()), 'I1');
+        window.open('u'+model+'?id=' + $.trim($td.eq(1).text()) + "&title=" + $.trim($td.eq(3).text()), 'I1');
     });
     $('.singleDel').click(function () {
         //  var tr = $(this);
@@ -78,7 +78,7 @@ $(document).ready(function () {
         $.ajax({
             url: 'del'+model,
             data: {
-                aid: $.trim($td.eq(1).text()),
+                id: $.trim($td.eq(1).text()),
                 title: $.trim($td.eq(3).text()),
                 mdname: $.trim($td.eq(4).text()),
             },
@@ -97,7 +97,7 @@ $(document).ready(function () {
                     }
                     if ($('#currentPage').text() != 1) {
                         var backPage = $('#currentPage').text() - 1;
-                        window.open('show'+model+'?page=' + backPage + '&model=' + model, 'I1');
+                        window.open('showmodel?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！')
                     }
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 return null;
             }
             return {
-                aid: $.trim($td.eq(1).text()),
+                id: $.trim($td.eq(1).text()),
                 mdname: $.trim($td.eq(4).text())
             };
         }).get();
@@ -149,7 +149,7 @@ $(document).ready(function () {
                     if ($("input[name='batchSelect']:checked").size() != 0) {
                         if ($('#currentPage').text() != 1) {
                             var backPage = $('#currentPage').text() - 1;
-                            window.open('show'+model+'?page=' + backPage + '&model=' + model, 'I1');
+                            window.open('showmodel?page=' + backPage + '&model=' + model, 'I1');
                         } else {
                             alert('暂时无数据！')
                         }
