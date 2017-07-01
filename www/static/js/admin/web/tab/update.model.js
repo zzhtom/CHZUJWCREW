@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('h3').html($('h3').html().toUpperCase());
     $('#submit').click(function () {
         if ($("#submit").text() == 'Update') {
             $("#submit").text('Submit');
@@ -12,8 +13,9 @@ $(document).ready(function () {
             return false;
         }
         $.ajax({
-            url: 'uactivity',
+            url: 'umodel',
             data: {
+                model: $("input[name='model']").val(),
                 id: $("input[name='id']").val(),
                 title: $("input[name='title']").val(),
             },
@@ -24,12 +26,12 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改活动标题为:" + data.title + "的活动信息成功！");
+                    alert("修改标题为:" + data.title + "的记录成功！");
                     $("input[name='title']").val(data.title);
                     $("#submit").text('Update');
                     // window.location.reload();
                 } else {
-                    alert("修改活动标题为:" + data.title + "的活动信息失败！");
+                    alert("修改标题为:" + data.title + "的记录失败！");
                 }
             },
             error: function () {

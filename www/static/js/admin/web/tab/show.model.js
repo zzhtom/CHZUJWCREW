@@ -58,13 +58,13 @@ $(document).ready(function () {
             $("input[name='batchSelect']").prop("checked", false);//全选 
         }
     });
-    $('.updateActivity').click(function () {
+    $('.updateModel').click(function () {
         if ($("input[name='checkbox']:checked").size() == 0) {
             alert('所选项不能为空！');
             return false;
         }
         var $td = $("input[name='checkbox']:checked").first().parent().parent().parent().find('td');
-        window.open('u'+model+'?id=' + $.trim($td.eq(1).text()) + "&title=" + $.trim($td.eq(3).text()), 'I1');
+        window.open('umodel?id=' + $.trim($td.eq(1).text()) + "&title=" + $.trim($td.eq(3).text())+'&model=' + model, 'I1');
     });
     $('.singleDel').click(function () {
         //  var tr = $(this);
@@ -76,8 +76,9 @@ $(document).ready(function () {
         var $tr = $(this).parent().parent().parent();
         var $td = $tr.find("td");
         $.ajax({
-            url: 'del'+model,
+            url: 'delmodel',
             data: {
+                model: model,
                 id: $.trim($td.eq(1).text()),
                 title: $.trim($td.eq(3).text()),
                 mdname: $.trim($td.eq(4).text()),
@@ -133,8 +134,9 @@ $(document).ready(function () {
             };
         }).get();
         $.ajax({
-            url: 'batchdel'+model,
+            url: 'batchdelmodel',
             data: {
+                model: model,
                 data: JSON.stringify(_lsit)
             },
             type: 'post',

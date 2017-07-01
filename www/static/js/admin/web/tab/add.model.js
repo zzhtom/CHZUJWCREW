@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('h3').html($('h3').html().toUpperCase());
     var simplemde = new SimpleMDE();
     $('#submit').click(function () {
         if ($('#title').val().length == 0) {
@@ -13,8 +14,9 @@ $(document).ready(function () {
             return false;
         }
         $.ajax({
-            url: 'addactivity',
+            url: 'addmodel',
             data: {
+                model: getUrlParam('model'),
                 title: $('#title').val(),
                 mdname: $('#mdname').val(),
                 content: simplemde.value(),
@@ -26,10 +28,10 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("添加活动标题为:"+ data.title +"的活动信息成功！");
+                    alert("添加标题为:" + data.title + "的记录成功！");
                     window.location.reload();
                 } else {
-                    alert("添加活动标题为:"+ data.title +"的活动信息失败！");
+                    alert("添加标题为:" + data.title + "的记录失败！");
                 }
             },
             error: function () {
@@ -37,4 +39,10 @@ $(document).ready(function () {
             }
         });
     });
+    // extend function
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
 });

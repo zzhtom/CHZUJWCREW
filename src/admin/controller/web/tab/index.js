@@ -11,11 +11,15 @@ export default class extends Base {
     //auto render template file index_tab.html
     return this.display();
   }
-  async uactivityAction() {
+  async umodelAction() {
     //auto render template file index_uactivity.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('用户信息错误');
+    }
     if (this.isPost()) {
-      let model = this.model('activity');
-      let affectedRows = await model.where({ id: this.post().id }).update({ title: this.post().title });
+      let model = this.model(this.post().model);
+      let affectedRows = await model.where({ id: this.post().id }).update({ title: this.post().title, uuser: userInfo.username, utime: think.datetime() });
       if (affectedRows != 1)
         return this.json({
           success: false,
@@ -28,12 +32,17 @@ export default class extends Base {
         title: this.post().title
       });
     }
+    this.assign('model', this.get().model);
     this.assign('id', this.get().id);
     this.assign('title', this.get().title);
     return this.display();
   }
   async showmodelAction() {
     //auto render template file index_shownews.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('用户信息错误');
+    }
     let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
     this.assign('model', data);
     this.assign('showModel', this.get().model);
@@ -152,19 +161,19 @@ export default class extends Base {
     }
     return this.display();
   }
-  async addactivityAction() {
+  async addmodelAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
-      let fs = require("fs"), model = this.model('activity');
       let data = this.post();
+      let fs = require("fs"), model = this.model(data.model);
       let userInfo = await this.session('userInfo');
       try {
         await model.startTrans();
         let activityId = await model.add({
-          title: data.title, cuser: userInfo.username, mdname: data.mdname,
-          action: '/activity/index', ctime: think.datetime(), utime: think.datetime()
+          title: data.title, cuser: userInfo.username, uuser: userInfo.username, mdname: data.mdname,
+          action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
-        fs.writeFile(think.MD_PATH + '/activity/' + data.mdname + '.md', data.content, (err) => {
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
           console.log('The file has been saved!');
           return this.json({
@@ -181,18 +190,18 @@ export default class extends Base {
         });
       }
     }
-
+    this.assign('addModel', this.get().model);
     return this.display();
   }
-  async delactivityAction() {
+  async delmodelAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
-      let fs = require("fs"), model = this.model('activity');
       let data = this.post();
+      let fs = require("fs"), model = this.model(data.model);
       try {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
-        fs.unlink(think.MD_PATH + '/activity/' + data.mdname + '.md', (err) => {
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
           if (err) {
             throw err;
           }
@@ -213,16 +222,17 @@ export default class extends Base {
       }
     }
   }
-  async batchdelactivityAction() {
+  async batchdelmodelAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
-      let fs = require("fs"), model = this.model('activity');
-      let _list = JSON.parse(this.post().data);
+      let data = this.post();
+      let fs = require("fs"), model = this.model(data.model);
+      let _list = JSON.parse(data.data);
       try {
         await model.startTrans();
         _list.forEach(async (item) => {
           await model.where({ id: item.id }).delete();
-          fs.unlink(think.MD_PATH + '/activity/' + item.mdname + '.md', (err) => {
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
             if (err) {
               throw err;
             }
@@ -262,7 +272,7 @@ export default class extends Base {
         });
       }
     }
-    fs.readFile(think.MD_PATH + '/'+this.get().model+'/' + this.get().mdname + '.md', 'utf8', (err, data) => {
+    fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
       if (err) throw err;
       this.assign('title', this.get().title);
       this.assign('mdname', this.get().mdname);

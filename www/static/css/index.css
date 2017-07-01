@@ -79,7 +79,9 @@ a:active {
 	}
 .two #title{
     width:421px;
-	overflow:hidden;
+	height: 100%;
+	overflow-x:hidden;
+	overflow-y: auto; 
     }	
 .two #title #ul2{
     width:500px;
@@ -160,7 +162,7 @@ a:active {
 	text-align:center;
 	}
 #main_pg img{ 
-	filter:alpha(opacity:30);
+	filter:alpha(opacity: 30);
 	opacity:0.3;
 	}
 /*displayvideo.html*/
@@ -205,11 +207,35 @@ font-family:"黑体";
 	border-bottom:1px #999 dashed; 
 	padding:2px; list-style:none; 
 	overflow:hidden; 
-	filter:alpha(opacity:0); 
-	opacity:0; 
-	font-family:"����";      
+	filter:alpha(opacity: 0); 
+	opacity: 0; 
+	font-family:"黑体";      
 	font-size:12px;
 	}
 .STYLE1 {
 	color: #000000;
+	}
+	/*for new_index.html*/
+	.news{
+		width: 100%;
+		height: 500px;
+		margin: 5px 0 5px 0;
+		padding-top: 30px;
+		background: #F0FFF0;
+	}
+	.news div {
+		width: 80%;
+		margin: 0 auto;
+	}
+	/*for activity_index.html*/
+	.activity{
+		width: 100%;
+		height: 500px;
+		margin: 5px 0 5px 0;
+		padding-top: 30px;
+		background: #F0FFF0;
+	}
+	.activity div {
+		width: 80%;
+		margin: 0 auto;
 	}
