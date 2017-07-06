@@ -17,6 +17,7 @@ export default class extends Base {
     let activitysData = await global.activitys(this);
     let sitesData = await global.sites(this);
     let pagetitlesData = await global.pagetitles(this);
+    let poster = await global.poster(this);
     // console.log(pagetitlesData);
     this.assign('themes', themesData);
     this.assign('news', newsData);
@@ -24,6 +25,7 @@ export default class extends Base {
     this.assign('sites', sitesData);
     this.assign('pagetitles', pagetitlesData);
     this.assign('title', global.title);
+    this.assign('poster', poster);
     return this.display();
   }
   async displayvideoAction() {

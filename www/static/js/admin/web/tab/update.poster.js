@@ -13,11 +13,11 @@ $(document).ready(function () {
             return false;
         }
         $.ajax({
-            url: 'umodel',
+            url: 'uposter',
             data: {
                 model: $("input[name='model']").val(),
-                id: $("input[name='id']").val(),
-                title: $("input[name='title']").val(),
+                ntheme: $("input[name='ntheme']").val(),
+                otheme: $("input[name='otheme']").val(),
             },
             type: 'post',
             cache: false,
@@ -26,12 +26,12 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改标题为:" + data.title + "的记录成功！");
-                    $("input[name='title']").val(data.title);
+                    alert("修改主题为:" + data.theme + "成功！");
+                    $("input[name='ntheme']").val(data.theme);
                     $("#submit").text('Update');
                     // window.location.reload();
                 } else {
-                    alert("修改标题为:" + data.title + "的记录失败！");
+                    alert("修改标题为:" + data.theme + "的记录失败！");
                 }
             },
             error: function () {

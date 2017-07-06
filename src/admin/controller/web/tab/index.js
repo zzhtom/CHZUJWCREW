@@ -1,7 +1,9 @@
 'use strict';
 
 import Base from '../../base.js';
-
+var fs = require("fs");
+var path = require('path');
+const uuid = require('uuid/v1');
 export default class extends Base {
   /**
    * tab action
@@ -15,7 +17,7 @@ export default class extends Base {
     //auto render template file index_uactivity.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     if (this.isPost()) {
       let model = this.model(this.post().model);
@@ -41,7 +43,18 @@ export default class extends Base {
     //auto render template file index_shownews.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
+    this.assign('model', data);
+    this.assign('showModel', this.get().model);
+    return this.display();
+  }
+  async showposterAction() {
+    //auto render template file index_shownews.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
     this.assign('model', data);
@@ -52,7 +65,7 @@ export default class extends Base {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     if (this.get('msg') !== undefined)
       this.assign('msg', this.get('msg'));
@@ -64,7 +77,7 @@ export default class extends Base {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     let adminInfor = this.post();
     let model = this.model('admin');
@@ -78,7 +91,7 @@ export default class extends Base {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     if (this.get('msg') !== undefined)
       this.assign('msg', this.get('msg'));
@@ -91,7 +104,7 @@ export default class extends Base {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     let model = this.model('theme');
     let themes = this.post().theme1;
@@ -108,7 +121,7 @@ export default class extends Base {
     //auto render template file index_update.html
     let userInfo = await this.session('userInfo');
     if (think.isEmpty(userInfo)) {
-      return this.fail('用户信息错误');
+      return this.fail('会话超时，请重新提交用户信息!');
     }
     this.assign('msg', '');
     if (this.isPost()) {
@@ -130,42 +143,55 @@ export default class extends Base {
     }
     return this.display();
   }
-  async newsAction() {
+  async addposterAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
-      let fs = require("fs"), model = this.model('news');
       let data = this.post();
+      console.log(data);
+      let model = this.model(data.model);
       let userInfo = await this.session('userInfo');
       try {
         await model.startTrans();
-        let newsId = await model.add({
-          title: data.title, cuser: userInfo.username, mdname: data.mdname,
-          action: '/news/index', ctime: think.datetime(), utime: think.datetime()
+        var file = think.extend({}, this.file('image'));
+        var filepath = file.path;
+        let pname = path.basename(filepath);
+        let mdname = uuid();
+        let posterId = await model.add({
+          theme: data.theme, cuser: userInfo.username, pname: pname, uuser: userInfo.username, mdname: mdname,
+          action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
-        fs.writeFile(think.MD_PATH + '/news/' + data.mdname + '.md', data.content, (err) => {
+        let mdpath = think.MD_PATH + '/' + data.model + '/';
+        if (!think.isDir(mdpath)) {
+          think.mkdir(mdpath);
+        }
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + mdname + '.md', data.content, (err) => {
           if (err) throw err;
-          console.log('The file has been saved!');
-          return this.json({
-            success: true,
-            title: data.title
-          });
+          var posterPath = think.POSTER_PATH + mdname;
+          think.mkdir(posterPath);
+          fs.renameSync(filepath, posterPath + '/' + pname);
         });
         await model.commit();
+        this.assign('addModel', data.model);
+        this.assign('tips', 'add poster is success!')
+        return this.display();
       } catch (e) {
+        console.log(e);
         await model.rollback();
         return this.json({
           success: false,
-          title: data.title
+          error: '添加失败！'
         });
       }
     }
+    this.assign('addModel', this.get().model);
+    this.assign('tips', '')
     return this.display();
   }
   async addmodelAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      let fs = require("fs"), model = this.model(data.model);
+      let model = this.model(data.model);
       let userInfo = await this.session('userInfo');
       try {
         await model.startTrans();
@@ -193,11 +219,100 @@ export default class extends Base {
     this.assign('addModel', this.get().model);
     return this.display();
   }
+  /**
+   * poster operation
+   */
+  async setposterAction() {
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    if (this.isPost()) {
+      let model = this.model(this.post().model);
+      try {
+        await model.startTrans();
+        if (this.post().reason == 'cancel') {
+          await model.where({ theme: this.post().theme }).update({ show: 0});
+        }
+        if (this.post().reason == 'setting') {
+          await model.where('1=1').update({ show: 0});
+          await model.where({ theme: this.post().theme }).update({ show: 1});
+        }
+        await model.commit();
+        return this.json({
+          success: true,
+          theme: this.post().theme,
+          error: ''
+        });
+      } catch (err) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          title: this.post().theme,
+          error: err
+        });
+      }
+    }
+  }
+  async uposterAction() {
+    //auto render template file index_uactivity.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    if (this.isPost()) {
+      let model = this.model(this.post().model);
+      let affectedRows = await model.where({ theme: this.post().otheme }).update({ theme: this.post().ntheme, uuser: userInfo.username, utime: think.datetime() });
+      if (affectedRows != 1)
+        return this.json({
+          success: false,
+          theme: this.post().ntheme
+        });
+      return this.json({
+        success: true,
+        theme: this.post().ntheme
+      });
+    }
+    this.assign('model', this.get().model);
+    this.assign('theme', this.get().theme);
+    return this.display();
+  }
+  async delposterAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      try {
+        await model.startTrans();
+        await model.where({ theme: data.theme }).delete();
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
+          if (err) {
+            throw err;
+          }
+          fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, (err) => {
+            if (err) { throw err; }
+            think.rmdir(think.POSTER_PATH + '/' + data.mdname, false);
+          })
+        })
+        await model.commit();
+        return this.json({
+          success: true,
+          theme: data.theme
+        });
+      } catch (e) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          title: data.title
+        });
+      }
+    }
+  }
   async delmodelAction() {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      let fs = require("fs"), model = this.model(data.model);
+      let model = this.model(data.model);
       try {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
@@ -226,7 +341,7 @@ export default class extends Base {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      let fs = require("fs"), model = this.model(data.model);
+      let model = this.model(data.model);
       let _list = JSON.parse(data.data);
       try {
         await model.startTrans();
@@ -253,13 +368,11 @@ export default class extends Base {
   }
   editmodelAction() {
     //auto render template file index_tab.html
-    let fs = require("fs");
     if (this.isPost()) {
       let data = this.post();
       try {
         fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
-          console.log('The file has been edited!');
           return this.json({
             success: true,
             title: data.title

@@ -33,3 +33,6 @@ global.pagetitles = function(self){
 global.verificateAdmin = function(self,uname,password){
     return self.model('admin').where({username: uname,passwd:think.md5(password)}).find();
 }
+global.poster = function(self){
+    return self.model('poster').where({show: true}).find();
+}

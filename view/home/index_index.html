@@ -29,7 +29,7 @@
 					<ul id="ul2">
 						<%news.forEach(function(item){%>
 							<li>
-								<a href="<%-item.action%>?mdn=<%-item.mdname%> ">
+								<a href="javascript:window.open('<%-item.action%>?mdn=<%-item.mdname%>')">
 									<%-item.title%>
 								</a>
 							</li>
@@ -43,7 +43,7 @@
 					<ul id="ul3">
 						<%activitys.forEach(function(item){%>
 							<li>
-								<a href="<%-item.action%>?mdn=<%-item.mdname%>">
+								<a href="javascript:window.open('<%-item.action%>?mdn=<%-item.mdname%>')">
 									<%-item.title%>
 								</a>
 							</li>
@@ -57,8 +57,8 @@
 				<p style="float: left; margin:20px; font-family:'新宋体' ; color:#FFCC00; font-size:18px;
 			font-weight:bold;"><%-pagetitles.poster%></p>
 				<div id="rightone">
-					<img src="/static/img/dzhb.jpg" style="width:198px; height:180px;" />
-					<p align="center" style="font-size:11px;"><a href="#">滁州学院第五届街舞大赛圆满落幕</a></p>
+					<a href='javascript: window.open("/poster/index?mdn=<%-poster.mdname%>")'><img src="/static/poster/<%-poster.mdname%>/<%-poster.pname%>" style="width:198px; height:180px;" /></a>
+					<p align="center" style="font-size:1.5rem;line-height: 60px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"><a href='javascript: window.open("/poster/index?mdn=<%-poster.mdname%>")'><%-poster.theme%></a></p>
 				</div>
 			</div>
 			<div class="three2">
