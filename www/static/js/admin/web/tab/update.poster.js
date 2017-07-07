@@ -28,6 +28,7 @@ $(document).ready(function () {
                     // $('#tips').html('');
                     alert("修改主题为:" + data.theme + "成功！");
                     $("input[name='ntheme']").val(data.theme);
+                    $("input[name='otheme']").val(data.theme);
                     $("#submit").text('Update');
                     // window.location.reload();
                 } else {
