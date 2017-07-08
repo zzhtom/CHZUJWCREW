@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         }
         if ($("input[name='ntheme']").val().length == 0) {
-            alert('标题不能为空！')
+            alert('主题不能为空！')
             $("input[name='ntheme']").focus().select();
             return false;
         }
