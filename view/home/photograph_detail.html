@@ -10,20 +10,21 @@
 	<a href="/photograph/index?random=<%-random%>" class="button hidden"><span>Let's Go</span></a>
 	</div>
 	</header>
+	<span id="photos" style="display:none;"><%-photos%></span>
 
 	<!-- Main -->
 	<div id="preview">
 		<div class="inner">
 			<div class="image fit">
-				<img id="zoom_pic" src="/static/img/photograph/images/<%-picname%>" data-zoom-image="/static/img/photograph/images/<%-picname%>"
+				<img id="zoom_pic" src="/static/img/photograph/images/<%-name%>" data-zoom-image="/static/img/photograph/images/<%-name%>"
 				 alt="" />
 			</div>
 			<div class="content">
 				<%-ImgIntro%>
 			</div>
 		</div>
-		<a href="/photograph/redirect?picid=<%=picid%>&&chevron=left" class="nav previous"><span class="fa fa-chevron-left"></span></a>
-		<a href="/photograph/redirect?picid=<%=picid%>&&chevron=right" class="nav next"><span class="fa fa-chevron-right"></span></a>
+		<a href="/photograph/redirect?chevron=left" class="nav previous"><span class="fa fa-chevron-left"></span></a>
+		<a href="/photograph/redirect?chevron=right" class="nav next"><span class="fa fa-chevron-right"></span></a>
 	</div>
 
 	<%include inc/photographfooter.html%>

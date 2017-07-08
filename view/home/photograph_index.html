@@ -10,7 +10,7 @@
 				<!-- Column 1~4 (horizontal, vertical, horizontal, vertical) -->
 				<%photographs.forEach(function(item){%>
 					<div class="image fit">
-						<a href="<%-item.paction%>?random=<%-random%>&&picname=<%-item.pname%>&&picid=<%-item.pid%>"><img src="/static/img/photograph/images/<%-item.pname%>" alt="" /></a>
+						<a href="detail?name=<%-item.name%>&&mdname=<%-item.mdname%>&&random=<%=random%>"><img src="/static/img/photograph/images/<%-item.name%>" alt="" /></a>
 					</div>
 					<%})%>
 			</div>
