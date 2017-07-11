@@ -76,7 +76,7 @@ fieldset {
 #contact textarea {
 	height:100px;
 	max-width:100%;
-  resize:none;
+  	resize:none;
 }
 
 #contact button[type="submit"] {

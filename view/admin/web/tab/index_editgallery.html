@@ -5,28 +5,30 @@
 
     <meta charset="UTF-8">
 
-    <title>编辑</title>
+    <title>编辑Gallery</title>
 
     <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
     <link rel="stylesheet" href="/static/css/simplemde/simplemde.css" media="screen" type="text/css" />
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/simplemde/simplemde.js"></script>
-    <script src="/static/js/admin/web/tab/edit.model.js"></script>
+    <script src="/static/js/admin/web/tab/edit.gallery.js"></script>
+    <script src="/static/js/jquery.elevatezoom.js" type="text/javascript"></script>
 </head>
 
 <body>
 
     <div class="container">
         <div id="contact">
-            <h3><%=showModel%> Edit</h3>
-            <h4>The following is edit <%=showModel%> Information</h4>
+            <h3>
+                <%=showModel%> Edit</h3>
+            <h4>The following is edit
+                <%=showModel%> Information</h4>
             <span id="tips" style="color:red"></span>
-            <fieldset>
-                <input id="title" type="text" tabindex="1" value="<%-title%>" disabled />
-            </fieldset>
-            <fieldset>
-                <input id="mdname" type="text" tabindex="2" value="<%-mdname%>" style="display:none" />
-            </fieldset>
+            <input id="name" type="text" tabindex="1" value="<%-name%>" disabled style="display:none" />
+            <input id="mdname" type="text" tabindex="2" value="<%-mdname%>" style="display:none" />
+            <div align="center">
+                <img class='zoom_pic' src="/static/<%=showModel%>/<%-mdname%>/<%-name%>" rdata-zoom-image="/static/<%=showModel%>/<%-mdname%>/<%-name%>" alt="" style="width:80%;" />
+            </div>
             <fieldset>
                 <textarea id="content" tabindex="3"><%-content%></textarea>
             </fieldset>

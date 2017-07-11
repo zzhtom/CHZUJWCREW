@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>无标题文档</title>
+    <title>Gallery</title>
     <style type="text/css">
         <!-- body {
             margin-left: 0px;
@@ -105,7 +105,7 @@
         }
     </script>
     <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/admin/web/tab/show.poster.js"></script>
+    <script src="/static/js/admin/web/tab/show.gallery.js"></script>
 </head>
 
 <body>
@@ -170,7 +170,7 @@
                                                 </td>
                                                 <td class="STYLE1">
                                                     <div align="center">
-                                                        <a class="batchDel"  href="#" >删除</a>
+                                                        <a class="batchDel" href="#">删除</a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -200,7 +200,7 @@
                                         <div align="center" class="STYLE2 STYLE1">序号</div>
                                     </td>
                                     <td width="13%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
-                                        <div align="center" class="STYLE2 STYLE1">主题</div>
+                                        <div align="center" class="STYLE2 STYLE1">文件名</div>
                                     </td>
                                     <td width="10%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">创建者</div>
@@ -215,13 +215,13 @@
                                         <div align="center" class="STYLE2">更新时间</div>
                                     </td>
                                     <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                        <div align="center" class="STYLE2">类型</div>
+                                    </td>
+                                    <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2">编辑</div>
                                     </td>
                                     <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2">删除</div>
-                                    </td>
-                                    <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
-                                        <div align="center" class="STYLE2">首页展示</div>
                                     </td>
                                 </tr>
                                 <%for(var i=1; i <= model.data.length;i++){%>
@@ -238,14 +238,11 @@
                                         </td>
                                         <td height="18" bgcolor="#FFFFFF">
                                             <div align="center" class="STYLE2 STYLE1">
-                                                <%-model.data[i-1].theme%>
+                                                <%-model.data[i-1].name%>
                                             </div>
                                         </td>
                                         <td style="display: none">
                                             <%-model.data[i-1].mdname%>
-                                        </td>
-                                        <td style="display: none">
-                                            <%-model.data[i-1].pname%>
                                         </td>
                                         <td height="18" bgcolor="#FFFFFF">
                                             <div align="center" class="STYLE2 STYLE1">
@@ -268,8 +265,13 @@
                                             </div>
                                         </td>
                                         <td height="18" bgcolor="#FFFFFF">
+                                            <div align="center" class="STYLE1">
+                                                <%=model.data[i-1].type%>
+                                            </div>
+                                        </td>
+                                        <td height="18" bgcolor="#FFFFFF">
                                             <div align="center"><img src="/static/img/admin/web/tab/037.gif" width="9" height="9" /><span class="STYLE1"> [</span>
-                                                <a class="singleEdit" href="editmodel?title=<%-model.data[i-1].theme%>&mdname=<%-model.data[i-1].mdname%>&model=<%=showModel%>"
+                                                <a class="singleEdit" href="editgallery?title=<%-model.data[i-1].name%>&mdname=<%-model.data[i-1].mdname%>&model=<%=showModel%>"
                                                     target="I1">编辑</a>
                                                 <span class="STYLE1">]</span>
                                             </div>
@@ -277,11 +279,6 @@
                                         <td height="18" bgcolor="#FFFFFF">
                                             <div align="center"><span class="STYLE2"><img src="/static/img/admin/web/tab/010.gif" width="9" height="9" /> </span>
                                                 <span class="STYLE1">[</span><a class="singleDel" href="#">删除</a><span class="STYLE1">]</span></div>
-                                        </td>
-                                        <td height="18" bgcolor="#FFFFFF">
-                                            <div align="center" class="STYLE1">
-                                                <input name="show" type="checkbox" class="STYLE2" value=<%=model.data[i-1].show%>                                                />
-                                            </div>
                                         </td>
                                     </tr>
                                     <%}%>
@@ -303,11 +300,10 @@
                                     <td width="25%" height="29" nowrap="nowrap">
                                         <span class="STYLE1">共<%=model.count%>条纪录当前第
                                         <span id="currentPage"><%=model.currentPage%></span>/
-                                        <span
-                                            id="totalPages">
+                                        <span id="totalPages">
                                             <%=model.totalPages%>
                                                 </span>页，每页
-                                                <span id="numsPerPage"><%=model.numsPerPage%></span>条纪录</span>
+                                        <span id="numsPerPage"><%=model.numsPerPage%></span>条纪录</span>
                                     </td>
                                     <td width="75%" valign="top" class="STYLE1">
                                         <div align="right">

@@ -1,4 +1,7 @@
 var photos = JSON.parse($('#photos').html());
+if ($('.zoom_pic').attr('ratio') == 0) {
+    $('#preview').addClass('vertical');
+}
 // $.getScript("/static/js/home/photograph/detail.elevatezoom.js");
 $('.previous').click(function () {
     let name = $('.zoom_pic').attr('name');
@@ -7,23 +10,25 @@ $('.previous').click(function () {
         if (photos[i].name == name) {
             if (i == 0) {
                 if (photos[photos.length - 1].ratio == 0) {
-                    $.addClass('vertical');
+                    $('#preview').addClass('vertical');
                 } else {
-                    $.removeClass('vertical');
+                    $('#preview').removeClass('vertical');
                 }
                 $('.zoom_pic').attr('name', photos[photos.length - 1].name);
                 $('.zoom_pic').attr('src', "/static/img/photograph/images/" + photos[photos.length - 1].name);
                 $('.zoom_pic').attr('data-zoom-image', "/static/img/photograph/images/" + photos[photos.length - 1].name);
+                getMarkdown(photos[photos.length - 1].mdname);
                 break;
             }
             if (photos[i - 1].ratio == 0) {
                 $('#preview').addClass('vertical');
             } else {
-                 $('#preview').removeClass('vertical');
+                $('#preview').removeClass('vertical');
             }
             $('.zoom_pic').attr('name', photos[i - 1].name);
             $('.zoom_pic').attr('src', "/static/img/photograph/images/" + photos[i - 1].name);
             $('.zoom_pic').attr('data-zoom-image', "/static/img/photograph/images/" + photos[i - 1].name);
+            getMarkdown(photos[i - 1].mdname);
             break;
         }
     }
@@ -35,24 +40,51 @@ $('.next').click(function () {
         if (photos[i].name == name) {
             if (i == (photos.length - 1)) {
                 if (photos[0].ratio == 0) {
-                     $('#preview').addClass('vertical');
+                    $('#preview').addClass('vertical');
                 } else {
-                     $('#preview').removeClass('vertical');
+                    $('#preview').removeClass('vertical');
                 }
                 $('.zoom_pic').attr('name', photos[0].name);
                 $('.zoom_pic').attr('src', "/static/img/photograph/images/" + photos[0].name);
                 $('.zoom_pic').attr('data-zoom-image', "/static/img/photograph/images/" + photos[0].name);
+                getMarkdown(photos[0].mdname);
                 break;
             }
             if (photos[i + 1].ratio == 0) {
-                 $('#preview').addClass('vertical');
+                $('#preview').addClass('vertical');
             } else {
-                 $('#preview').removeClass('vertical');
+                $('#preview').removeClass('vertical');
             }
             $('.zoom_pic').attr('name', photos[i + 1].name);
             $('.zoom_pic').attr('src', "/static/img/photograph/images/" + photos[i + 1].name);
             $('.zoom_pic').attr('data-zoom-image', "/static/img/photograph/images/" + photos[i + 1].name);
+            getMarkdown(photos[i + 1].mdname);
             break;
         }
     }
 });
+// function
+var getMarkdown = function (mdname) {
+    $.ajax({
+        url: 'getmarkdown',
+        data: {
+            mdname: mdname,
+        },
+        type: 'post',
+        cache: false,
+        dataType: 'json',
+        success: function (data) {
+            if (data.success) {
+                console.log(data.markdown);
+                $('.mdcontent').html(data.markdown);
+            } else {
+                alert(data.error);
+
+                $('.mdcontent').html('');
+            }
+        },
+        error: function () {
+            $('.mdcontent').html('请求信息失败，请检查网络是否畅通...');
+        }
+    });
+}

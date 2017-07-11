@@ -7,10 +7,10 @@ $(document).ready(function () {
             $(this).prop("checked", true);
     });
     $('#firstPage').click(function () {
-        $(this).attr('href', 'showposter?page=1&model=' + model);
+        $(this).attr('href', 'showgallery?page=1&model=' + model);
     });
     $('#lastPage').click(function () {
-        $(this).attr('href', 'showposter?page=' + $('#totalPages').text() + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + $('#totalPages').text() + '&model=' + model);
     });
     $('#backPage').click(function () {
         var dirPage = $('#currentPage').text() - 1;
@@ -18,7 +18,7 @@ $(document).ready(function () {
             alert('目前已是第一页');
             return false;
         }
-        $(this).attr('href', 'showposter?page=' + dirPage + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + dirPage + '&model=' + model);
     });
     $('#nextPage').click(function () {
         var dirPage = $('#currentPage').text() * 1 + 1 * 1;
@@ -27,7 +27,7 @@ $(document).ready(function () {
             alert('目前已是最后一页');
             return false;
         }
-        $(this).attr('href', 'showposter?page=' + dirPage + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + dirPage + '&model=' + model);
     });
     $('#jumpPage').click(function () {
         if (isNaN($('#jumpNum').val())) {
@@ -38,11 +38,13 @@ $(document).ready(function () {
             alert('页码不能为空！');
             return false;
         }
-        if ($('#jumpNum').val() > $('#totalPages').text() || $('#jumpNum').val() < 1) {
+        if (parseInt($('#jumpNum').val()) > parseInt($('#totalPages').text()) || parseInt($('#jumpNum').val()) < 1) {
+            alert($('#jumpNum').val());
+            alert($('#totalPages').text());
             alert('页码不在有效范围内！')
             return false;
         }
-        $(this).attr('href', 'showposter?page=' + $('#jumpNum').val() + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + $('#jumpNum').val() + '&model=' + model);
     });
     $('#allSelect').change(function () {
         if ($(this).prop('checked')) {
@@ -144,18 +146,17 @@ $(document).ready(function () {
         //  var tr = $(this);
         //  $(this).remove();
         // $('#showActivity tr:first').remove();
-        let result = confirm('确定删除这条数据吗?');
+        let result = confirm('确定删除这记录吗?');
         if (!result)
             return false;
         var $tr = $(this).parent().parent().parent();
         var $td = $tr.find("td");
         $.ajax({
-            url: 'delposter',
+            url: 'delgallery',
             data: {
                 model: model,
-                theme: $.trim($td.eq(2).text()),
+                name: $.trim($td.eq(2).text()),
                 mdname: $.trim($td.eq(3).text()),
-                pname: $.trim($td.eq(4).text()),
             },
             type: 'post',
             cache: false,
@@ -164,7 +165,7 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("删除主题为:" + data.theme + "的海报记录成功！");
+                    alert("删除图片:" + data.name + "的海报记录成功！");
                     // $tr.remove();
                     if ($("input[name='checkbox']").size() != 1) {
                         window.location.reload();
@@ -172,13 +173,13 @@ $(document).ready(function () {
                     }
                     if ($('#currentPage').text() != 1) {
                         var backPage = $('#currentPage').text() - 1;
-                        window.open('showposter?page=' + backPage + '&model=' + model, 'I1');
+                        window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！');
                         window.location.reload();
                     }
                 } else {
-                    alert("删除主题为:" + data.theme + "的海报记录失败！");
+                    alert("删除图片:" + data.name + "的海报记录失败\n" +data.error);
                 }
             },
             error: function () {
@@ -200,13 +201,12 @@ $(document).ready(function () {
                 return null;
             }
             return {
-                theme: $.trim($td.eq(2).text()),
+                name: $.trim($td.eq(2).text()),
                 mdname: $.trim($td.eq(3).text()),
-                pname: $.trim($td.eq(4).text()),
             };
         }).get();
         $.ajax({
-            url: 'batchdelposter',
+            url: 'batchdelgallery',
             data: {
                 model: model,
                 data: JSON.stringify(_lsit)
@@ -218,20 +218,20 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("批量删除海报信息信息成功！");
+                    alert("批量删除Gallery信息信息成功！");
                     if ($("input[name='checkbox']").size() != 1) {
                         window.location.reload();
                         return;
                     }
                     if ($('#currentPage').text() != 1) {
                         var backPage = $('#currentPage').text() - 1;
-                        window.open('showposter?page=' + backPage + '&model=' + model, 'I1');
+                        window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！');
                         window.location.reload();
                     }
                 } else {
-                    alert("批量删除海报信息失败！");
+                    alert("批量删除Gallery信息失败！\n" + data.error);
                 }
             },
             error: function () {

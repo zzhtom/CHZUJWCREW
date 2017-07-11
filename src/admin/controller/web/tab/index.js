@@ -232,11 +232,11 @@ export default class extends Base {
       try {
         await model.startTrans();
         if (this.post().reason == 'cancel') {
-          await model.where({ theme: this.post().theme }).update({ show: 0});
+          await model.where({ theme: this.post().theme }).update({ show: 0 });
         }
         if (this.post().reason == 'setting') {
-          await model.where('1=1').update({ show: 0});
-          await model.where({ theme: this.post().theme }).update({ show: 1});
+          await model.where('1=1').update({ show: 0 });
+          await model.where({ theme: this.post().theme }).update({ show: 1 });
         }
         await model.commit();
         return this.json({
@@ -303,7 +303,39 @@ export default class extends Base {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.title
+          title: data.theme
+        });
+      }
+    }
+  }
+  async batchdelposterAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      let _list = JSON.parse(data.data);
+      try {
+        await model.startTrans();
+        _list.forEach(async (item) => {
+          await model.where({ theme: item.theme }).delete();
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
+            if (err) {
+              throw err;
+            }
+            fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
+              if (err) { throw err; }
+              think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
+            })
+          })
+        });
+        await model.commit();
+        return this.json({
+          success: true
+        });
+      } catch (e) {
+        await model.rollback();
+        return this.json({
+          success: false
         });
       }
     }
@@ -393,5 +425,118 @@ export default class extends Base {
       this.assign('showModel', this.get().model);
       return this.display();
     });
+  }
+  /**
+   * Gallery area
+   */
+  async showgalleryAction() {
+    //auto render template file index_shownews.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
+    this.assign('model', data);
+    this.assign('showModel', this.get().model);
+    return this.display();
+  }
+  // edited gallery matkdown
+  editgalleryAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      try {
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+          if (err) throw err;
+          return this.json({
+            success: true,
+            name: data.name,
+            error: ''
+          });
+        });
+      } catch (err) {
+        return this.json({
+          success: false,
+          name: data.name,
+          error: err
+        });
+      }
+    }
+    fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
+      if (err) throw err;
+      this.assign('name', this.get().title);
+      this.assign('mdname', this.get().mdname);
+      this.assign('content', data);
+      this.assign('showModel', this.get().model);
+      return this.display();
+    });
+  }
+  // single delete galery
+  async delgalleryAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      try {
+        await model.startTrans();
+        await model.where({ name: data.name }).delete();
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
+          if (err) {
+            throw err;
+          }
+          fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+            if (err) { throw err; }
+            think.rmdir(think.GALLERY_PATH + '/' + data.mdname, false);
+          })
+        })
+        await model.commit();
+        return this.json({
+          success: true,
+          theme: data.name,
+          error: ''
+        });
+      } catch (err) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          title: data.name,
+          error: err
+        });
+      }
+    }
+  }
+  async batchdelgalleryAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      let _list = JSON.parse(data.data);
+      try {
+        await model.startTrans();
+        _list.forEach(async (item) => {
+          await model.where({ name: item.name }).delete();
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
+            if (err) {
+              throw err;
+            }
+            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
+              if (err) { throw err; }
+              think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
+            })
+          })
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
+        });
+      } catch (err) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          error: err
+        });
+      }
+    }
   }
 }
