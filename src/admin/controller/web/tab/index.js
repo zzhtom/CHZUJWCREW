@@ -147,7 +147,6 @@ export default class extends Base {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      console.log(data);
       let model = this.model(data.model);
       let userInfo = await this.session('userInfo');
       try {
@@ -538,5 +537,50 @@ export default class extends Base {
         });
       }
     }
+  }
+  // Gallery upload
+  async galleryuploadAction() {
+    if (this.isPost()) {
+      let model = this.model(this.get().model);
+      let userInfo = await this.session('userInfo');
+      if (think.isEmpty(userInfo)) {
+        return this.fail('会话超时，请重新提交用户信息!');
+      }
+      try {
+        await model.startTrans();
+        var file = think.extend({}, this.file('file'));
+        var filepath = file.path;
+        let name = path.basename(filepath);
+        let mdname = uuid();
+        await model.add({
+          name: name, cuser: userInfo.username, uuser: userInfo.username, mdname: mdname,
+          ctime: think.datetime(), utime: think.datetime()
+        });
+        let mdpath = think.MD_PATH + '/' + this.get().model + '/';
+        if (!think.isDir(mdpath)) {
+          think.mkdir(mdpath);
+        }
+        fs.writeFile(think.MD_PATH + '/' + this.get().model + '/' + mdname + '.md', '暂无介绍', (err) => {
+          if (err) throw err;
+          var galleryPath = think.GALLERY_PATH + mdname;
+          think.mkdir(galleryPath);
+          fs.renameSync(filepath, galleryPath + '/' + name);
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
+        });
+        // return this.display();
+      } catch (err) {
+        console.log(err);
+        await model.rollback();
+        return this.json({
+          success: false,
+          error: err
+        });
+      }
+    }
+    return this.display();
   }
 }

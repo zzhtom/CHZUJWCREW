@@ -10,7 +10,7 @@
 				<!-- Column 1~4 (horizontal, vertical, horizontal, vertical) -->
 				<%photographs.forEach(function(item){%>
 					<div class="image fit">
-						<a href="detail?name=<%-item.name%>&&mdname=<%-item.mdname%>&&ratio=<%=item.ratio%>&&random=<%=random%>"><img src="/static/img/photograph/images/<%-item.name%>" alt="" /></a>
+						<a href="detail?name=<%-item.name%>&&mdname=<%-item.mdname%>&&ratio=<%=item.ratio%>&&random=<%=random%>"><img src="/static/gallery/<%-item.mdname%>/<%-item.name%>" alt="" /></a>
 					</div>
 					<%})%>
 			</div>
