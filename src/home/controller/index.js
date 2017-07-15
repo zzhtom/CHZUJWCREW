@@ -28,6 +28,11 @@ export default class extends Base {
     this.assign('poster', poster);
     return this.display();
   }
+  async teamAction(){
+    let themesData = await global.theme(this);
+    this.assign('themes', themesData);
+    return this.display();
+  }
   async displayvideoAction() {
     //auto render template file index_displyvideo.html
     //var videoSrc = this.get('src');

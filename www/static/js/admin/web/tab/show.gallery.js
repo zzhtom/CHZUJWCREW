@@ -10,7 +10,7 @@ $(document).ready(function () {
         $(this).attr('href', 'showgallery?page=1&model=' + model);
     });
     $('#lastPage').click(function () {
-        $(this).attr('href', 'showgallery?page=' + $('#totalPages').text() + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + $.trim($('#totalPages').text()) + '&model=' + model);
     });
     $('#backPage').click(function () {
         var dirPage = $('#currentPage').text() - 1;
@@ -44,7 +44,7 @@ $(document).ready(function () {
             alert('页码不在有效范围内！')
             return false;
         }
-        $(this).attr('href', 'showgallery?page=' + $('#jumpNum').val() + '&model=' + model);
+        $(this).attr('href', 'showgallery?page=' + $.trim($('#jumpNum').val()) + '&model=' + model);
     });
     $('#allSelect').change(function () {
         if ($(this).prop('checked')) {
@@ -165,21 +165,21 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("删除图片:" + data.name + "的海报记录成功！");
+                    alert("删除图片:" + data.name + "的记录成功！");
                     // $tr.remove();
                     if ($("input[name='checkbox']").size() != 1) {
                         window.location.reload();
                         return;
                     }
                     if ($('#currentPage').text() != 1) {
-                        var backPage = $('#currentPage').text() - 1;
+                        var backPage = $.trim($('#currentPage').text()) - 1;
                         window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！');
                         window.location.reload();
                     }
                 } else {
-                    alert("删除图片:" + data.name + "的海报记录失败\n" +data.error);
+                    alert("删除图片:" + data.name + "的记录失败\n" +data.error);
                 }
             },
             error: function () {
@@ -224,7 +224,7 @@ $(document).ready(function () {
                         return;
                     }
                     if ($('#currentPage').text() != 1) {
-                        var backPage = $('#currentPage').text() - 1;
+                        var backPage = $.trim($('#currentPage').text()) - 1;
                         window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！');

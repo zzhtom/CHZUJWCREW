@@ -491,14 +491,14 @@ export default class extends Base {
         await model.commit();
         return this.json({
           success: true,
-          theme: data.name,
+          name: data.name,
           error: ''
         });
       } catch (err) {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.name,
+          name: data.name,
           error: err
         });
       }
@@ -518,7 +518,7 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
+            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, (err) => {
               if (err) { throw err; }
               think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
             })
@@ -582,5 +582,28 @@ export default class extends Base {
       }
     }
     return this.display();
+  }
+  /**
+ * Team area
+ */
+  async showteamAction() {
+    //auto render template file index_shownews.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    let data = await this.model(this.get().model).page(this.get('page'), 10).countSelect();
+    this.assign('model', data);
+    this.assign('showModel', this.get().model);
+    return this.display();
+  }
+  addteamAction() {
+    if (this.isPost()) {
+      console.log(this.post());
+      console.log(this.file());
+      return this.success();
+    }
+    this.assign('addModel', this.get().model);
+    return this.display()
   }
 }
