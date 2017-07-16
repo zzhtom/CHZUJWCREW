@@ -105,7 +105,7 @@
         }
     </script>
     <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/admin/web/tab/show.gallery.js"></script>
+    <script src="/static/js/admin/web/tab/show.team.js"></script>
 </head>
 
 <body>
@@ -148,7 +148,7 @@
                                             </tr>
                                         </table>
                                     </td>
-                                    <!-- 
+                                    
                                     <td width="60">
                                         <table width="90%" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
@@ -163,7 +163,7 @@
                                             </tr>
                                         </table>
                                     </td>
-                                    -->
+                                    
                                     <td width="52">
                                         <table width="88%" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
@@ -246,6 +246,17 @@
                                         <td style="display: none">
                                             <%-model.data[i-1].mdname%>
                                         </td>
+                                        <td style="display: none">
+                                            <%-model.data[i-1].photo%>
+                                        </td>
+                                        <td height="18" bgcolor="#FFFFFF">
+                                            <div align="center" class="STYLE2 STYLE1">
+                                                <%-model.data[i-1].stuno%>
+                                            </div>
+                                        </td>
+                                        <td style="display: none">
+                                                <%-model.data[i-1].id%>
+                                        </td>
                                         <td height="18" bgcolor="#FFFFFF">
                                             <div align="center" class="STYLE2 STYLE1">
                                                 <%-model.data[i-1].cuser%>
@@ -262,18 +273,13 @@
                                             </div>
                                         </td>
                                         <td height="18" bgcolor="#FFFFFF">
-                                            <div align="center" class="STYLE2 STYLE1">
-                                                <%-model.data[i-1].utime%>
-                                            </div>
-                                        </td>
-                                        <td height="18" bgcolor="#FFFFFF">
                                             <div align="center" class="STYLE1">
-                                                <%=model.data[i-1].type%>
+                                                <%=model.data[i-1].utime%>
                                             </div>
                                         </td>
                                         <td height="18" bgcolor="#FFFFFF">
                                             <div align="center"><img src="/static/img/admin/web/tab/037.gif" width="9" height="9" /><span class="STYLE1"> [</span>
-                                                <a class="singleEdit" href="editgallery?title=<%-model.data[i-1].name%>&mdname=<%-model.data[i-1].mdname%>&model=<%=showModel%>"
+                                                <a class="singleEdit" href="editteam?name=<%-model.data[i-1].name%>&mdname=<%-model.data[i-1].mdname%>&model=<%=showModel%>"
                                                     target="I1">编辑</a>
                                                 <span class="STYLE1">]</span>
                                             </div>

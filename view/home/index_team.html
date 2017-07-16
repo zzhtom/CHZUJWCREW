@@ -148,17 +148,19 @@
 			</ul>
 		</div>
 		<!-- Main -->
-		<div id="preview">
+		<%data.forEach(function(item){%>
+		<div id="preview" class="vertical">
 			<div class="inner vertical">
 				<div class="image fit">
-
+					<img class="zoom_pic" src="/static/resource/team/<%-item.mdname%>/<%-item.photo%>" rdata-zoom-image="/static/resource/team/<%-item.mdname%>/<%-item.photo%>" alt="" />
 				</div>
 				<div class="content mdcontent">
-
+					<%-item.mdData%>
 				</div>
 			</div>
-			<a class="nav previous" href="javascript:void(0)"><span class="fa fa-chevron-left"></span></a>
-			<a class="nav next" href="javascript:void(0)"><span class="fa fa-chevron-right"></span></a>
+			<%})%>
+			<!--<a class="nav previous" href="javascript:void(0)"><span class="fa fa-chevron-left"></span></a>
+			<a class="nav next" href="javascript:void(0)"><span class="fa fa-chevron-right"></span></a>-->
 		</div>
 
 		<!-- Scripts -->

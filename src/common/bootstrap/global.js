@@ -36,3 +36,6 @@ global.verificateAdmin = function(self,uname,password){
 global.poster = function(self){
     return self.model('poster').where({show: true}).find();
 }
+global.team = function(self){
+    return self.model('team').field('photo,mdname').select();
+}

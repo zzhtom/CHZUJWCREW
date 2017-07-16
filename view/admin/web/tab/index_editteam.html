@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>编辑成员简介</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="/static/css/simplemde/simplemde.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/simplemde/simplemde.js"></script>
+    <script src="/static/js/admin/web/tab/edit.team.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="contact">
+            <h3><%=showModel%> Edit</h3>
+            <h4>The following is edit <%=showModel%> Information</h4>
+            <span id="tips" style="color:red"></span>
+            <fieldset>
+                <input id="name" type="text" tabindex="1" value="<%-name%>" disabled />
+            </fieldset>
+            <fieldset>
+                <input id="mdname" type="text" tabindex="2" value="<%-mdname%>" style="display:none" />
+            </fieldset>
+            <fieldset>
+                <textarea id="content" tabindex="3"><%-content%></textarea>
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit">Submit</button>
+            </fieldset>
+        </div>
+    </div>
+</body>
+
+</html>

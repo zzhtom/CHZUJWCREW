@@ -1,13 +1,14 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
-    var simplemde = new SimpleMDE();
+    $("input[name='stuno']").bind("input propertychange", function () {
+        $("input[name='entrance']").val($(this).val().substring(0, 4));
+    });
     $('#submit').click(function () {
-        if ($('#name').val().length == 0) {
-            // $('#newsname').get(0).setCustomValidity("该字段不能为空！");
-            // $('#title').focus().select();
+        if ($("input[name='stuno']").val().length != 10) {
+            alert('当前学号错误');
             return false;
         }
-        var formData = new FormData($('#form').get(0));
+        var formData = new FormData($('#contact').get(0));
         $.ajax({
             url: 'addteam',
             data: formData,
@@ -16,14 +17,12 @@ $(document).ready(function () {
             contentType: false,   // 不设置内容类型
             cache: false,
             success: function (data) {
-                // var jsonData = JSON.stringify(data);
                 if (data.success) {
-                    // $('#tips').html('');
-                    alert("添加成员信息:" + $("input[name='name']") + "的记录成功！");
+                    alert("添加成员信息:" + data.team.name + "的记录成功！");
                     // window.location.reload();
-                    $('#form').get(0).reset();
+                    $('#contact').get(0).reset();
                 } else {
-                    alert("添加标题为:" + data.title$("input[name='name']") + "的记录失败！");
+                    alert("添加成员为:" + data.team.name + "的记录失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {

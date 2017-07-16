@@ -406,13 +406,15 @@ export default class extends Base {
           if (err) throw err;
           return this.json({
             success: true,
-            title: data.title
+            title: data.title | data.name,
+            error: err
           });
         });
-      } catch (e) {
+      } catch (err) {
         return this.json({
           success: false,
-          title: data.title
+          title: data.title,
+          error: err
         });
       }
     }
@@ -597,13 +599,197 @@ export default class extends Base {
     this.assign('showModel', this.get().model);
     return this.display();
   }
-  addteamAction() {
+  async addteamAction() {
     if (this.isPost()) {
-      console.log(this.post());
-      console.log(this.file());
-      return this.success();
+      let data = this.post();
+      let model = this.model(data.model);
+      let userInfo = await this.session('userInfo');
+      try {
+        await model.startTrans();
+        var file = think.extend({}, this.file('photo'));
+        var filepath = file.path;
+        let photo = path.basename(filepath);
+        let mdname = uuid();
+        let content = '## 个人信息 ##\n' +
+          '- **姓名：**' + data.name + '\n' +
+          '- **学号：**' + data.stuno + '\n' +
+          '- **届时：**' + data.entrance + '\n' +
+          '- **专业：**' + data.major + '\n' +
+          '## 简单介绍 ##\n' +
+          '暂无';
+        await model.add({
+          id: uuid(), name: data.name, stuno: data.stuno, major: data.major, entrance: data.entrance, cuser: userInfo.username, photo: photo, uuser: userInfo.username, mdname: mdname,
+          ctime: think.datetime(), utime: think.datetime()
+        });
+        let mdpath = think.MD_PATH + '/' + data.model + '/';
+        if (!think.isDir(mdpath)) {
+          think.mkdir(mdpath);
+        }
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + mdname + '.md', content, (err) => {
+          if (err) throw err;
+          let photoPath = think.TEAM_PATH + mdname;
+          think.mkdir(photoPath);
+          fs.renameSync(filepath, photoPath + '/' + photo);
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          team: { name: data.name, stuno: data.stuno },
+          error: ''
+        });
+      } catch (err) {
+        console.log(err);
+        await model.rollback();
+        return this.json({
+          success: false,
+          team: { name: data.name, stuno: data.stuno },
+          error: err
+        });
+      }
     }
     this.assign('addModel', this.get().model);
     return this.display()
+  }
+  // 编辑成员信息
+  editteamAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      try {
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+          if (err) throw err;
+          return this.json({
+            success: true,
+            team: { name: data.name, model: data.model },
+            error: ''
+          });
+        });
+      } catch (err) {
+        return this.json({
+          success: false,
+          team: { name: data.name, model: data.model },
+          error: err
+        });
+      }
+    }
+    fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
+      if (err) throw err;
+      this.assign('name', this.get().name);
+      this.assign('mdname', this.get().mdname);
+      this.assign('content', data);
+      this.assign('showModel', this.get().model);
+      return this.display();
+    });
+  }
+  // 删除成员信息
+  async delteamAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      try {
+        await model.startTrans();
+        await model.where({ stuno: data.stuno }).delete();
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
+          if (err) {
+            throw err;
+          }
+          fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+            if (err) { throw err; }
+            think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
+          })
+        })
+        await model.commit();
+        return this.json({
+          success: true,
+          stuno: data.stuno,
+          error: ''
+        });
+      } catch (err) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          stuno: data.stuno,
+          error: err
+        });
+      }
+    }
+  }
+  async batchdelteamAction() {
+    //auto render template file index_tab.html
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      let _list = JSON.parse(data.data);
+      try {
+        await model.startTrans();
+        _list.forEach(async (item) => {
+          await model.where({ stuno: item.stuno }).delete();
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
+            if (err) {
+              throw err;
+            }
+            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+              if (err) { throw err; }
+              think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
+            })
+          })
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
+        });
+      } catch (err) {
+        await model.rollback();
+        return this.json({
+          success: false,
+          error: err
+        });
+      }
+    }
+  }
+  // 更新成员信息
+  async uteamAction() {
+    //auto render template file index_uactivity.html
+    let userInfo = await this.session('userInfo');
+    if (think.isEmpty(userInfo)) {
+      return this.fail('会话超时，请重新提交用户信息!');
+    }
+    if (this.isPost()) {
+      let data = this.post();
+      let model = this.model(data.model);
+      let entrance = (data.stuno).substr(0, 4);
+      let content = '## 个人信息 ##\n' +
+        '- **姓名：**' + data.name + '\n' +
+        '- **学号：**' + data.stuno + '\n' +
+        '- **届时：**' + entrance + '\n' +
+        '- **专业：**' + data.major + '\n' +
+        '## 简单介绍 ##\n' +
+        '暂无';
+      try {
+        await model.startTrans();
+        await model.where({ id: data.id }).update({ name: data.name, stuno: data.stuno, major: data.major, entrance: entrance, uuser: userInfo.username, utime: think.datetime() });
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, (err) => {
+          if (err) throw err;
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          team: { name: this.post().name, stuno: this.post().stuno },
+          error: ''
+        });
+      } catch (error) {
+        return this.json({
+          success: false,
+          team: { name: this.post().name, stuno: this.post().stuno },
+          error: error
+        });
+      }
+    }
+    let team = await this.model(this.get().model).where({ id: this.get().id }).find();
+    this.assign('model', this.get().model);
+    this.assign('data', team);
+    return this.display();
   }
 }
