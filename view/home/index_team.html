@@ -8,119 +8,35 @@
 	<!--<link rel="stylesheet" href="/static/css/main.css" />-->
 	<link href="/static/css/index.css" rel="stylesheet" type="text/css" />
 	<style>
-		/* Preview */
-
 		#preview {
-
+			margin-top: 0.1rem;
 			width: 1002px;
-			position: relative;
-			padding: 1em;
 		}
 
-		#preview .inner {
-			max-width: 70em;
-			margin: 0 auto;
-		}
-
-		#preview .image {
-			margin: 0;
-		}
-
-		#preview.vertical .inner {
-			display: -ms-flexbox;
-			display: -moz-flex;
-			display: -webkit-flex;
-			display: -ms-flex;
-			display: flex;
-		}
-
-		#preview.vertical .inner .image {
-			-ms-flex: 1 1 calc(100% - 50px);
-			flex: 1 1 calc(100% - 50px);
-			max-width: 100%;
+		.inner {
 			width: 50%;
+			float: left;
 		}
-
-		#preview.vertical .inner .content {
-			-ms-flex: 1 1 calc(100% - 50px);
-			flex: 1 1 calc(100% - 50px);
-			max-width: 100%;
+		.image{
 			width: 50%;
+			float: left;
 		}
-
-		#preview .nav {
-			-moz-transition: background-color 0.2s ease-in-out;
-			-webkit-transition: background-color 0.2s ease-in-out;
-			-ms-transition: background-color 0.2s ease-in-out;
-			transition: background-color 0.2s ease-in-out;
-			position: fixed;
-			height: 2em;
-			width: 2em;
-			background: #fff;
-			border-radius: 100%;
-			line-height: 2em;
-			top: 50%;
-			font-size: 1.75em;
-			text-align: center;
-			z-index: 10003;
+		.zoom_pic{
+			width: 100%;
 		}
-
-		#preview .nav:hover {
-			background: #FFF;
+		.content{
+			width: 50%;
+			float: left;
 		}
-
-		#preview .nav.previous {
-			left: -.4em;
+		.intro{
+			margin-left: 3rem;
+			margin-top: 5rem;
+			overflow-y: auto;
 		}
-
-		#preview .nav.next {
-			right: -.4em;
-		}
-
-		#preview .content {
-			padding: 3em 2em;
-		}
-
-		#preview .content header h2 {
-			font-size: 2.5em;
-			color: #e74c3c;
-		}
-
-		@media screen and (max-width: 1680px) {
-
-			#preview .inner {
-				max-width: 55em;
-			}
-		}
-
-		@media screen and (max-width: 980px) {
-
-			#preview.vertical .inner {
-				-moz-flex-wrap: wrap;
-				-webkit-flex-wrap: wrap;
-				-ms-flex-wrap: wrap;
-				flex-wrap: wrap;
-			}
-		}
-
-		@media screen and (max-width: 736px) {
-
-			#preview .content {
-				padding: 2em;
-			}
-
-			#preview .content header h2 {
-				font-size: 2em;
-			}
-		}
-		/* Main */
-
-		#main {
-			padding: 2em;
-		}
-
-		#main .inner {
-			max-width: 100%;
+		.gap{
+			width: 100%;
+			height: 30px;
+			clear:both;
 		}
 	</style>
 </head>
@@ -148,25 +64,27 @@
 			</ul>
 		</div>
 		<!-- Main -->
-		<%data.forEach(function(item){%>
-		<div id="preview" class="vertical">
-			<div class="inner vertical">
-				<div class="image fit">
-					<img class="zoom_pic" src="/static/resource/team/<%-item.mdname%>/<%-item.photo%>" rdata-zoom-image="/static/resource/team/<%-item.mdname%>/<%-item.photo%>" alt="" />
+		<div id="preview">
+			<%data.forEach(function(item){%>
+				<div class="inner">
+					<div class="image">
+						<img class="zoom_pic" src="/static/resource/team/<%-item.mdname%>/<%-item.photo%>" rdata-zoom-image="/static/resource/team/<%-item.mdname%>/<%-item.photo%>"
+						 alt="" />
+					</div>
+					<div class="content">
+						<div class="intro">
+							<%-item.mdData%>
+						</div>
+					</div>
 				</div>
-				<div class="content mdcontent">
-					<%-item.mdData%>
-				</div>
-			</div>
-			<%})%>
-			<!--<a class="nav previous" href="javascript:void(0)"><span class="fa fa-chevron-left"></span></a>
+				<%})%>
+					<!--<a class="nav previous" href="javascript:void(0)"><span class="fa fa-chevron-left"></span></a>
 			<a class="nav next" href="javascript:void(0)"><span class="fa fa-chevron-right"></span></a>-->
 		</div>
-
 		<!-- Scripts -->
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/skel.min.js"></script>
 		<script src="/static/js/util.js"></script>
 		<script src="/static/js/main.js"></script>
-
+		<div class="gap"></div>
 		<%include inc/footer.html%>
