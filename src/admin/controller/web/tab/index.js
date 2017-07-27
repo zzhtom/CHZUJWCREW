@@ -164,13 +164,13 @@ export default class extends Base {
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(mdpath + '/' + mdname + '.md', data.content, (err) => {
+        fs.writeFile(mdpath + '/' + mdname + '.md', data.content, async (err) => {
           if (err) throw err;
           var posterPath = think.POSTER_PATH + mdname;
           think.mkdir(posterPath);
           fs.renameSync(filepath, posterPath + '/' + pname);
+          await model.commit();
         });
-        await model.commit();
         this.assign('addModel', data.model);
         this.assign('tips', 'add poster is success!')
         return this.display();
@@ -203,19 +203,21 @@ export default class extends Base {
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(mdpath + '/' + data.mdname + '.md', data.content, (err) => {
+        fs.writeFile(mdpath + '/' + data.mdname + '.md', data.content, async (err) => {
           if (err) throw err;
           await model.commit();
           return this.json({
             success: true,
-            title: data.title
+            title: data.title,
+            error: err
           });
         });
-      } catch (e) {
+      } catch (err) {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.title
+          title: data.title,
+          error: err
         });
       }
     }
@@ -292,7 +294,7 @@ export default class extends Base {
           if (err) {
             throw err;
           }
-          fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, (err) => {
+          fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, async (err) => {
             if (err) { throw err; }
             think.rmdir(think.POSTER_PATH + '/' + data.mdname, false);
             await model.commit();
@@ -325,7 +327,7 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
+            fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, async (err) => {
               if (err) { throw err; }
               think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
               await model.commit();
@@ -351,7 +353,7 @@ export default class extends Base {
       try {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
-        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', async (err) => {
           if (err) {
             throw err;
           }
@@ -382,7 +384,7 @@ export default class extends Base {
         await model.startTrans();
         _list.forEach(async (item) => {
           await model.where({ id: item.id }).delete();
-          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', async (err) => {
             if (err) {
               throw err;
             }
@@ -490,7 +492,7 @@ export default class extends Base {
           if (err) {
             throw err;
           }
-          fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+          fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, async (err) => {
             if (err) { throw err; }
             think.rmdir(think.GALLERY_PATH + '/' + data.mdname, false);
             await model.commit();
@@ -525,7 +527,7 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, async (err) => {
               if (err) { throw err; }
               think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
               await model.commit();
@@ -630,7 +632,7 @@ export default class extends Base {
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(mdpath + '/' + mdname + '.md', content, (err) => {
+        fs.writeFile(mdpath + '/' + mdname + '.md', content, async (err) => {
           if (err) throw err;
           let photoPath = think.TEAM_PATH + mdname;
           think.mkdir(photoPath);
@@ -698,7 +700,7 @@ export default class extends Base {
           if (err) {
             throw err;
           }
-          fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+          fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, async (err) => {
             if (err) { throw err; }
             think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
             await model.commit();
@@ -733,7 +735,7 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, async (err) => {
               if (err) { throw err; }
               think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
               await model.commit();
@@ -774,7 +776,7 @@ export default class extends Base {
       try {
         await model.startTrans();
         await model.where({ id: data.id }).update({ name: data.name, stuno: data.stuno, major: data.major, entrance: entrance, uuser: userInfo.username, utime: think.datetime() });
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, (err) => {
+        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, async (err) => {
           if (err) throw err;
           await model.commit();
           return this.json({
