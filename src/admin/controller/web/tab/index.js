@@ -4,6 +4,7 @@ import Base from '../../base.js';
 var fs = require("fs");
 var path = require('path');
 const uuid = require('uuid/v1');
+var sizeOf = require('image-size');
 export default class extends Base {
   /**
    * tab action
@@ -554,20 +555,20 @@ export default class extends Base {
         var filepath = file.path;
         let name = path.basename(filepath);
         let mdname = uuid();
+        let dimensions = sizeOf(filepath);
+        let ratio = (dimensions.width / dimensions.height) < 1 ? 0 : 1;
         await model.add({
-          name: name, cuser: userInfo.username, uuser: userInfo.username, mdname: mdname,
+          name: name, cuser: userInfo.username, uuser: userInfo.username, mdname: mdname, ratio: ratio,
           ctime: think.datetime(), utime: think.datetime()
         });
         let mdpath = think.MD_PATH + '/' + this.get().model + '/';
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(think.MD_PATH + '/' + this.get().model + '/' + mdname + '.md', '暂无介绍', (err) => {
-          if (err) throw err;
-          var galleryPath = think.GALLERY_PATH + mdname;
-          think.mkdir(galleryPath);
-          fs.renameSync(filepath, galleryPath + '/' + name);
-        });
+        fs.writeFileSync(think.MD_PATH + '/' + this.get().model + '/' + mdname + '.md', '暂无介绍');
+        var galleryPath = think.GALLERY_PATH + mdname;
+        think.mkdir(galleryPath);
+        fs.renameSync(filepath, galleryPath + '/' + name);
         await model.commit();
         return this.json({
           success: true,

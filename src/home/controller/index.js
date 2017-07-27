@@ -81,4 +81,7 @@ export default class extends Base {
     this.assign('title', global.title);
     return this.display();
   }
+  musicAction(){
+    return this.display();
+  }
 }
