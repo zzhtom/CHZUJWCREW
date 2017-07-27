@@ -160,11 +160,11 @@ export default class extends Base {
           theme: data.theme, cuser: userInfo.username, pname: pname, uuser: userInfo.username, mdname: mdname,
           action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
-        let mdpath = think.MD_PATH + '/' + data.model + '/';
+        let mdpath = think.MD_PATH + '/' + data.model;
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + mdname + '.md', data.content, (err) => {
+        fs.writeFile(mdpath + '/' + mdname + '.md', data.content, (err) => {
           if (err) throw err;
           var posterPath = think.POSTER_PATH + mdname;
           think.mkdir(posterPath);
@@ -193,21 +193,24 @@ export default class extends Base {
       let data = this.post();
       let model = this.model(data.model);
       let userInfo = await this.session('userInfo');
+      let mdpath = think.MD_PATH + '/' + data.model;
       try {
         await model.startTrans();
         let activityId = await model.add({
           title: data.title, cuser: userInfo.username, uuser: userInfo.username, mdname: data.mdname,
           action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+        if (!think.isDir(mdpath)) {
+          think.mkdir(mdpath);
+        }
+        fs.writeFile(mdpath + '/' + data.mdname + '.md', data.content, (err) => {
           if (err) throw err;
-          console.log('The file has been saved!');
+          await model.commit();
           return this.json({
             success: true,
             title: data.title
           });
         });
-        await model.commit();
       } catch (e) {
         await model.rollback();
         return this.json({
@@ -292,13 +295,13 @@ export default class extends Base {
           fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, (err) => {
             if (err) { throw err; }
             think.rmdir(think.POSTER_PATH + '/' + data.mdname, false);
+            await model.commit();
+            return this.json({
+              success: true,
+              theme: data.theme
+            });
           })
         })
-        await model.commit();
-        return this.json({
-          success: true,
-          theme: data.theme
-        });
       } catch (e) {
         await model.rollback();
         return this.json({
@@ -325,12 +328,12 @@ export default class extends Base {
             fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
               if (err) { throw err; }
               think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
+              await model.commit();
+              return this.json({
+                success: true
+              });
             })
           })
-        });
-        await model.commit();
-        return this.json({
-          success: true
         });
       } catch (e) {
         await model.rollback();
@@ -352,19 +355,19 @@ export default class extends Base {
           if (err) {
             throw err;
           }
-          console.log('文件:' + data.title + '删除成功！');
+          await model.commit();
           return this.json({
             success: true,
-            title: data.title
+            title: data.title,
+            error: ''
           });
         })
-
-        await model.commit();
-      } catch (e) {
+      } catch (err) {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.title
+          title: data.title,
+          error: err
         });
       }
     }
@@ -383,17 +386,18 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            console.log('文件:' + item.mdname + '删除成功！');
+            await model.commit();
             return this.json({
-              success: true
+              success: true,
+              error: ''
             });
           });
         });
-        await model.commit();
-      } catch (e) {
+      } catch (err) {
         await model.rollback();
         return this.json({
-          success: false
+          success: false,
+          error: err
         });
       }
     }
@@ -489,14 +493,14 @@ export default class extends Base {
           fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, (err) => {
             if (err) { throw err; }
             think.rmdir(think.GALLERY_PATH + '/' + data.mdname, false);
+            await model.commit();
+            return this.json({
+              success: true,
+              name: data.name,
+              error: ''
+            });
           })
         })
-        await model.commit();
-        return this.json({
-          success: true,
-          name: data.name,
-          error: ''
-        });
       } catch (err) {
         await model.rollback();
         return this.json({
@@ -524,13 +528,13 @@ export default class extends Base {
             fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, (err) => {
               if (err) { throw err; }
               think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
+              await model.commit();
+              return this.json({
+                success: true,
+                error: ''
+              });
             })
           })
-        });
-        await model.commit();
-        return this.json({
-          success: true,
-          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -561,11 +565,11 @@ export default class extends Base {
           name: name, cuser: userInfo.username, uuser: userInfo.username, mdname: mdname, ratio: ratio,
           ctime: think.datetime(), utime: think.datetime()
         });
-        let mdpath = think.MD_PATH + '/' + this.get().model + '/';
+        let mdpath = think.MD_PATH + '/' + this.get().model;
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFileSync(think.MD_PATH + '/' + this.get().model + '/' + mdname + '.md', '暂无介绍');
+        fs.writeFileSync(mdpath + '/' + mdname + '.md', '暂无介绍');
         var galleryPath = think.GALLERY_PATH + mdname;
         think.mkdir(galleryPath);
         fs.renameSync(filepath, galleryPath + '/' + name);
@@ -622,24 +626,23 @@ export default class extends Base {
           id: uuid(), name: data.name, stuno: data.stuno, major: data.major, entrance: data.entrance, cuser: userInfo.username, photo: photo, uuser: userInfo.username, mdname: mdname,
           ctime: think.datetime(), utime: think.datetime()
         });
-        let mdpath = think.MD_PATH + '/' + data.model + '/';
+        let mdpath = think.MD_PATH + '/' + data.model;
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + mdname + '.md', content, (err) => {
+        fs.writeFile(mdpath + '/' + mdname + '.md', content, (err) => {
           if (err) throw err;
           let photoPath = think.TEAM_PATH + mdname;
           think.mkdir(photoPath);
           fs.renameSync(filepath, photoPath + '/' + photo);
-        });
-        await model.commit();
-        return this.json({
-          success: true,
-          team: { name: data.name, stuno: data.stuno },
-          error: ''
+          await model.commit();
+          return this.json({
+            success: true,
+            team: { name: data.name, stuno: data.stuno },
+            error: ''
+          });
         });
       } catch (err) {
-        console.log(err);
         await model.rollback();
         return this.json({
           success: false,
@@ -698,13 +701,13 @@ export default class extends Base {
           fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, (err) => {
             if (err) { throw err; }
             think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
-          })
-        })
-        await model.commit();
-        return this.json({
-          success: true,
-          stuno: data.stuno,
-          error: ''
+            await model.commit();
+            return this.json({
+              success: true,
+              stuno: data.stuno,
+              error: ''
+            });
+          });
         });
       } catch (err) {
         await model.rollback();
@@ -733,13 +736,13 @@ export default class extends Base {
             fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
               if (err) { throw err; }
               think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
-            })
-          })
-        });
-        await model.commit();
-        return this.json({
-          success: true,
-          error: ''
+              await model.commit();
+              return this.json({
+                success: true,
+                error: ''
+              });
+            });
+          });
         });
       } catch (err) {
         await model.rollback();
@@ -773,12 +776,12 @@ export default class extends Base {
         await model.where({ id: data.id }).update({ name: data.name, stuno: data.stuno, major: data.major, entrance: entrance, uuser: userInfo.username, utime: think.datetime() });
         fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, (err) => {
           if (err) throw err;
-        });
-        await model.commit();
-        return this.json({
-          success: true,
-          team: { name: this.post().name, stuno: this.post().stuno },
-          error: ''
+          await model.commit();
+          return this.json({
+            success: true,
+            team: { name: this.post().name, stuno: this.post().stuno },
+            error: ''
+          });
         });
       } catch (error) {
         return this.json({
