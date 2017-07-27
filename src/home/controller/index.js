@@ -1,7 +1,7 @@
 'use strict';
 
 import Base from './base.js';
-
+var marked = require('marked'), fs = require("fs");
 export default class extends Base {
   /**
    * index action
@@ -17,6 +17,7 @@ export default class extends Base {
     let activitysData = await global.activitys(this);
     let sitesData = await global.sites(this);
     let pagetitlesData = await global.pagetitles(this);
+    let poster = await global.poster(this);
     // console.log(pagetitlesData);
     this.assign('themes', themesData);
     this.assign('news', newsData);
@@ -24,6 +25,20 @@ export default class extends Base {
     this.assign('sites', sitesData);
     this.assign('pagetitles', pagetitlesData);
     this.assign('title', global.title);
+    this.assign('poster', poster);
+    return this.display();
+  }
+  async teamAction(){
+    let arr = new Array();
+    let themesData = await global.theme(this);
+    let data = await global.team(this);
+    data.forEach(function(item){
+      item.mdData = marked(fs.readFileSync(think.MD_PATH + 'team/' + item.mdname + '.md', 'utf-8').toString());
+      arr.push(item);
+    });
+    // let mdData = fs.readFileSync(think.MD_PATH + 'jwcrew.md', 'utf-8').toString();
+    this.assign('themes', themesData);
+    this.assign('data', arr);
     return this.display();
   }
   async displayvideoAction() {
@@ -53,7 +68,6 @@ export default class extends Base {
   async communitydetailAction() {
     //auto render template file indexcommunitydetail.html
     let data = await global.theme(this);
-    let marked = require('marked'), fs = require("fs");
     let mdData = fs.readFileSync(think.MD_PATH + 'jwcrew.md', 'utf-8').toString();
     this.assign('themes', data);
     this.assign('title', global.title);
@@ -65,6 +79,9 @@ export default class extends Base {
     let data = await global.theme(this);
     this.assign('themes', data);
     this.assign('title', global.title);
+    return this.display();
+  }
+  musicAction(){
     return this.display();
   }
 }

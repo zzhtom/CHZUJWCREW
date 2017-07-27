@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>最新活动</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="/static/css/simplemde/simplemde.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/simplemde/simplemde.js"></script>
+    <script src="/static/js/admin/web/tab/add.poster.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="contact" action="addposter" enctype="multipart/form-data" method="post">
+            <h3><%=addModel%> Information</h3>
+            <h4>The following is add <%=addModel%> Information</h4>
+            <p style="color:red"><%=tips%></p>
+            <span id="tips" style="color:red"></span>
+            <fieldset>
+                <input name="theme" placeholder="<%=addModel%> theme" type="text" tabindex="1"  required autofocus>
+                 <input name="model" type="text" tabindex="2" value="<%=addModel%>" style="display: none" />
+            </fieldset>
+            <fieldset>
+                <input name="image" type="file" tabindex="3"  accept="image/*" required /> 
+            </fieldset>
+            <fieldset>
+                <textarea name="content" placeholder=" please write your <%=addModel%> message...." tabindex="4" ></textarea>
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit" >Add</button>
+            </fieldset>
+        </div>
+    </form>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

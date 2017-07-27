@@ -4,7 +4,7 @@
  * session configs
  */
 export default {
-  name: 'thinkjs',
+  name: 'chzujw',
   type: 'file',
   secret: 'ZBIS7VUP',
   timeout: 24 * 3600,

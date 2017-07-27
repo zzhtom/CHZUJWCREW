@@ -64,12 +64,12 @@
 			});
 
 		});
-		$('#zoom_pic').elevateZoom({
-			zoomType: "lens",
-			lensShape: "round",
-			lensSize: 200
-		});
-		$('#zoom_pic2').elevateZoom({scrollZoom : true});
+		// $('.zoom_pic').elevateZoom({
+		// 	zoomType: "lens",
+		// 	lensShape: "round",
+		// 	lensSize: 200
+		// });
+		// $('.zoom_pic').elevateZoom({scrollZoom : true});
 		// Footer.
 		$footer.each(function () {
 

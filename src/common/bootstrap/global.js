@@ -19,14 +19,23 @@ global.theme = function(self){
     return self.model('theme').field('tname,action').select();
 }
 global.news = function(self){
-    return self.model('news').field('newsname,newsaction').select();
+    return self.model('news').field('title,action,mdname').select();
 }
 global.activitys = function(self){
-    return self.model('activity').field('aname,aaction').select();
+    return self.model('activity').field('title,action,mdname').select();
 }
 global.sites = function(self){
     return self.model('sites').field('sitename,siteurl').select();
 }
 global.pagetitles = function(self){
     return self.model('pagetitles').find();
+}
+global.verificateAdmin = function(self,uname,password){
+    return self.model('admin').where({username: uname,passwd:think.md5(password)}).find();
+}
+global.poster = function(self){
+    return self.model('poster').where({show: true}).find();
+}
+global.team = function(self){
+    return self.model('team').field('photo,mdname').select();
 }

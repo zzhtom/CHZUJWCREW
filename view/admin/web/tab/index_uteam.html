@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>修改成员信息</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/admin/web/tab/update.team.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="contact">
+            <h3><%=model%></h3>
+            <h4>The following is update <%=model%> Information</h4>
+            <fieldset>
+                <input name="name" type="text" tabindex="1" value="<%-data.name%>" disabled />
+                <input name="stuno" type="text" tabindex="2" value="<%-data.stuno%>" disabled />
+                <input name="major" type="text" tabindex="3" value="<%-data.major%>" disabled />
+                <input name="mdname" type="text" tabindex="4" style="display: none" value="<%-data.mdname%>" />
+                <input name="id" type="text" tabindex="5" style="display: none" value="<%-data.id%>" />
+                <input name="model" type="text" tabindex="6" style="display: none" value="<%-model%>" disabled />
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit">Update</button>
+            </fieldset>
+        </div>
+    </div>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

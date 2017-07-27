@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>无标题文档</title>
+  <style type="text/css">
+    <!-- body {
+      margin-left: 0px;
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+    }
+
+    .STYLE1 {
+      color: #43860c;
+      font-size: 12px;
+    }
+
+    -->
+  </style>
+  <script language="javascript">
+    window.onload = function () {
+      var sdate = document.getElementById('date');
+      sdate.innerHTML = currentDate();
+      function currentDate() {
+        var cdate = new Date();
+        var year = cdate.getFullYear();
+        var month = cdate.getMonth() + 1;
+        var date = cdate.getDate();
+        var day = cdate.getDay();
+        /*Date.getTime(); //获取当前时间(从1970.1.1开始的毫秒数)
+        Date.getHours(); //获取当前小时数(0-23)
+        Date.getMinutes(); //获取当前分钟数(0-59)
+        Date.getSeconds(); //获取当前秒数(0-59)
+        Date.getMilliseconds(); //获取当前毫秒数(0-999)
+        Date.toLocaleDateString(); //获取当前日期
+        var mytime = Date.toLocaleTimeString(); //获取当前时间
+        Date.toLocaleString(); //获取日期与时间*/
+        return '日期：' + year + '年' + month + '月' + date + '日 星期' + chinaNum(day);
+      }
+      function chinaNum(day) {
+        var cnum;
+        switch (day) {
+          case 1:
+            cnum = '一';
+            break;
+          case 2:
+            cnum = '二';
+            break;
+          case 3:
+            cnum = '三';
+            break;
+          case 4:
+            cnum = '四';
+            break;
+          case 5:
+            cnum = '五';
+            break;
+          case 6:
+            cnum = '六';
+            break;
+          default:
+            cnum = "日";
+        }
+        return cnum;
+      }
+    }
+    function exit() {
+      window.open('/admin/login/login', '_top')
+    };
+    function getFresh() {
+      /*window.open(top.frames.mainFrame.document.getElementsByName("I1")[0].src, 'I1');*/
+      top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.location.reload()
+      /*window.open(mFrame.src, 'I1');*/
+    };
+    function goBack() {
+      top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.history.go(-1);
+    }
+
+    function goForward() {
+      top.frames.mainFrame.document.getElementsByName("I1")[0].contentWindow.history.go(1);
+    }
+  </script>
+
+</head>
+
+<body>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;">
+    <tr>
+      <td height="9" style="line-height:9px; background-image:url(/static/img/admin/web/main_04.gif)">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="97" height="9" background="/static/img/admin/web/main_01.gif">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td height="47" background="/static/img/admin/web/main_09.gif">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="38" height="47" background="/static/img/admin/web/main_06.gif">&nbsp;</td>
+            <td width="59">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="29" background="/static/img/admin/web/main_07.gif">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td height="18" background="/static/img/admin/web/main_14.gif">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout:fixed;">
+                      <tr>
+                        <td style="width:1px;">&nbsp;</td>
+                        <td><span class="STYLE1">Admin</span></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="155" background="/static/img/admin/web/main_08.gif">&nbsp;</td>
+            <td>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="23" valign="bottom"><img src="/static/img/admin/web/main_12.gif" width="367" height="23" border="0" usemap="#Map" /></td>
+                </tr>
+              </table>
+            </td>
+            <td width="200" background="/static/img/admin/web/main_11.gif">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="11%" height="23">&nbsp;</td>
+                  <td width="89%" valign="bottom"><span id="date" class="STYLE1"></span></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td height="5" style="line-height:5px; background-image:url(/static/img/admin/web/main_18.gif)">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="180" background="/static/img/admin/web/main_16.gif" style="line-height:5px;">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <map name="Map" id="Map"><area shape="rect" coords="3,1,49,22"  href="/admin/web/tab/index/tab" target="I1" /><area shape="rect" coords="52,2,95,21" href="#" onclick='goBack()' /><area shape="rect" coords="102,2,144,21" href="#"  onclick='goForward()'/><area shape="rect" coords="150,1,197,22" href="#" onclick="getFresh()" /><area shape="rect" coords="210,2,304,20" href="/admin/web/tab/index/update" target="I1" /><area shape="rect" coords="314,1,361,23" onclick="exit()" /></map>
+</body>
+
+</html>

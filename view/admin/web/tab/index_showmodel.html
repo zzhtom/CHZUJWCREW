@@ -1,0 +1,72 @@
+<%include inc/show_header.html%>
+  <%for(var i=1; i <= model.data.length;i++){%>
+    <tr>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center" class="STYLE1">
+          <input name="checkbox" type="checkbox" class="STYLE2" value="checkbox" />
+        </div>
+      </td>
+      <td style="display: none">
+        <%-model.data[i-1].id%>
+      </td>
+      <td height="18" bgcolor="#FFFFFF" class="STYLE2">
+        <div align="center" class="STYLE2 STYLE1">
+          <%=i%>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center" class="STYLE2 STYLE1">
+          <%-model.data[i-1].title%>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center" class="STYLE2 STYLE1">
+          <%-model.data[i-1].mdname%>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center" class="STYLE2 STYLE1">
+          <%-model.data[i-1].cuser%>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center" class="STYLE2 STYLE1">
+          <%-model.data[i-1].ctime%>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center"><img src="/static/img/admin/web/tab/037.gif" width="9" height="9" /><span class="STYLE1"> [</span>
+          <a class="singleEdit" href="editmodel?title=<%-model.data[i-1].title%>&mdname=<%-model.data[i-1].mdname%>&model=<%=showModel%>"
+            target="I1">编辑</a>
+          <span class="STYLE1">]</span>
+        </div>
+      </td>
+      <td height="18" bgcolor="#FFFFFF">
+        <div align="center"><span class="STYLE2"><img src="/static/img/admin/web/tab/010.gif" width="9" height="9" /> </span>
+          <span class="STYLE1">[</span><a class="singleDel" href="#">删除</a><span class="STYLE1">]</span></div>
+      </td>
+    </tr>
+    <%}%>
+      </table>
+      </td>
+      <td width="9" background="/static/img/admin/web/tab/tab_16.gif">&nbsp;</td>
+      </tr>
+      </table>
+      </td>
+      </tr>
+      <tr>
+        <td height="29">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="15" height="29"><img src="/static/img/admin/web/tab/tab_20.gif" width="15" height="29" /></td>
+              <td background="/static/img/admin/web/tab/tab_21.gif">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="25%" height="29" nowrap="nowrap">
+                      <span class="STYLE1">共<%=model.count%>条纪录，当前第
+                      <span id="currentPage"><%=model.currentPage%></span>/<span id="totalPages"><%=model.totalPages%></span>页，每页
+                      <span id="numsPerPage"><%=model.numsPerPage%></span>条纪录
+                      </span>
+                    </td>
+
+                    <%include inc/show_footer.html%>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>修改活动信息</title>
+
+    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/admin/web/tab/update.model.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="contact">
+            <h3><%=model%></h3>
+            <h4>The following is update <%=model%> Information</h4>
+            <fieldset>
+                <input name="id" type="text" tabindex="1" style="display: none" value="<%-id%>" />
+                <input name="title" type="text" tabindex="2" value="<%-title%>" disabled />
+                <input name="model" type="text" tabindex="3" style="display: none" value="<%-model%>" disabled />
+            </fieldset>
+            <fieldset>
+                <button type="submit" id="submit">Update</button>
+            </fieldset>
+        </div>
+    </div>
+    <div style="text-align:center;clear:both">
+    </div>
+</body>
+
+</html>

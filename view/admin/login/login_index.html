@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login form</title>
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:300,200' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/css/admin/login/style.css">
+</head>
+
+<body>
+  <div class="menu">
+    <ul class="mainmenu clearfix">
+      <li class="menuitem">Well</li>
+      <li class="menuitem">how</li>
+      <li class="menuitem">about</li>
+      <li class="menuitem">that?</li>
+    </ul>
+  </div>
+  <!--<button id="findpass">What's the password?</button>-->
+  <div class="form">
+    <div class="forceColor"></div>
+    <!--<form>-->
+      <div class="topbar">
+        <div class="spanColor"></div>
+        <fieldset>
+          <!--<legend style="color:red">管理员登陆</legend>-->
+          <input type="text" class="input" id="username" placeholder="username" value="<%=userInfo.username%>" required />
+          <input type="password" class="input" id="password" placeholder="Password" value autocomplete="off" />
+        </fieldset>
+      </div>
+      <button type="submit" class="submit" id="submit">Login</button>
+  </div>
+  <!--</form>-->
+  <script src='/static/js/jquery.min.js'></script>
+  <script src="/static/js/admin/login/index.js"></script>
+</body>
+
+</html>
