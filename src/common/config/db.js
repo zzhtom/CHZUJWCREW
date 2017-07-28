@@ -10,8 +10,8 @@ export default {
   connectionLimit: 10,
   adapter: {
     mysql: {
-      host: '127.0.0.1',
-      port: '',
+      host: '45.62.101.211',
+      port: '3306',
       database: 'jw_crew',
       user: 'root',
       password: 'zzhzzhzzh',
