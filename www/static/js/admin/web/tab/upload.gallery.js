@@ -527,7 +527,6 @@
         };
 
         uploader.onFileQueued = function (file) {
-            console.log(11111111111111111111111111);
             fileCount++;
             fileSize += file.size;
 

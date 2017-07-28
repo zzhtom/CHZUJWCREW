@@ -15,8 +15,8 @@ $('.previous').click(function () {
                     $('#preview').removeClass('vertical');
                 }
                 $('.zoom_pic').attr('name', photos[photos.length - 1].name);
-                $('.zoom_pic').attr('src', "/static/gallery/" + photos[photos.length - 1].mdname + '/' + photos[photos.length - 1].name);
-                $('.zoom_pic').attr('data-zoom-image', "/static/gallery/" + photos[photos.length - 1].mdname + '/' + photos[photos.length - 1].name);
+                $('.zoom_pic').attr('src', "/resource/gallery/" + photos[photos.length - 1].mdname + '/' + photos[photos.length - 1].name);
+                $('.zoom_pic').attr('data-zoom-image', "/resource/gallery/" + photos[photos.length - 1].mdname + '/' + photos[photos.length - 1].name);
                 getMarkdown(photos[photos.length - 1].mdname);
                 break;
             }
@@ -26,8 +26,8 @@ $('.previous').click(function () {
                 $('#preview').removeClass('vertical');
             }
             $('.zoom_pic').attr('name', photos[i - 1].name);
-            $('.zoom_pic').attr('src', "/static/gallery/" + photos[i - 1].mdname + '/' + photos[i - 1].name);
-            $('.zoom_pic').attr('data-zoom-image', "/static/gallery/" + photos[i - 1].mdname + '/' + photos[i - 1].name);
+            $('.zoom_pic').attr('src', "/resource/gallery/" + photos[i - 1].mdname + '/' + photos[i - 1].name);
+            $('.zoom_pic').attr('data-zoom-image', "/resource/gallery/" + photos[i - 1].mdname + '/' + photos[i - 1].name);
             getMarkdown(photos[i - 1].mdname);
             break;
         }
@@ -45,8 +45,8 @@ $('.next').click(function () {
                     $('#preview').removeClass('vertical');
                 }
                 $('.zoom_pic').attr('name', photos[0].name);
-                $('.zoom_pic').attr('src', "/static/gallery/" + photos[0].mdname + '/' + photos[0].name);
-                $('.zoom_pic').attr('data-zoom-image', "/static/gallery/" + photos[0].mdname + '/' + photos[0].name);
+                $('.zoom_pic').attr('src', "/resource/gallery/" + photos[0].mdname + '/' + photos[0].name);
+                $('.zoom_pic').attr('data-zoom-image', "/resource/gallery/" + photos[0].mdname + '/' + photos[0].name);
                 getMarkdown(photos[0].mdname);
                 break;
             }
@@ -56,8 +56,8 @@ $('.next').click(function () {
                 $('#preview').removeClass('vertical');
             }
             $('.zoom_pic').attr('name', photos[i + 1].name);
-            $('.zoom_pic').attr('src', "/static/gallery/" + photos[i + 1].mdname + '/' + photos[i + 1].name);
-            $('.zoom_pic').attr('data-zoom-image', "/static/gallery/" + photos[i + 1].mdname + '/' +photos[i + 1].name);
+            $('.zoom_pic').attr('src', "/resource/gallery/" + photos[i + 1].mdname + '/' + photos[i + 1].name);
+            $('.zoom_pic').attr('data-zoom-image', "/resource/gallery/" + photos[i + 1].mdname + '/' +photos[i + 1].name);
             getMarkdown(photos[i + 1].mdname);
             break;
         }

@@ -37,10 +37,3 @@ runtime/
 node_modules/
 
 www/resource
-www/gallery
-www/poster
-www/md/activity
-www/md/gallery
-www/md/news
-www/md/poster
-www/md/team

@@ -300,15 +300,17 @@ export default class extends Base {
             await model.commit();
             return this.json({
               success: true,
-              theme: data.theme
+              theme: data.theme,
+              error: ''
             });
           })
         })
-      } catch (e) {
+      } catch (err) {
         await model.rollback();
         return this.json({
           success: false,
-          title: data.theme
+          title: data.theme,
+          error: err
         });
       }
     }
@@ -332,15 +334,17 @@ export default class extends Base {
               think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
               await model.commit();
               return this.json({
-                success: true
+                success: true,
+                error: ''
               });
             })
           })
         });
-      } catch (e) {
+      } catch (err) {
         await model.rollback();
         return this.json({
-          success: false
+          success: false,
+          error: err
         });
       }
     }
