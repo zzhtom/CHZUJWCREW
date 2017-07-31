@@ -357,17 +357,17 @@ export default class extends Base {
       try {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
-        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', async (err) => {
+        fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', function (err) {
           if (err) {
             throw err;
           }
-          await model.commit();
-          return this.json({
-            success: true,
-            title: data.title,
-            error: ''
-          });
-        })
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          title: data.title,
+          error: ''
+        });
       } catch (err) {
         await model.rollback();
         return this.json({
@@ -388,15 +388,15 @@ export default class extends Base {
         await model.startTrans();
         _list.forEach(async (item) => {
           await model.where({ id: item.id }).delete();
-          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', async (err) => {
+          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
             if (err) {
               throw err;
             }
-            await model.commit();
-            return this.json({
-              success: true,
-              error: ''
-            });
+          });
+          await model.commit();
+          return this.json({
+            success: true,
+            error: ''
           });
         });
       } catch (err) {
@@ -707,13 +707,13 @@ export default class extends Base {
           fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, async (err) => {
             if (err) { throw err; }
             think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
-            await model.commit();
-            return this.json({
-              success: true,
-              stuno: data.stuno,
-              error: ''
-            });
           });
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          stuno: data.stuno,
+          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -739,15 +739,15 @@ export default class extends Base {
             if (err) {
               throw err;
             }
-            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, async (err) => {
+            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
               if (err) { throw err; }
               think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
-              await model.commit();
-              return this.json({
-                success: true,
-                error: ''
-              });
             });
+          });
+          await model.commit();
+          return this.json({
+            success: true,
+            error: ''
           });
         });
       } catch (err) {

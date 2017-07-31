@@ -84,7 +84,7 @@ $(document).ready(function () {
         var $tr = $(this).parent().parent().parent();
         var $td = $tr.find("td");
         $.ajax({
-            url: 'deledit',
+            url: 'delteam',
             data: {
                 model: model,
                 stuno: $.trim($td.eq(5).text()),
@@ -98,13 +98,13 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("删除成员:" + data.team.stuno + "的记录成功！");
+                    alert("删除成员:" + data.stuno + "的记录成功！");
                     // $tr.remove();
                     if ($("input[name='checkbox']").size() != 1) {
                         window.location.reload();
                         return;
                     }
-                    if ($('#currentPage').text() != 1) {
+                    if (parseInt($.trim($('#currentPage').text())) !== 1) {
                         var backPage = $.trim($('#currentPage').text()) - 1;
                         window.open('showteam?page=' + backPage + '&model=' + model, 'I1');
                     } else {
@@ -112,7 +112,7 @@ $(document).ready(function () {
                         window.location.reload();
                     }
                 } else {
-                    alert("删除成员:" + data.team.stuno + "的记录失败\n" + JSON.stringify(data.error));
+                    alert("删除成员:" + data.stuno + "的记录失败\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {
@@ -140,7 +140,7 @@ $(document).ready(function () {
             };
         }).get();
         $.ajax({
-            url: 'batchdeledit',
+            url: 'batchdelteam',
             data: {
                 model: model,
                 data: JSON.stringify(_lsit)
