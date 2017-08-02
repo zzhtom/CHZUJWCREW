@@ -165,21 +165,31 @@ export default class extends Base {
           think.mkdir(mdpath);
         }
         fs.writeFile(mdpath + '/' + mdname + '.md', data.content, async (err) => {
-          if (err) throw err;
-          var posterPath = think.POSTER_PATH + mdname;
-          think.mkdir(posterPath);
-          fs.renameSync(filepath, posterPath + '/' + pname);
-          await model.commit();
+          if (!!err) {
+            think.log(err, 'ERROR');
+            await model.rollback();
+            return this.json({
+              success: false,
+              error: err
+            });
+          } else {
+            await model.commit();
+            think.log(`${data.mdname}.md文件创建成功`, 'INFO');
+            var posterPath = think.POSTER_PATH + mdname;
+            think.mkdir(posterPath);
+            fs.renameSync(filepath, posterPath + '/' + pname);
+            await model.commit();
+            this.assign('addModel', data.model);
+            this.assign('tips', 'add poster is success!')
+            return this.display();
+          }
         });
-        this.assign('addModel', data.model);
-        this.assign('tips', 'add poster is success!')
-        return this.display();
-      } catch (e) {
-        console.log(e);
+      } catch (err) {
+        think.log(err, 'ERROR');
         await model.rollback();
         return this.json({
           success: false,
-          error: '添加失败！'
+          error: err
         });
       }
     }
@@ -203,14 +213,18 @@ export default class extends Base {
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
-        fs.writeFile(mdpath + '/' + data.mdname + '.md', data.content, async (err) => {
-          if (err) throw err;
-          await model.commit();
-          return this.json({
-            success: true,
-            title: data.title,
-            error: err
-          });
+        fs.writeFile(mdpath + '/' + data.mdname + '.md', data.content, (err) => {
+          if (!!err) {
+            think.log(err, 'ERROR');
+          } else {
+            think.log(`${data.mdname}.md文件添加成功`, 'INFO');
+          }
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          title: data.title,
+          error: err
         });
       } catch (err) {
         await model.rollback();
@@ -291,20 +305,26 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ theme: data.theme }).delete();
         fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
-          if (err) {
-            throw err;
-          }
-          fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, async (err) => {
-            if (err) { throw err; }
-            think.rmdir(think.POSTER_PATH + '/' + data.mdname, false);
-            await model.commit();
-            return this.json({
-              success: true,
-              theme: data.theme,
-              error: ''
+          if (!!err) {
+            think.log(err, 'ERROR');
+          } else {
+            think.log(`${data.mdname}.md文件删除成功`, 'INFO');
+            fs.unlink(think.POSTER_PATH + '/' + data.mdname + '/' + data.pname, (err) => {
+              if (!!err) {
+                think.log(err, 'ERROR');
+              } else {
+                think.log(`${data.pname}文件删除成功`, 'INFO');
+                think.rmdir(think.POSTER_PATH + '/' + data.mdname, false);
+              }
             });
-          })
-        })
+          }
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          theme: data.theme,
+          error: ''
+        });
       } catch (err) {
         await model.rollback();
         return this.json({
@@ -326,19 +346,25 @@ export default class extends Base {
         _list.forEach(async (item) => {
           await model.where({ theme: item.theme }).delete();
           fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
-            if (err) {
-              throw err;
-            }
-            fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, async (err) => {
-              if (err) { throw err; }
-              think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
-              await model.commit();
-              return this.json({
-                success: true,
-                error: ''
+            if (!!err) {
+              think.log(err, 'ERROR');
+            } else {
+              think.log(`${item.mdname}.md文件删除成功`, 'INFO');
+              fs.unlink(think.POSTER_PATH + '/' + item.mdname + '/' + item.pname, (err) => {
+                if (!!err) {
+                  think.log(err, 'ERROR');
+                } else {
+                  think.log(`${item.item.pname}文件删除成功`, 'INFO');
+                  think.rmdir(think.POSTER_PATH + '/' + item.mdname, false);
+                }
               });
-            })
-          })
+            }
+          });
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -358,8 +384,10 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
         fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', function (err) {
-          if (err) {
-            throw err;
+          if (!!err) {
+            think.log(err, 'ERROR');
+          } else {
+            think.log(`${data.mdname}.md文件删除成功`, 'INFO');
           }
         });
         await model.commit();
@@ -389,15 +417,17 @@ export default class extends Base {
         _list.forEach(async (item) => {
           await model.where({ id: item.id }).delete();
           fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
-            if (err) {
-              throw err;
+            if (!!err) {
+              think.log(err, 'ERROR');
+            } else {
+              think.log(`${item.mdname}.md文件删除成功`, 'INFO');
             }
           });
-          await model.commit();
-          return this.json({
-            success: true,
-            error: ''
-          });
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -412,22 +442,23 @@ export default class extends Base {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      try {
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
-          if (err) throw err;
+      fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+        if (!!err) {
+          think.log(err, 'ERROR');
+          return this.json({
+            success: false,
+            title: data.title,
+            error: err
+          });
+        } else {
+          think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
           return this.json({
             success: true,
             title: data.title | data.name,
-            error: err
+            error: ''
           });
-        });
-      } catch (err) {
-        return this.json({
-          success: false,
-          title: data.title,
-          error: err
-        });
-      }
+        }
+      });
     }
     fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
       if (err) throw err;
@@ -457,22 +488,23 @@ export default class extends Base {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      try {
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
-          if (err) throw err;
+      fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+        if (!!err) {
+          think.log(err, 'ERROR');
+          return this.json({
+            success: false,
+            name: data.name,
+            error: err
+          });
+        } else {
+          think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
           return this.json({
             success: true,
             name: data.name,
             error: ''
           });
-        });
-      } catch (err) {
-        return this.json({
-          success: false,
-          name: data.name,
-          error: err
-        });
-      }
+        }
+      });
     }
     fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
       if (err) throw err;
@@ -493,20 +525,26 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ name: data.name }).delete();
         fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
-          if (err) {
-            throw err;
-          }
-          fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, async (err) => {
-            if (err) { throw err; }
-            think.rmdir(think.GALLERY_PATH + '/' + data.mdname, false);
-            await model.commit();
-            return this.json({
-              success: true,
-              name: data.name,
-              error: ''
+          if (!!err) {
+            think.log(err, 'ERROR');
+          } else {
+            think.log(`${data.mdname}.md文件删除成功`, 'INFO');
+            fs.unlink(think.GALLERY_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+              if (!!err) {
+                think.log(err, 'ERROR');
+              } else {
+                think.log(`${data.name}文件删除成功`, 'INFO');
+                think.rmdir(think.GALLERY_PATH + '/' + data.mdname, false);
+              }
             });
-          })
-        })
+          }
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          name: data.name,
+          error: ''
+        });
       } catch (err) {
         await model.rollback();
         return this.json({
@@ -528,19 +566,25 @@ export default class extends Base {
         _list.forEach(async (item) => {
           await model.where({ name: item.name }).delete();
           fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
-            if (err) {
-              throw err;
-            }
-            fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, async (err) => {
-              if (err) { throw err; }
-              think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
-              await model.commit();
-              return this.json({
-                success: true,
-                error: ''
+            if (!!err) {
+              think.log(err, 'ERROR');
+            } else {
+              think.log(`${item.mdname}.md文件删除成功`, 'INFO');
+              fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+                if (!!err) {
+                  think.log(err, 'ERROR');
+                } else {
+                  think.log(`${item.name}文件删除成功`, 'INFO');
+                  think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
+                }
               });
-            })
-          })
+            }
+          });
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -637,16 +681,26 @@ export default class extends Base {
           think.mkdir(mdpath);
         }
         fs.writeFile(mdpath + '/' + mdname + '.md', content, async (err) => {
-          if (err) throw err;
-          let photoPath = think.TEAM_PATH + mdname;
-          think.mkdir(photoPath);
-          fs.renameSync(filepath, photoPath + '/' + photo);
-          await model.commit();
-          return this.json({
-            success: true,
-            team: { name: data.name, stuno: data.stuno },
-            error: ''
-          });
+          if (!!err) {
+            think.log(err, 'ERROR');
+            await model.rollback();
+            return this.json({
+              success: false,
+              team: { name: data.name, stuno: data.stuno },
+              error: err
+            });
+          } else {
+            think.log(`${mdname}.md文件添加成功`, 'INFO');
+            let photoPath = think.TEAM_PATH + mdname;
+            think.mkdir(photoPath);
+            fs.renameSync(filepath, photoPath + '/' + photo);
+            await model.commit();
+            return this.json({
+              success: true,
+              team: { name: data.name, stuno: data.stuno },
+              error: ''
+            });
+          }
         });
       } catch (err) {
         await model.rollback();
@@ -665,30 +719,35 @@ export default class extends Base {
     //auto render template file index_tab.html
     if (this.isPost()) {
       let data = this.post();
-      try {
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
-          if (err) throw err;
+      fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', data.content, (err) => {
+        if (!!err) {
+          think.log(err, 'ERROR');
+          return this.json({
+            success: false,
+            team: { name: data.name, model: data.model },
+            error: err
+          });
+        } else {
+          think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
           return this.json({
             success: true,
             team: { name: data.name, model: data.model },
             error: ''
           });
-        });
-      } catch (err) {
-        return this.json({
-          success: false,
-          team: { name: data.name, model: data.model },
-          error: err
-        });
-      }
+        }
+      });
     }
     fs.readFile(think.MD_PATH + '/' + this.get().model + '/' + this.get().mdname + '.md', 'utf8', (err, data) => {
-      if (err) throw err;
-      this.assign('name', this.get().name);
-      this.assign('mdname', this.get().mdname);
-      this.assign('content', data);
-      this.assign('showModel', this.get().model);
-      return this.display();
+      if (!!err) {
+        think.log(err, 'ERROR');
+        return this.fail('error information!')
+      } else {     
+        this.assign('name', this.get().name);
+        this.assign('mdname', this.get().mdname);
+        this.assign('content', data);
+        this.assign('showModel', this.get().model);
+        return this.display();
+      }
     });
   }
   // 删除成员信息
@@ -701,13 +760,19 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ stuno: data.stuno }).delete();
         fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
-          if (err) {
-            throw err;
+          if (!!err) {
+            think.log(err, 'ERROR');
+          } else {        
+            think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
+            fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, (err) => {
+              if (!!err) {
+                think.log(err, 'ERROR');
+              } else {             
+                think.log(`${data.name}.md文件删除成功`, 'INFO');
+                think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
+              }
+            });
           }
-          fs.unlink(think.TEAM_PATH + '/' + data.mdname + '/' + data.name, async (err) => {
-            if (err) { throw err; }
-            think.rmdir(think.TEAM_PATH + '/' + data.mdname, false);
-          });
         });
         await model.commit();
         return this.json({
@@ -736,19 +801,24 @@ export default class extends Base {
         _list.forEach(async (item) => {
           await model.where({ stuno: item.stuno }).delete();
           fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
-            if (err) {
-              throw err;
+            if (!!err) {
+              think.log(err, 'ERROR');
+            } else {            
+              think.log(`${item.name}.md文件删除成功`, 'INFO');
+              fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+                if (!!err) {
+                  think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
+                } else {
+                  think.log(err, 'ERROR');
+                }
+              });
             }
-            fs.unlink(think.TEAM_PATH + '/' + item.mdname + '/' + item.name, (err) => {
-              if (err) { throw err; }
-              think.rmdir(think.TEAM_PATH + '/' + item.mdname, false);
-            });
           });
-          await model.commit();
-          return this.json({
-            success: true,
-            error: ''
-          });
+        });
+        await model.commit();
+        return this.json({
+          success: true,
+          error: ''
         });
       } catch (err) {
         await model.rollback();
@@ -777,25 +847,27 @@ export default class extends Base {
         '- **专业：**' + data.major + '\n' +
         '## 简单介绍 ##\n' +
         '暂无';
-      try {
-        await model.startTrans();
-        await model.where({ id: data.id }).update({ name: data.name, stuno: data.stuno, major: data.major, entrance: entrance, uuser: userInfo.username, utime: think.datetime() });
-        fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, async (err) => {
-          if (err) throw err;
+      await model.startTrans();
+      await model.where({ id: data.id }).update({ name: data.name, stuno: data.stuno, major: data.major, entrance: entrance, uuser: userInfo.username, utime: think.datetime() });
+      fs.writeFile(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', content, async (err) => {
+        if (!!err) {
+          think.log(err, 'ERROR');
+          return this.json({
+            success: false,
+            team: { name: this.post().name, stuno: this.post().stuno },
+            error: error
+          });
+        } else {
+          
+          think.log(`${item.mdname}.md文件编辑成功`, 'INFO');
           await model.commit();
           return this.json({
             success: true,
             team: { name: this.post().name, stuno: this.post().stuno },
             error: ''
           });
-        });
-      } catch (error) {
-        return this.json({
-          success: false,
-          team: { name: this.post().name, stuno: this.post().stuno },
-          error: error
-        });
-      }
+        }
+      });
     }
     let team = await this.model(this.get().model).where({ id: this.get().id }).find();
     this.assign('model', this.get().model);
