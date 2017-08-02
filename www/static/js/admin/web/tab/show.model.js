@@ -96,11 +96,12 @@ $(document).ready(function () {
                         window.location.reload();
                         return;
                     }
-                    if ($('#currentPage').text() != 1) {
+                    if (parseInt($.trim($('#currentPage').text())) != 1) {
                         var backPage = $('#currentPage').text() - 1;
                         window.open('showmodel?page=' + backPage + '&model=' + model, 'I1');
                     } else {
                         alert('暂时无数据！')
+                        window.location.reload();
                     }
                 } else {
                     alert("删除活动标题为:" + data.title + "的活动信息失败！");
