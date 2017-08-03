@@ -223,7 +223,7 @@ $(document).ready(function () {
                         window.location.reload();
                         return;
                     }
-                    if ($('#currentPage').text() != 1) {
+                    if (parseInt($.trim($('#currentPage').text())) !== 1) {
                         var backPage = $.trim($('#currentPage').text()) - 1;
                         window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
@@ -231,7 +231,7 @@ $(document).ready(function () {
                         window.location.reload();
                     }
                 } else {
-                    alert("批量删除Gallery信息失败！\n" + data.error);
+                    alert("批量删除Gallery信息失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {

@@ -68,7 +68,7 @@ export default class extends Base {
   async communitydetailAction() {
     //auto render template file indexcommunitydetail.html
     let data = await global.theme(this);
-    let mdData = fs.readFileSync(hink.RESOURCE_PATH + 'static/resource/markdown/' + 'jwcrew.md', 'utf-8').toString();
+    let mdData = fs.readFileSync(think.RESOURCE_PATH + '/static/resource/markdown/' + 'jwcrew.md', 'utf-8').toString();
     this.assign('themes', data);
     this.assign('title', global.title);
     this.assign('crewrule', marked(mdData));

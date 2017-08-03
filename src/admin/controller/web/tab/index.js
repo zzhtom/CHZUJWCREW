@@ -545,13 +545,14 @@ export default class extends Base {
           name: data.name,
           error: ''
         });
-      } catch (err) {
+      } catch (err) {      
         await model.rollback();
         return this.json({
           success: false,
           name: data.name,
           error: err
         });
+        think.log(err, 'ERROR');
       }
     }
   }
@@ -561,26 +562,27 @@ export default class extends Base {
       let data = this.post();
       let model = this.model(data.model);
       let _list = JSON.parse(data.data);
+      let i = 0;
       try {
         await model.startTrans();
-        _list.forEach(async (item) => {
-          await model.where({ name: item.name }).delete();
-          fs.unlink(think.MD_PATH + '/' + data.model + '/' + item.mdname + '.md', (err) => {
+        for(; i < _list.length; i++) {
+          await model.where({ name: _list[i].name }).delete();
+          fs.unlink(think.MD_PATH + data.model + '/' + _list[i].mdname + '.md', (err) => {
             if (!!err) {
               think.log(err, 'ERROR');
             } else {
-              think.log(`${item.mdname}.md文件删除成功`, 'INFO');
-              fs.unlink(think.GALLERY_PATH + '/' + item.mdname + '/' + item.name, (err) => {
+              think.log(`${_list[i].mdname}.md文件删除成功`, 'INFO');
+              fs.unlink(think.GALLERY_PATH + _list[i].mdname + '/' + _list[i].name, (err) => {
                 if (!!err) {
                   think.log(err, 'ERROR');
                 } else {
-                  think.log(`${item.name}文件删除成功`, 'INFO');
-                  think.rmdir(think.GALLERY_PATH + '/' + item.mdname, false);
+                  think.log(`${_list[i].name}文件删除成功`, 'INFO');
+                  think.rmdir(think.GALLERY_PATH + '/' + _list[i].mdname, false);
                 }
               });
             }
           });
-        });
+        }
         await model.commit();
         return this.json({
           success: true,
@@ -588,10 +590,11 @@ export default class extends Base {
         });
       } catch (err) {
         await model.rollback();
+        think.log(err, 'ERROR');
         return this.json({
           success: false,
           error: err
-        });
+        });     
       }
     }
   }
