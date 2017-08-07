@@ -3,8 +3,8 @@
  * model
  */
 export default class extends think.model.base {
-    getTheme() {
+    getPagetitles() {
         //只设定缓存时间
-        return this.cache(7200).field('tname,action').select();
+        return this.cache(7200).find();
     }
 }
