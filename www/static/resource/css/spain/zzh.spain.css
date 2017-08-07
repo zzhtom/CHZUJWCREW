@@ -1,0 +1,25 @@
+/**
+* author: zhangxiaoheng
+* time: 20170807
+**/
+/* @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css); */
+html {
+	font-size: 62.5%;
+}
+        
+.mainSpain {
+    background: gainsboro;
+    width: 30rem;
+    height: 10rem;
+    z-index: 100;
+    left: 50%;
+    top: 30%;
+    margin: -5rem 0 0 -15rem;
+    position: absolute;
+    text-align: center;
+}
+
+.mainSpain .spain {
+    color: royalblue;
+    line-height: 10rem;
+}

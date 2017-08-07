@@ -3,12 +3,24 @@ $(document).ready(function () {
     $("input[name='stuno']").bind("input propertychange", function () {
         $("input[name='entrance']").val($(this).val().substring(0, 4));
     });
+    var spain = new mySpain();
     $('#submit').click(function () {
         if ($("input[name='stuno']").val().length != 10) {
             alert('当前学号错误');
             return false;
         }
-        var formData = new FormData($('#contact').get(0));
+        var formData = new FormData();
+        formData.append("name", $("input[name='name']").val());
+        formData.append("stuno", $("input[name='stuno']").val());
+        formData.append("major", $("input[name='major']").val());
+        formData.append("entrance", $("input[name='entrance']").val());
+        formData.append("model", $("input[name='model']").val());
+        formData.append("photo", $("input[name='photo']").get(0).files[0]);
+
+        // JavaScript file-like 对象
+        // var content = '<a id="a"><b id="b">hey!</b></a>'; // 新文件的正文...
+        // var blob = new Blob([content], { type: "text/xml" });
+        // formData.append("webmasterfile", blob);
         $.ajax({
             url: 'addteam',
             data: formData,
@@ -19,17 +31,22 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.success) {
                     alert("添加成员信息:" + data.team.name + "的记录成功！");
-                    // window.location.reload();
-                    $('#contact').get(0).reset();
+                    window.location.reload();
+                    // $('#contact').get(0).reset();
                 } else {
+                    // spain.closeSpain();
+                    if (data.team.name === undefined){
+                        alert('访问数据库异常！');
+                        return;
+                    }
                     alert("添加成员为:" + data.team.name + "的记录失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {
+                // spain.closeSpain();
                 alert("网络异常！");
             }
         });
-        return false;
     });
     // extend function
     function getUrlParam(name) {
@@ -37,4 +54,5 @@ $(document).ready(function () {
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]); return null;
     }
+
 });

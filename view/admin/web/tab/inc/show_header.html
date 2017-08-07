@@ -3,7 +3,8 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>无标题文档</title>
+    <title>showModel</title>
+    <link rel="stylesheet" href="/static/resource/css/spain/zzh.spain.css" media="screen" type="text/css" />
     <style type="text/css">
         <!-- body {
             margin-left: 0px;
@@ -55,57 +56,10 @@
 
         -->
     </style>
-
-    <script>
-        var highlightcolor = '#eafcd5';
-        //此处clickcolor只能用win系统颜色代码才能成功,如果用#xxxxxx的代码就不行,还没搞清楚为什么:(
-        var clickcolor = '#51b2f6';
-        function changeto() {
-            source = event.srcElement;
-            if (source.tagName == "TR" || source.tagName == "TABLE")
-                return;
-            while (source.tagName != "TD")
-                source = source.parentElement;
-            source = source.parentElement;
-            cs = source.children;
-            //alert(cs.length);
-            if (cs[1].style.backgroundColor != highlightcolor && source.id != "nc" && cs[1].style.backgroundColor != clickcolor)
-                for (i = 0; i < cs.length; i++) {
-                    cs[i].style.backgroundColor = highlightcolor;
-                }
-        }
-
-        function changeback() {
-            if (event.fromElement.contains(event.toElement) || source.contains(event.toElement) || source.id == "nc")
-                return
-            if (event.toElement != source && cs[1].style.backgroundColor != clickcolor)
-                //source.style.backgroundColor=originalcolor
-                for (i = 0; i < cs.length; i++) {
-                    cs[i].style.backgroundColor = "";
-                }
-        }
-
-        function clickto() {
-            source = event.srcElement;
-            if (source.tagName == "TR" || source.tagName == "TABLE")
-                return;
-            while (source.tagName != "TD")
-                source = source.parentElement;
-            source = source.parentElement;
-            cs = source.children;
-            //alert(cs.length);
-            if (cs[1].style.backgroundColor != clickcolor && source.id != "nc")
-                for (i = 0; i < cs.length; i++) {
-                    cs[i].style.backgroundColor = clickcolor;
-                }
-            else
-                for (i = 0; i < cs.length; i++) {
-                    cs[i].style.backgroundColor = "";
-                }
-        }
-    </script>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/admin/web/tab/show.model.js"></script>
+    
+    <script src="/static/resource/js/jquery.min.js"></script>
+    <script src="/static/resource/js/admin/web/tab/show.model.js"></script>
+    <script src="/static/resource/js/spain/zzh.spain.js"></script>
 </head>
 
 <body>
@@ -114,9 +68,9 @@
             <td height="30">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td width="15" height="30"><img src="/static/img/admin/web/tab/tab_03.gif" width="15" height="30" /></td>
-                        <td width="1101" background="/static/img/admin/web/tab/tab_05.gif"><img src="/static/img/admin/web/tab/311.gif" width="16" height="16" /> <span class="STYLE4"><%=showModel%>列表</span></td>
-                        <td width="281" background="/static/img/admin/web/tab/tab_05.gif">
+                        <td width="15" height="30"><img src="/static/resource/img/admin/web/tab/tab_03.gif" width="15" height="30" /></td>
+                        <td width="1101" background="/static/resource/img/admin/web/tab/tab_05.gif"><img src="/static/resource/img/admin/web/tab/311.gif" width="16" height="16" /> <span class="STYLE4"><%=showModel%>列表</span></td>
+                        <td width="281" background="/static/resource/img/admin/web/tab/tab_05.gif">
                             <table border="0" align="right" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td width="60">
@@ -138,7 +92,7 @@
                                         <table width="90%" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td class="STYLE1">
-                                                    <div align="center"><img src="/static/img/admin/web/tab/001.gif" width="14" height="14" /></div>
+                                                    <div align="center"><img src="/static/resource/img/admin/web/tab/001.gif" width="14" height="14" /></div>
                                                 </td>
                                                 <td class="STYLE1">
                                                     <div align="center">
@@ -152,7 +106,7 @@
                                         <table width="90%" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td class="STYLE1">
-                                                    <div align="center"><img src="/static/img/admin/web/tab/114.gif" width="14" height="14" /></div>
+                                                    <div align="center"><img src="/static/resource/img/admin/web/tab/114.gif" width="14" height="14" /></div>
                                                 </td>
                                                 <td class="STYLE1">
                                                     <div align="center">
@@ -166,7 +120,7 @@
                                         <table width="88%" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td class="STYLE1">
-                                                    <div align="center"><img src="/static/img/admin/web/tab/083.gif" width="14" height="14" /></div>
+                                                    <div align="center"><img src="/static/resource/img/admin/web/tab/083.gif" width="14" height="14" /></div>
                                                 </td>
                                                 <td class="STYLE1">
                                                     <div align="center">
@@ -179,7 +133,7 @@
                                 </tr>
                             </table>
                         </td>
-                        <td width="14"><img src="/static/img/admin/web/tab/tab_07.gif" width="14" height="30" /></td>
+                        <td width="14"><img src="/static/resource/img/admin/web/tab/tab_07.gif" width="14" height="30" /></td>
                     </tr>
                 </table>
             </td>
@@ -188,33 +142,32 @@
             <td>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td width="9" background="/static/img/admin/web/tab/tab_12.gif">&nbsp;</td>
+                        <td width="9" background="/static/resource/img/admin/web/tab/tab_12.gif">&nbsp;</td>
                         <td bgcolor="#f3ffe3">
-                            <table id="showActivity" width="99%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#c0de98" onmouseover="changeto()"
-                                onmouseout="changeback()">
+                            <table id="showActivity" width="99%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#c0de98">
                                 <tr>
-                                    <td width="6%" height="26" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="6%" height="26" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">选择</div>
                                     </td>
-                                    <td width="8%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="8%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">序号</div>
                                     </td>
-                                    <td width="24%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="24%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">标题</div>
                                     </td>
-                                    <td width="10%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="10%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">文件名</div>
                                     </td>
-                                    <td width="14%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="14%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2 STYLE1">创建者</div>
                                     </td>
-                                    <td width="24%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="24%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2">创建时间</div>
                                     </td>
-                                    <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="7%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2">编辑</div>
                                     </td>
-                                    <td width="7%" height="18" background="/static/img/admin/web/tab/tab_14.gif" class="STYLE1">
+                                    <td width="7%" height="18" background="/static/resource/img/admin/web/tab/tab_14.gif" class="STYLE1">
                                         <div align="center" class="STYLE2">删除</div>
                                     </td>
                                 </tr>

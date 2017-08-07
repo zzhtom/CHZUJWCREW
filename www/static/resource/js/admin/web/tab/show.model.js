@@ -100,11 +100,10 @@ $(document).ready(function () {
                         var backPage = $('#currentPage').text() - 1;
                         window.open('showmodel?page=' + backPage + '&model=' + model, 'I1');
                     } else {
-                        alert('暂时无数据！')
                         window.location.reload();
                     }
                 } else {
-                    alert("删除活动标题为:" + data.title + "的活动信息失败！");
+                    alert("删除活动标题为:" + data.title + "的活动信息失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {
@@ -150,17 +149,16 @@ $(document).ready(function () {
                     alert("批量删除的活动信息成功！");
                     // $tr.remove();
                     if ($("input[name='batchSelect']:checked").size() != 0) {
-                        if ($('#currentPage').text() != 1) {
+                        if (parseInt($.trim($('#currentPage').text())) !== 1) {
                             var backPage = $('#currentPage').text() - 1;
                             window.open('showmodel?page=' + backPage + '&model=' + model, 'I1');
                         } else {
-                            alert('暂时无数据！')
+                            window.location.reload();
                         }
                         return;
                     }
-                    window.location.reload();
                 } else {
-                    alert("批量删除的活动信息失败！");
+                    alert("批量删除的活动信息失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {

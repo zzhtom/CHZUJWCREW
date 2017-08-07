@@ -7,7 +7,7 @@ export default {
   name: 'chzujw',
   type: 'file',
   secret: 'ZBIS7VUP',
-  timeout: 24 * 3600,
+  timeout: 3600,
   cookie: { // cookie options
     length: 32,
     httponly: true

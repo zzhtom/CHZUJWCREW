@@ -8,7 +8,7 @@ body {
   height: 100%;
   position: absolute;
   font-family: Raleway;
-  background: url(/static/img/admin/login/shows.jpg) no-repeat fixed;
+  background: url(/static/resource/img/admin/login/shows.jpg) no-repeat fixed;
   background-size: cover;
   background-position: center;
   -webkit-font-smoothing: antialiased;
@@ -20,7 +20,7 @@ body .menu {
   background: inherit;
 }
 body .menu .mainmenu {
-  background: url(/static/img/admin/login/shows.jpg) no-repeat fixed;
+  background: url(/static/resource/img/admin/login/shows.jpg) no-repeat fixed;
   background-size: cover;
   background-position: 50%;
 }

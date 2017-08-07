@@ -227,7 +227,6 @@ $(document).ready(function () {
                         var backPage = $.trim($('#currentPage').text()) - 1;
                         window.open('showgallery?page=' + backPage + '&model=' + model, 'I1');
                     } else {
-                        alert('暂时无数据！');
                         window.location.reload();
                     }
                 } else {

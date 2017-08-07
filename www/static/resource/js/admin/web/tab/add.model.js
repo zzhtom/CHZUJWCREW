@@ -8,17 +8,11 @@ $(document).ready(function () {
             $('#title').focus().select();
             return false;
         }
-        if ($('#mdname').val().length == 0) {
-            $('#tips').html('<b>文件名称不能为空！</b>');
-            $('#mdname').focus().select();
-            return false;
-        }
         $.ajax({
             url: 'addmodel',
             data: {
                 model: getUrlParam('model'),
                 title: $('#title').val(),
-                mdname: $('#mdname').val(),
                 content: simplemde.value(),
             },
             type: 'post',
@@ -31,7 +25,7 @@ $(document).ready(function () {
                     alert("添加标题为:" + data.title + "的记录成功！");
                     window.location.reload();
                 } else {
-                    alert("添加标题为:" + data.title + "的记录失败！");
+                    alert("添加标题为:" + data.title + "的记录失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {
