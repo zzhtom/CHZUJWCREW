@@ -20,7 +20,7 @@ btn1[1].onclick=function(){
 		   setTimeout(function(){
 		       img.style.filter='alpha(opacity:'+30+')';
 	           img.style.opacity=0.3;},3000);
-		   img.src="/static/img/photograph/"+i+".jpg";
+		   img.src="/static/resource/img/photograph/"+i+".jpg";
 		   startmove(img,{opacity:100});
 	 },5000);
 	}else{
@@ -39,7 +39,7 @@ btn1[0].onclick=function(){
 	}
 	img.style.filter='alpha(opacity:'+100+')';
 	img.style.opacity=100;
-	img.src="/static/img/photograph/"+i+".jpg";
+	img.src="/static/resource/img/photograph/"+i+".jpg";
 };
 btn1[2].onclick=function(){
     btn1[1].value="Start";
@@ -51,12 +51,12 @@ btn1[2].onclick=function(){
 	}
 	img.style.filter='alpha(opacity:'+100+')';
 	img.style.opacity=100;
-	img.src="/static/img/photograph/"+i+".jpg";
+	img.src="/static/resource/img/photograph/"+i+".jpg";
 };
 }
 </script>
     <div id="main_pg">
-	    <div id="main1"><img src="/static/img/photograph/1.jpg" width="600" height="450" /></div>
+	    <div id="main1"><img src="/static/resource/img/photograph/1.jpg" width="600" height="450" /></div>
 		<div id="main2">
             <input type="submit" name="btn1" value=" &lt;&lt; " />
             &nbsp;&nbsp; 

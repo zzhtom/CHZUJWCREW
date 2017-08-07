@@ -7,35 +7,38 @@
 
     <title>添加成员</title>
 
-    <link rel="stylesheet" href="/static/css/admin/web/tab/update.css" media="screen" type="text/css" />
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/admin/web/tab/add.team.js"></script>
+    <link rel="stylesheet" href="/static/resource/css/admin/web/tab/update.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="/static/resource/css/spain/zzh.spain.css" media="screen" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="/static/resource/js/jquery.min.js"></script>
+    <script src="/static/resource/js/admin/web/tab/add.team.js"></script>
+    <script src="/static/resource/js/spain/zzh.spain.js"></script>
 </head>
 
 <body>
 
     <div class="container">
-        <form id="contact" enctype="multipart/form-data">
+        <div id="contact">
             <h3>
                 <%=addModel%> Information</h3>
             <h4>The following is add
                 <%=addModel%> Information</h4>
 
             <fieldset>
-                <input name="name" placeholder="请填写姓名" type="text" tabindex="1" required autofocus>
-                <input name="stuno" placeholder="请填写学号" type="text" tabindex="2" required >
-                <input name="major" placeholder="所学专业" type="text" tabindex="4" required >
+                <input name="name" placeholder="请填写姓名" type="text" tabindex="1"  autofocus>
+                <input name="stuno" placeholder="请填写学号" type="text" tabindex="2"  >
+                <input name="major" placeholder="所学专业" type="text" tabindex="4"  >
                 <input name="entrance" type="text" tabindex="3" style="display: none" />
                 <input name="model" type="text" tabindex="5" value="<%=addModel%>" style="display: none" />
             </fieldset>
             <fieldset>
-                <span style="font-size:1rem;color:black;">个人照片:</span><input name="photo" type="file" tabindex="6" accept="image/*" required />
+                <span style="font-size:1rem;color:black;">个人照片:</span><input name="photo" type="file" tabindex="6" accept="image/*"  />
             </fieldset>
             <fieldset>
                 <button type="submit" id="submit">Add</button>
             </fieldset>
     </div>
-    </form>
+    </div>
     <div style="text-align:center;clear:both">
     </div>
 </body>

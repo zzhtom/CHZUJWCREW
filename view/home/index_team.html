@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Team</title>
 	<!--<link rel="stylesheet" href="/static/css/main.css" />-->
-	<link href="/static/css/index.css" rel="stylesheet" type="text/css" />
+	<link href="/static/resource/css/index.css" rel="stylesheet" type="text/css" />
 	<style>
 		#preview {
 			margin-top: 0.1rem;
@@ -48,7 +48,7 @@
 			 width="1002" height="180">
 				<param name="movie" value="/static/falsh/banner.swf" />
 				<param name="quality" value="high" />
-				<embed src="/static/falsh/banner.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="1002" height="180"></embed>
+				<embed src="/static/resource/falsh/banner.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="1002" height="180"></embed>
 			</object>
 		</div>
 		<div id="nav">
@@ -68,7 +68,7 @@
 			<%data.forEach(function(item){%>
 				<div class="inner">
 					<div class="image">
-						<img class="zoom_pic" src="/resource/team/<%-item.mdname%>/<%-item.photo%>" rdata-zoom-image="/resource/team/<%-item.mdname%>/<%-item.photo%>"
+						<img class="zoom_pic" src="/static/web/resource/team/<%-item.mdname%>/<%-item.photo%>" rdata-zoom-image="/static/web/resource/team/<%-item.mdname%>/<%-item.photo%>"
 						 alt="" />
 					</div>
 					<div class="content">
@@ -82,9 +82,9 @@
 			<a class="nav next" href="javascript:void(0)"><span class="fa fa-chevron-right"></span></a>-->
 		</div>
 		<!-- Scripts -->
-		<script src="/static/js/jquery.min.js"></script>
-		<script src="/static/js/skel.min.js"></script>
-		<script src="/static/js/util.js"></script>
-		<script src="/static/js/main.js"></script>
+		<script src="/static/resource/js/jquery.min.js"></script>
+		<script src="/static/resource/js/skel.min.js"></script>
+		<script src="/static/resource/js/util.js"></script>
+		<script src="/static/resource/js/main.js"></script>
 		<div class="gap"></div>
 		<%include inc/footer.html%>
