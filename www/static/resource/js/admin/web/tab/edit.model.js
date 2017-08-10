@@ -1,7 +1,9 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
     var simplemde = new SimpleMDE();
+    var spain = new mySpain();
     $('#submit').click(function () {
+        spain.showSpain();
         $.ajax({
             url: 'editmodel',
             data: {
@@ -17,14 +19,19 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改标题为:" + data.title + "的记录成功！");
-                    window.location.reload();
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改标题为:" + data.title + "的记录成功！",true);
+                    }
                 } else {
-                    alert("修改标题为:" + data.title + "的记录失败！");
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改标题为:" + data.title + "的记录失败！",false);
+                    }
                 }
             },
             error: function () {
-                alert("网络异常！");
+                if (spain.closeSpain()) {
+                    spain.showPrompt("网络异常！",false);
+                }
             }
         });
     });

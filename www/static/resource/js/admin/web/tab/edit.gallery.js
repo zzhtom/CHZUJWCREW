@@ -1,13 +1,16 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
     var simplemde = new SimpleMDE();
+    var spain = new mySpain();
     $('.zoom_pic').elevateZoom({
         zoomType: "lens",
         lensShape: "round",
         lensSize: 150
     });
     // $('.zoom_pic').elevateZoom({ scrollZoom: true });
+
     $('#submit').click(function () {
+        spain.showSpain();
         $.ajax({
             url: 'editgallery',
             data: {
@@ -23,14 +26,19 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改图片:" + data.name + "故事成功！");
-                    window.location.reload();
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改图片:" + data.name + "故事成功！", true);
+                    }
                 } else {
-                    alert("修改图片:" + data.name + "故事失败！\n" + data.error);
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改图片:" + data.name + "故事失败！<br>" + JSON.stringify(data.error), false);
+                    }
                 }
             },
             error: function () {
-                alert("网络异常！");
+                if (spain.closeSpain()) {
+                    spain.showPrompt("网络异常！", false);
+                }
             }
         });
     });

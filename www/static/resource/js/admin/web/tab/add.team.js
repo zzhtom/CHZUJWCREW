@@ -21,6 +21,7 @@ $(document).ready(function () {
         // var content = '<a id="a"><b id="b">hey!</b></a>'; // 新文件的正文...
         // var blob = new Blob([content], { type: "text/xml" });
         // formData.append("webmasterfile", blob);
+        spain.showSpain();
         $.ajax({
             url: 'addteam',
             data: formData,
@@ -30,21 +31,30 @@ $(document).ready(function () {
             cache: false,
             success: function (data) {
                 if (data.success) {
-                    alert("添加成员信息:" + data.team.name + "的记录成功！");
-                    window.location.reload();
+                    // alert("添加成员信息:" + data.team.name + "的记录成功！");
+                    if(spain.closeSpain()){
+                        // window.location.reload();
+                        spain.showPrompt("添加成员信息:" + data.team.name + "的记录成功！", true);
+                    }
+                    // window.location.reload();
                     // $('#contact').get(0).reset();
                 } else {
-                    // spain.closeSpain();
-                    if (data.team.name === undefined){
-                        alert('访问数据库异常！');
+                    if (data.team.name === undefined && spain.closeSpain()){
+                        // alert('访问数据库异常！');
+                        spain.showPrompt("访问数据库异常！",false);
                         return;
+                    }else{
+                        if (spain.closeSpain()) {
+                            spain.showPrompt("添加成员为:" + data.team.name + "的记录失败！<br>" + JSON.stringify(data.error),false);
+                        }
                     }
-                    alert("添加成员为:" + data.team.name + "的记录失败！\n" + JSON.stringify(data.error));
                 }
             },
             error: function () {
-                // spain.closeSpain();
-                alert("网络异常！");
+                if(spain.closeSpain()){
+                    // alert("网络异常！");
+                    spain.showPrompt("网络异常！",false);
+                }  
             }
         });
     });

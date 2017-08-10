@@ -23,3 +23,57 @@ html {
     color: royalblue;
     line-height: 10rem;
 }
+
+.prompt_box {
+            background: gainsboro;
+            width: 30rem;
+            height: 15rem;
+            position: fixed;
+            left: 50%;
+            top: 30%;
+            z-index: 11;
+            margin: -10rem 0 0 -10rem;
+            text-align: center;
+        }
+
+.prompt_box .bar {
+    background: cornflowerblue;
+    width: 100%;
+    height: 2.5rem;
+    text-align: right;
+}
+
+.prompt_box .bar .drag {
+    width: 25rem;
+    height: 100%;
+    float: left;
+    cursor: move;
+}
+
+.prompt_box .bar .cls {
+    color: white;
+    line-height: 2.5rem;
+    margin-right: 1rem;
+}
+
+.msgDialog_box {
+    width: 80%;
+    height: 6rem;
+    margin: 1.25rem auto;
+    text-align: center;
+    font-size: 2rem;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.confirm_btn {
+    color: royalblue;
+    /*background: rgba(red, green, blue, 1);*/
+    /*background-color:transparent;*/
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 2rem;
+    width: 5rem;
+    padding: 0.1rem;
+    /*filter: alpha(opacity=50);
+    opacity: 0.5;*/
+}
