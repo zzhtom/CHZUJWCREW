@@ -103,7 +103,12 @@ $(document).ready(function () {
                         window.location.reload();
                     }
                 } else {
-                    alert("删除活动标题为:" + data.title + "的活动信息失败！\n" + JSON.stringify(data.error));
+                    if(data.title === undefined){
+                        alert('服务器异常，请检查相关日志！');
+                    }else{
+                        alert("删除活动标题为:" + data.title + "的活动信息失败！\n" + JSON.stringify(data.error));
+                    }
+                    
                 }
             },
             error: function () {

@@ -34,4 +34,4 @@ app/
 runtime/
 node_modules/
 www/resource
-src/common/config/db.js
+# src/common/config/db.js

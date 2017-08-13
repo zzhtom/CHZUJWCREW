@@ -24,12 +24,19 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     if (spain.closeSpain()) {
-                        spain.showPrompt("添加标题为:" + data.title + "的记录成功！", true);
+                        spain.showPrompt("添加标题为:<" + data.title + ">的记录成功！", true);
                     }
                 } else {
-                    if (spain.closeSpain()) {
-                        spain.showPrompt("添加标题为:" + data.title + "的记录失败！<br>" + JSON.stringify(data.error), false);
+                    if (data.title === undefined) {
+                        if (spain.closeSpain()) {
+                            spain.showPrompt("服务器异常，请检查相关日志！", false);
+                        }
+                    } else {
+                        if (spain.closeSpain()) {
+                            spain.showPrompt("添加标题为:" + data.title + "的记录失败！" + JSON.stringify(data.error), false);
+                        }
                     }
+
                 }
             },
             error: function () {

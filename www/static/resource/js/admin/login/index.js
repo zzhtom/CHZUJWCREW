@@ -1,69 +1,53 @@
 
-var form = $('.form');
 var btn = $('#submit');
-var topbar = $('.topbar');
-var input = $('#password');
-var article = $('.article');
-var tries = 0;
-var h = input.height();
-$('.spanColor').height(h + 23);
-$('#findpass').on('click', function () {
-  $(this).text('this-is-soo-cool');
-});
-input.on('focus', function () {
-  topbar.removeClass('error success');
-  input.text('');
-});
+$('#username').focus();
 btn.on('click', function () {
-  // if (tries <= 2) {
-    var username = $('#username').val();
-    var password = $('#password').val();
-/*    if (password === '1') {
-      setTimeout(function () {
-        btn.text('Success!');
-      }, 250);
-      topbar.addClass('success');*/
-      // window.location.href = '/admin/web/index/main?q=123';
-      post("/admin/web/index/main",{'username':username,'password':password});
-      // form.addClass('goAway');
-      // article.addClass('active');
-     /* tries = 0;
-    }
-    else {
-      topbar.addClass('error');
-      tries++;
-      switch (tries) {
-        case 0:
-          btn.text('Login');
-          break;
-        case 1:
-          setTimeout(function () {
-            btn.text('You have 2 tries left');
-          }, 300);
-          break;
-        case 2:
-          setTimeout(function () {
-            btn.text('Only 1 more');
-          }, 300);
-          break;
-        case 3:
-          setTimeout(function () {
-            btn.text('Recover password?');
-          }, 300);
-          input.prop('disabled', true);
-          topbar.removeClass('error');
-          input.addClass('disabled');
-          btn.addClass('recover');
-          break;
-          defaut:
-          btn.text('Login');
-          break;
-      }
-    }
+  var username = $('#username').val();
+  var password = $('#password').val();
+  // post("/admin/web/index/main", { 'username': username, 'password': password });
+  if (username === '' || username === null) {
+    layer.tips('用户名不能为空', '#username', {
+      tips: [1, '#c00']
+    });
+    $('#username').focus();
+    return;
   }
-  else {
-    topbar.addClass('disabled');
-  }*/
+  if (password === '' || password === null) {
+    layer.tips('密码不能为空', '#password', {
+      tips: [1, '#c00']
+    });
+    $('#password').focus();
+    return;
+  }
+  layer.load();
+  $.ajax({
+    url: 'login',
+    data: {
+      username: username,
+      password: password,
+    },
+    type: 'post',
+    cache: false,
+    dataType: 'json',
+    success: function (data) {
+      if (data.success) {
+        layer.closeAll('loading');
+        post(data.url, data.auth);
+      } else {
+        layer.closeAll('loading');
+        if (data.error === undefined) {
+          layer.msg('数据库初始化失败，请检查！！', { icon: 5 });
+        } else {
+          layer.msg(data.error, { icon: 5 });
+        }
+      }
+
+    },
+    error: function () {
+      layer.closeAll('loading');
+      layer.msg('网络错误！', { icon: 5 })
+    }
+  });
 
 });
 
@@ -71,24 +55,22 @@ $('.form').keypress(function (e) {
   if (e.keyCode == 13)
     submit.click();
 });
-input.keypress(function () {
-  topbar.removeClass('success error');
-});
 
 /*函数区域*/
-function post(URL, PARAMS) {
+function post(url, auth) {
   var postForm = document.createElement("form");
-  postForm.action = URL;
+  postForm.action = url;
   postForm.method = "post";
   postForm.style.display = "none";
-  for (var param in PARAMS) {
-    var opt = document.createElement("textarea");
-    opt.name = param;
-    opt.value = PARAMS[param];
-    // alert(opt.name)
-    postForm.appendChild(opt);
-  }
+  // for (var param in PARAMS) {
+  var opt = document.createElement("input");
+  opt.type = 'text';
+  opt.name = 'auth';
+  opt.value = auth;
+  // opt.value = PARAMS[param];
+  postForm.appendChild(opt);
+  // }
   document.body.appendChild(postForm);
   postForm.submit();
-  return postForm;
+  // return postForm;
 }

@@ -8,13 +8,13 @@
 				img1.style.opacity = 0.1;
 				if (i <= 6) {
 
-					img1.src = '/static/img/' + i + '.jpg';
+					img1.src = '/static/resource/img/' + i + '.jpg';
 					i++;
 					startmove(img1, { opacity: 100 });
 				}
 				if (i > 6) {
 					i = 1;
-					img1.src = '/static/img/' + i + '.jpg';
+					img1.src = '/static/resource/img/' + i + '.jpg';
 					startmove(img1, { opacity: 100 });
 				}
 			}, 10000);

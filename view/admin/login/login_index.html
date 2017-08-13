@@ -10,23 +10,13 @@
 </head>
 
 <body>
-  <div class="menu">
-    <ul class="mainmenu clearfix">
-      <li class="menuitem">Well</li>
-      <li class="menuitem">how</li>
-      <li class="menuitem">about</li>
-      <li class="menuitem">that?</li>
-    </ul>
-  </div>
-  <!--<button id="findpass">What's the password?</button>-->
   <div class="form">
     <div class="forceColor"></div>
     <!--<form>-->
       <div class="topbar">
         <div class="spanColor"></div>
         <fieldset>
-          <!--<legend style="color:red">管理员登陆</legend>-->
-          <input type="text" class="input" id="username" placeholder="username" value="<%=userInfo.username%>" required />
+          <input type="text" class="input" id="username" placeholder="username"  required />
           <input type="password" class="input" id="password" placeholder="Password" value autocomplete="off" />
         </fieldset>
       </div>
@@ -34,6 +24,7 @@
   </div>
   <!--</form>-->
   <script src='/static/resource/js/jquery.min.js'></script>
+  <script src="/static/resource/js/layer/layer.js"></script>
   <script src="/static/resource/js/admin/login/index.js"></script>
 </body>
 

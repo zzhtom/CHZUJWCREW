@@ -15,28 +15,31 @@ global.title = '滁院J舞社'
 // 随机数
 global.random = Math.random();
 // 查询数据库
-global.theme = function(self){
+global.theme = function (self) {
     // return self.model('theme').cache().field('tname,action').select();
     return self.model('theme').getTheme();
 }
-global.news = function(self){
+global.news = function (self) {
     return self.model('news').getNews();
 }
-global.activitys = function(self){
+global.activitys = function (self) {
     return self.model('activity').getActivity();
 }
-global.sites = function(self){
+global.sites = function (self) {
     return self.model('sites').getSites();
 }
-global.pagetitles = function(self){
+global.pagetitles = function (self) {
     return self.model('pagetitles').getPagetitles();
 }
-global.verificateAdmin = function(self,uname,password){
-    return self.model('admin').cache().where({username: uname,passwd:think.md5(password)}).find();
+global.verificateAdmin = function (self, uname, password) {
+    return self.model('admin').cache().where({ username: uname, passwd: think.md5(password) }).find();
 }
-global.poster = function(self){
+global.poster = function (self) {
     return self.model('poster').getPoster();
 }
-global.team = function(self){
+global.team = function (self) {
     return self.model('team').getTeam();
+}
+global.gallery = function (self) {
+    return self.model('gallery').getGallery();
 }
