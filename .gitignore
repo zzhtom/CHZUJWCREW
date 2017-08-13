@@ -33,6 +33,6 @@ output.tar.gz
 app/
 runtime/
 node_modules/
-www/resource
+www/static/web
 */.DS_Store 
 # src/common/config/db.js
