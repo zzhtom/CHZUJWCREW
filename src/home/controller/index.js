@@ -18,7 +18,6 @@ export default class extends Base {
     let sitesData = await global.sites(this);
     let pagetitlesData = await global.pagetitles(this);
     let poster = await global.poster(this);
-    // console.log(pagetitlesData);
     this.assign('themes', themesData);
     this.assign('news', newsData);
     this.assign('activitys', activitysData);

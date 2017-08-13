@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
     var simplemde = new SimpleMDE();
+    var spain = new mySpain();
     $('#submit').click(function () {
         if ($('#title').val().length == 0) {
             // $('#newsname').get(0).setCustomValidity("该字段不能为空！");
@@ -8,6 +9,7 @@ $(document).ready(function () {
             $('#title').focus().select();
             return false;
         }
+        spain.showSpain();
         $.ajax({
             url: 'addmodel',
             data: {
@@ -21,15 +23,26 @@ $(document).ready(function () {
             success: function (data) {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
-                    // $('#tips').html('');
-                    alert("添加标题为:" + data.title + "的记录成功！");
-                    window.location.reload();
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("添加标题为:<" + data.title + ">的记录成功！", true);
+                    }
                 } else {
-                    alert("添加标题为:" + data.title + "的记录失败！\n" + JSON.stringify(data.error));
+                    if (data.title === undefined) {
+                        if (spain.closeSpain()) {
+                            spain.showPrompt("服务器异常，请检查相关日志！", false);
+                        }
+                    } else {
+                        if (spain.closeSpain()) {
+                            spain.showPrompt("添加标题为:" + data.title + "的记录失败！" + JSON.stringify(data.error), false);
+                        }
+                    }
+
                 }
             },
             error: function () {
-                alert("网络异常！");
+                if (spain.closeSpain()) {
+                    spain.showPrompt("网络异常！", false);
+                }
             }
         });
     });

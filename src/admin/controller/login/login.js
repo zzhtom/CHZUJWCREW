@@ -8,14 +8,26 @@ export default class extends Base {
    * @return {Promise} []
    */
   async indexAction() {
-    //auto render template file index_index.html
-    let values = await this.session('userInfo');
-    if(values != undefined){
-      this.assign('userInfo', values);
-    }else{
-      this.assign('userInfo', '');
+    if (this.isPost()) {
+      let parms = this.post();
+      let verficate = await global.verificateAdmin(this, parms.username, parms.password);
+      let auth = think.md5(parms.username + parms.password);
+      if (think.isEmpty(verficate)) {
+        return this.json({
+          success: false,
+          error: '用户名或密码错误！'
+        });
+      } else {
+        await this.session('userInfo', parms);
+        return this.json({
+          success: true,
+          url: '/admin/web/index/main',
+          auth: auth
+        });
+      }
+    } else {
+      await this.session();
+      return this.display();
     }
-    await this.session();
-    return this.display();
   }
 }

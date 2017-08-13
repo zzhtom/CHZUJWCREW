@@ -7,4 +7,7 @@ export default class extends think.model.base {
         //查询 news 的总条数
         return this.count();
     }
+    flushActivity(){
+        this.cache('getActivity',null);
+    }
 }

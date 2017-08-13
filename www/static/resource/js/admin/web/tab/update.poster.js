@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
+    var spain = new mySpain();
     $('#submit').click(function () {
         if ($("#submit").text() == 'Update') {
             $("#submit").text('Submit');
@@ -12,6 +13,7 @@ $(document).ready(function () {
             $("input[name='ntheme']").focus().select();
             return false;
         }
+        spain.showSpain();
         $.ajax({
             url: 'uposter',
             data: {
@@ -26,17 +28,23 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改主题为:" + data.theme + "成功！");
-                    $("input[name='ntheme']").val(data.theme);
-                    $("input[name='otheme']").val(data.theme);
-                    $("#submit").text('Update');
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改主题为:" + data.theme + "成功！",false);
+                        $("input[name='ntheme']").val('');
+                        $("input[name='otheme']").val(data.theme);
+                        $("#submit").text('Update');
+                    }
                     // window.location.reload();
                 } else {
-                    alert("修改标题为:" + data.theme + "的记录失败！");
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改标题为:" + data.theme + "的记录失败！",false);
+                    }
                 }
             },
             error: function () {
-                alert("网络异常！");
+                if (spain.closeSpain()) {
+                    spain.showPrompt("网络异常！",false);
+                }
             }
         });
     });

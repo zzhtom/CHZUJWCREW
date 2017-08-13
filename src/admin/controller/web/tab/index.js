@@ -1,6 +1,6 @@
 'use strict';
 
-import Base from '../../base.js';
+import Base from '../base.js';
 var fs = require("fs");
 var path = require('path');
 const uuid = require('uuid/v1');
@@ -33,6 +33,11 @@ export default class extends Base {
           action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
         await model.commit();
+        if (data.model === 'activity') {
+          await this.cache('getActivity', null);
+        } else {
+          await this.cache('getNews', null);
+        }
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
@@ -81,16 +86,23 @@ export default class extends Base {
           id: this.post().id,
           title: this.post().title
         });
+      if (this.post().model === 'activity') {
+        await this.cache('getActivity', null);
+      } else {
+        await this.cache('getNews', null);
+      }
       return this.json({
         success: true,
         id: this.post().id,
         title: this.post().title
       });
+    } else {
+      this.assign('model', this.get().model);
+      this.assign('id', this.get().id);
+      this.assign('title', this.get().title);
+      return this.display();
     }
-    this.assign('model', this.get().model);
-    this.assign('id', this.get().id);
-    this.assign('title', this.get().title);
-    return this.display();
+
   }
   async showmodelAction() {
     //auto render template file index_shownews.html
@@ -112,6 +124,11 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ id: data.id }).delete();
         await model.commit();
+        if (data.model === 'activity') {
+          await this.cache('getActivity', null);
+        } else {
+          await this.cache('getNews', null);
+        }
         fs.unlink(think.MD_PATH + '/' + data.model + '/' + data.mdname + '.md', (err) => {
           if (!!err) {
             think.log(err, 'ERROR');
@@ -158,6 +175,11 @@ export default class extends Base {
           });
         }
         await model.commit();
+        if (data.model === 'activity') {
+          await this.cache('getActivity', null);
+        } else {
+          await this.cache('getNews', null);
+        }
         return this.json({
           success: true,
           error: ''
@@ -187,7 +209,7 @@ export default class extends Base {
           think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
           return this.json({
             success: true,
-            title: data.title | data.name,
+            title: data.title,
             error: ''
           });
         }
@@ -265,6 +287,7 @@ export default class extends Base {
         return this.fail('更新' + themes[i - 1] + '信息失败');
     }
     let msg = "modify success!"
+    await this.cache('getTheme', null);
     return this.redirect('theme?msg=' + msg);
   }
   async passwdAction() {
@@ -301,7 +324,7 @@ export default class extends Base {
       let data = this.post();
       let model = this.model(data.model);
       let userInfo = await this.session('userInfo');
-       let mdpath = think.MD_PATH + '/' + data.model;
+      let mdpath = think.MD_PATH + '/' + data.model;
       try {
         await model.startTrans();
         var file = think.extend({}, this.file('image'));
@@ -312,7 +335,8 @@ export default class extends Base {
           theme: data.theme, cuser: userInfo.username, pname: pname, uuser: userInfo.username, mdname: mdname,
           action: '/' + data.model + '/index', ctime: think.datetime(), utime: think.datetime()
         });
-        await model.commit();  
+        await model.commit();
+        await this.cache('getPoster', null);
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
@@ -368,6 +392,7 @@ export default class extends Base {
           await model.where({ theme: this.post().theme }).update({ show: 1 });
         }
         await model.commit();
+        await this.cache('getPoster', null);
         return this.json({
           success: true,
           theme: this.post().theme,
@@ -397,6 +422,7 @@ export default class extends Base {
           success: false,
           theme: this.post().ntheme
         });
+      await this.cache('getPoster', null);
       return this.json({
         success: true,
         theme: this.post().ntheme
@@ -430,6 +456,7 @@ export default class extends Base {
           }
         });
         await model.commit();
+        await this.cache('getPoster', null);
         return this.json({
           success: true,
           theme: data.theme,
@@ -472,6 +499,7 @@ export default class extends Base {
           });
         }
         await model.commit();
+        await this.cache('getPoster', null);
         return this.json({
           success: true,
           error: ''
@@ -556,6 +584,7 @@ export default class extends Base {
           }
         });
         await model.commit();
+        await this.cache('getGallery', null);
         return this.json({
           success: true,
           name: data.name,
@@ -600,6 +629,7 @@ export default class extends Base {
           });
         }
         await model.commit();
+        await this.cache('getGallery', null);
         return this.json({
           success: true,
           error: ''
@@ -643,6 +673,7 @@ export default class extends Base {
         think.mkdir(galleryPath);
         fs.renameSync(filepath, galleryPath + '/' + name);
         await model.commit();
+        await this.cache('getGallery', null);
         return this.json({
           success: true,
           error: ''
@@ -697,6 +728,7 @@ export default class extends Base {
           ctime: think.datetime(), utime: think.datetime()
         });
         await model.commit();
+        await this.cache('getTeam', null);
         if (!think.isDir(mdpath)) {
           think.mkdir(mdpath);
         }
@@ -780,6 +812,7 @@ export default class extends Base {
         await model.startTrans();
         await model.where({ stuno: data.stuno }).delete();
         await model.commit();
+        await this.cache('getTeam', null);
       } catch (err) {
         await model.rollback();
         return this.json({
@@ -846,6 +879,7 @@ export default class extends Base {
           });
         }
         await model.commit();
+        await this.cache('getTeam', null);
         return this.json({
           success: true,
           error: ''
@@ -890,6 +924,7 @@ export default class extends Base {
         } else {
           think.log(`${data.mdname}.md文件编辑成功`, 'INFO');
           await model.commit();
+          await this.cache('getTeam', null);
           return this.json({
             success: true,
             team: { name: this.post().name, stuno: this.post().stuno },

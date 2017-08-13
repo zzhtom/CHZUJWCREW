@@ -1,7 +1,9 @@
 $(document).ready(function () {
     $('h3').html($('h3').html().toUpperCase());
     var simplemde = new SimpleMDE();
+    var spain = new mySpain();
     $('#submit').click(function () {
+        spain.showSpain();
         $.ajax({
             url: 'editteam',
             data: {
@@ -17,14 +19,20 @@ $(document).ready(function () {
                 // var jsonData = JSON.stringify(data);
                 if (data.success) {
                     // $('#tips').html('');
-                    alert("修改标题为:" + data.team.name + "的记录成功！");
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改标题为:" + data.team.name + "的记录成功！", true);
+                    }
                     window.location.reload();
                 } else {
-                    alert("修改标题为:" + data.team.name + "的记录失败！\n" + JSON.stringify(data.error));
+                    if (spain.closeSpain()) {
+                        spain.showPrompt("修改标题为:" + data.team.name + "的记录失败！<br>" + JSON.stringify(data.error), false);
+                    }
                 }
             },
             error: function () {
-                alert("网络异常！");
+                if (spain.closeSpain()) {
+                    spain.showPrompt("网络异常！", false);
+                }
             }
         });
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-import Base from '../base.js';
+import Base from './base.js';
 
 export default class extends Base {
   /**
@@ -9,16 +9,16 @@ export default class extends Base {
    */
   async mainAction() {
     //auto render template file index_mian.html
-    let parms = this.post();
-    let verficate = await global.verificateAdmin(this, parms.username, parms.password);
-    if (think.isEmpty(verficate)) {
-      // return this.display('main');
-      this.assign('msg', '用户名或者密码错误！');
-      return this.fail(this.assign("msg"));
-      // return this.redirect('/admin/login/login');
+    if(this.isPost()){
+      let userInfo = await this.session('userInfo');
+      if(think.md5(userInfo.username + userInfo.password) === this.post().auth){
+        return this.display();
+      }else{
+        return this.redirect('/admin/login/login');
+      } 
+    }else{
+      return this.redirect('/admin/login/login');
     }
-    await this.session('userInfo', parms);
-    return this.display();
   }
   /**
    * top action
