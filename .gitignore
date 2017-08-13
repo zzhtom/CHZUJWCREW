@@ -34,5 +34,5 @@ app/
 runtime/
 node_modules/
 www/static/web
-# */.DS_Store 
+*/.DS_Store 
 # src/common/config/db.js
