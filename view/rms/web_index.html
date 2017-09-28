@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="renderer" content="webkit">
+    <title>Home</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+    <link rel="stylesheet" href="/static/resource/rms/component/layui/css/layui.css" media="all" />
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+        /*头部占位栏设置*/
+
+        .header {
+            width: 100%;
+            height: 60px;
+            background-color: #000;
+        }
+
+        .header .layui-nav {
+            background-color: #000;
+            text-align: center;
+        }
+
+        .logo {
+            color: #fff;
+            float: left;
+            line-height: 60px;
+            font-size: 20px;
+            padding: 0 25px;
+            text-align: center;
+            width: 150px;
+        }
+        /*顶部右侧导航*/
+
+        .layui-nav .layui-nav-item>a {
+            color: #fff;
+        }
+
+        .right_nav {
+            position: absolute;
+            right: 0;
+        }
+
+        .right_nav.layui-nav .layui-this:after {
+            width: 0px;
+        }
+        /*
+        .right_nav.layui-nav .layui-this,
+        .closeBox.layui-nav .layui-this {
+            background-color: transparent;
+        }
+        .right_nav.layui-nav .layui-this a,
+        .closeBox.layui-nav .layui-this a {
+            color: #c2c2c2;
+        }
+        .right_nav.layui-nav dd.layui-this a,
+        .closeBox.layui-nav dd.layui-this a {
+            color: #333;
+        }
+        .right_nav.layui-nav .layui-nav-child a:hover,
+        .closeBox.layui-nav .layui-nav-child a:hover {
+            color: #fff;
+            background-color: #5FB878;
+        }*/
+
+        .right_nav .layui-nav-bar {
+            top: 60px !important;
+            background-color: rgba(0, 0, 0, 0.7)
+        }
+        /*左侧菜单设置*/
+
+        .menu {
+            width: 200px;
+            position: absolute;
+            background-color: #393D49;
+            top: 60px;
+            bottom: 0px;
+        }
+
+        .menu .layui-nav {
+            width: 100%;
+        }
+        /*头像设置*/
+
+        .user-photo {
+            width: 200px;
+            height: 120px;
+            padding-top: 15px;
+            padding-bottom: 5px;
+        }
+
+        .user-photo .avator {
+            display: block;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+        }
+
+        .user-photo .avator img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border: 4px solid #44576b;
+        }
+
+        .user-photo p {
+            width: 100%;
+            height: 25px;
+            color: #ffffff;
+            text-align: center;
+            font-size: 12px;
+            white-space: nowrap;
+            line-height: 25px;
+            overflow: hidden;
+        }
+        /*右侧body*/
+
+        .tab-form {
+            overflow: hidden;
+            position: absolute;
+            top: 60px;
+            left: 200px;
+            right: 0px;
+            bottom: 0px;
+            border-top: 5px solid #1AA094;
+            border-left: 2px solid #1AA094;
+        }
+
+        /* #tabs-box {
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            margin: 0px;
+            bottom: 0px;
+            padding-right: 138px;
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+        #tabs-box .right-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            right: 0px;
+            left: 0px;
+        } */
+
+        .layui-tab {
+            margin: 0;
+        }
+
+        .tab-title {
+            position: absolute;
+            /* border-bottom: none;
+            border-bottom: 1px solid #cccccc;
+            font-size: 14px;
+            background-color: #acacac;
+            color: #ffffff; */
+        }
+        /*多窗口页面操作下拉*/
+
+        .closeBox {
+            position: absolute;
+            right: 0;
+            background-color: #fff !important;
+            color: #000;
+            border-left: 1px solid #e2e2e2;
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+        .closeBox .layui-nav-item {
+            line-height: 40px;
+        }
+
+        .closeBox .layui-nav-item a,
+        .closeBox .layui-nav-item a:hover {
+            color: #000;
+        }
+
+        .closeBox .layui-nav-more {
+            top: 17px;
+        }
+
+        .closeBox .layui-nav-mored {
+            top: 11px;
+        }
+
+        .closeBox .layui-nav-child {
+            top: 42px;
+            left: -12px;
+        }
+
+        .closeBox .layui-nav-bar {
+            display: none;
+        }
+
+        .closeBox .icon-caozuo {
+            font-size: 20px;
+            position: absolute;
+            top: 1px;
+            left: -2px;
+        }
+        /* .layui-body {
+            overflow: hidden;
+            border-top: 5px solid #1AA094;
+            border-left: 2px solid #1AA094;
+        } */
+        /* .layui-tab-content {
+            height: 100%;
+            padding: 0;
+        }
+
+        .layui-tab-item {
+            position: absolute;
+            top: 41px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            -webkit-overflow-scrolling: touch;
+            overflow: auto;
+        }
+
+        .layui-tab-title .layui-this {
+            background-color: #1AA094;
+            color: #fff;
+        }
+
+        .layui-tab-title .layui-this:after {
+            border: none;
+        }
+
+        .layui-tab-title li cite {
+            font-style: normal;
+            padding-left: 5px;
+        }
+
+        .clildFrame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }*/
+
+        .layui-tab-content {
+            position: absolute;
+            top: 40px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            padding-right: 0;
+        }
+
+        .layui-tab-item {
+            position: absolute;
+            top: 10px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            -webkit-overflow-scrolling: touch;
+            overflow: auto;
+        }
+
+        .layui-tab-content iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            min-width: 320px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="#" class="logo">资源管理系统</a>
+        <!-- 顶部右侧菜单 -->
+        <ul class="layui-nav right_nav">
+
+            <li class="layui-nav-item showNotice" id="showNotice" pc>
+                <a href="javascript:;"><i class="layui-icon" style="font-size: 16px;margin-right:2.5px;">&#xe645;</i><cite>系统公告</cite></a>
+            </li>
+            <!-- <li class="layui-nav-item" mobile>
+                <a href="javascript:;" class="mobileAddTab" data-url=""><i class="layui-icon" style="font-size: 16px;margin-right:2.5px;"></i><cite>设置</cite></a>
+            </li> -->
+            <li class="layui-nav-item lockcms" pc>
+                <a href="javascript:;"><i class="iconfont icon-lock1" style="font-size: 16px;margin-right:2.5px;" ></i><cite>锁屏</cite></a>
+            </li>
+            <li class="layui-nav-item" pc>
+                <a href="javascript:;">
+							<img src="/static/resource/rms/images/avator/avator.png" class="layui-circle" width="35" height="35">
+							<cite>Admin</cite>
+						</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" data-url="web/userinfo"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><span>个人资料</span></a></dd>
+                    <dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><span>修改密码</span></a></dd>
+                    <dd><a href="javascript:;" class="changeSkin"><i class="iconfont icon-huanfu"></i><span>更换皮肤</span></a></dd>
+                    <dd><a href="#" class="signOut"><i class="iconfont icon-loginout"></i><span>退出</span></a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!-- 左侧菜单 -->
+    <div class="menu">
+        <div class="user-photo">
+            <a class="avator" title="我的头像"><img src="/static/resource/rms/images/avator/avator.png"></a>
+            <p>你好！<span class="userName">Admin</span>, 欢迎登录</p>
+        </div>
+        <ul class="layui-nav layui-nav-tree side-nav" lay-filter="sideNavgation">
+            <!--侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">资源管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" data-url='web/users'><span>用户管理</span></a></dd>
+                    <dd><a href="javascript:;" data-url='t.html'><span>新闻管理</span></a></dd>
+                    <dd><a href="">跳转</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">文档管理</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">系统设置</a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="tab-form layui-form">
+        <div class="layui-tab right-body" lay-filter="mainTab" >
+                <!-- lay-allowClose="false" -->
+            <ul class="layui-tab-title tab-title">
+                <li class="layui-this" lay-id='0'><span>首页</span></li>
+            </ul>
+            <ul class="layui-nav closeBox">
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="iconfont icon-caozuo"></i> 页面操作</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" class="closePageOther"><i class="iconfont icon-prohibit"></i> 关闭其他</a></dd>
+                        <dd><a href="javascript:;" class="closePageAll"><i class="iconfont icon-guanbi"></i> 关闭全部</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="layui-tab-content tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe src="page/main.html"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/resource/rms/component/layui/layui.js"></script>
+    <script>
+        layui.use(['element','jquery'], function () {
+            var element = layui.element,
+                $ = layui.jquery;
+            //iframe自适应
+            $(window).on('resize', function () {
+                var $right_body = $('.right-body');
+                $right_body.height($(this).height() - 145);
+                $right_body.find('iframe').each(function () {
+                    $(this).height($right_body.height());
+                });
+            }).resize();
+            //添加tab
+            var $title = $('.tab-title'); //tab标题
+            var $tabContainers = $('.tab-content'); //tab 内容块
+            var $sideNav = $('.side-nav'); //侧边导航
+            //给nav绑定事件
+            $('.layui-nav .layui-nav-item .layui-nav-child dd> a').each(function () {
+                var $nav = $(this);
+                var url = $nav.data('url'); //tab内容的地址
+                //获取设定的url
+                if (url !== undefined) {
+                    $nav.on('click', function () {
+                        var tabTitle = $nav.html();
+                        var count = 0;
+                        var tabId = $title.find('li:last-child').attr('lay-id');
+                        $title.find('li').each(function (i, e) {
+                            if ($(this).find('span').text() === $nav.text()) {
+                                count++;
+                                tabId = $(this).attr('lay-id');
+                            };
+                        });
+                        if (count === 0) {
+                            //添加删除样式
+                            tabTitle += '<i class="layui-icon layui-unselect layui-tab-close">&#x1006;</i>';
+                            //添加tab
+                            element.tabAdd('mainTab', {
+                                title: tabTitle,
+                                content: '<iframe src="' + url + '"></iframe>',
+                                id: tabId + 1
+                            });
+                            tabId = $title.find('li:last-child').attr('lay-id');
+                            //iframe 自适应
+                            var $content = $('.layui-tab-content');
+                            $content.find('iframe').each(function () {
+                                $(this).height($content.height());
+                            });
+                            //点击tab li切换导航，切换侧边导航的layui-this
+                            var $li = $title.find('li');
+                            $li.on('click', function () {
+                                var thisPage = $(this).find('span').text(); //当前显示页的标题
+                                var sidePage = $sideNav.find('dd.layui-this').find('a').text(); //当前侧面导航显示的标题
+                                if (thisPage != sidePage) {
+                                    $sideNav.find('dd').each(function () {
+                                        if ($(this).find('a').text() === thisPage) {
+                                            $sideNav.find('.layui-nav-child >dd').removeClass('layui-this');
+                                            $(this).addClass('layui-this');
+                                        }
+                                    })
+                                    if (thisPage == '首页') { //始终留置一个tab
+                                        $sideNav.find('.layui-nav-child >dd').removeClass('layui-this');
+                                    }
+                                }
+                            })
+                            //给tab-nav绑定关闭事件
+                            $li.eq($li.length - 1).children('i.layui-tab-close').on('click', function () {
+                                element.tabDelete('mainTab', tabId);
+                                var thisPage = $title.find('li.layui-this').find('span').text(); //当前显示页的标题
+                                var sidePage = $sideNav.find('dd.layui-this').find('a').text(); //当前侧面导航显示的标题
+                                if (thisPage != sidePage) {
+                                    $sideNav.find('dd').each(function () {
+                                        if ($(this).find('span').text() == thisPage) {
+                                            $sideNav.find('.layui-nav-child >dd').removeClass('layui-this');
+                                            $(this).addClass('layui-this');
+                                        }
+                                    })
+                                    if (thisPage == '首页') { //始终留置一个tab
+                                        $sideNav.find('.layui-nav-child >dd').removeClass('layui-this');
+                                    }
+                                }
+                            });
+                            //获取焦点
+                            element.tabChange('mainTab', tabId);
+                        } else {
+                            //切换tab
+                            element.tabChange('mainTab', tabId);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
