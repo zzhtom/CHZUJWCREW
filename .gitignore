@@ -37,3 +37,4 @@ www/static/web
 */.DS_Store 
 # src/common/config/db.js
 package-lock.json
+.DS_Store 
