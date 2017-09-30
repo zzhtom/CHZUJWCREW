@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>layui</title>
+  <title>用户列表</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,33 +13,35 @@
 <body>
 
   <blockquote class="layui-elem-quote">
-    Admin 个人信息
+    用户列表信息
   </blockquote>
 
-
   <div class="site-demo-button layui-form" id="optionGlobal" style="margin-bottom: 0; margin-right: 20px;" align="right">
-    <input type="checkbox" name="" title="全选" lay-skin="primary" >
+    <input type="checkbox" name="" title="全选" lay-skin="primary">
     <button data-method="addUser" class="layui-btn add-btn">新增</button>
     <button data-method="setTop" class="layui-btn delete-btn">删除</button>
   </div>
-  <!-- table 信息 -->
-  <table class="layui-table" lay-size="lg" lay-data="{height:600, url:'http://www.layui.com/demo/table/user/1?page=1&limit=30', page:true, id:'test'}"
-    lay-filter="test">
-    <thead>
-      <tr>
-        <th lay-data="{field:'id', width:100, fixed: true}">选择</th>
-        <th lay-data="{field:'uname', width:100, sort: true, fixed: true}">用户名</th>
-        <th lay-data="{field:'username', width:100}">姓名</th>
-        <th lay-data="{field:'sex', width:100, sort: true}">性别</th>
-        <th lay-data="{field:'city', width:100}">电话</th>
-        <th lay-data="{field:'sign', width:100}">邮箱</th>
-        <th lay-data="{field:'experience', width:180}">个人主页</th>
-        <th lay-data="{field:'rtime', width:180, sort: true}">注册时间</th>
-        <th lay-data="{field:'utime', width:180, sort: true}">更新时间</th>
-        <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barOption'}">操作</th>
-      </tr>
-    </thead>
-  </table>
+  <div style="width:1000px; margin: 0 auto;">
+    <!-- table 信息 -->
+    <table class="layui-table" lay-size="lg" lay-data="{height:600, url:'http://www.layui.com/demo/table/user/1?page=1&limit=30', page:true, id:'test'}"
+      lay-filter="test">
+      <thead>
+        <tr>
+          <!-- <th lay-data="{checkbox:true, fixed: true}"></th> -->
+          <th lay-data="{field:'id', width:100, sort: true, fixed: true}">ID</th>
+          <th lay-data="{field:'uname', width:100, sort: true, fixed: true}">用户名</th>
+          <th lay-data="{field:'username', width:100}">姓名</th>
+          <th lay-data="{field:'sex', width:100, sort: true}">性别</th>
+          <th lay-data="{field:'city', width:100}">电话</th>
+          <th lay-data="{field:'sign', width:100}">邮箱</th>
+          <th lay-data="{field:'experience', width:100}">个人主页</th>
+          <th lay-data="{field:'rtime', width:100, sort: true}">注册时间</th>
+          <th lay-data="{field:'utime', width:100, sort: true}">更新时间</th>
+          <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barOption'}">操作</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
   <script type="text/html" id="barOption">
     <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
@@ -49,7 +51,7 @@
   <script>
     layui.use(['layer', 'table', 'form'], function () {
       var $ = layui.jquery, layer = layui.layer, table = layui.table,
-      form = layui.form;
+        form = layui.form;
 
       //触发事件
       var active = {
@@ -59,11 +61,12 @@
           layer.open({
             type: 2 //此处以iframe举例
             , title: '添加用户'
-            , area: ['800px', '500px']
+            , area: ['800px', '750px']
             , shade: 0
             , maxmin: true
-            , offset: [ //为了演示，随机坐标
-              $(window).height() / 2 - 250
+            , offset: [
+              // $(window).height() / 2 - 250
+              50
               , $(window).width() / 2 - 400
             ]
             , content: 'adduser'

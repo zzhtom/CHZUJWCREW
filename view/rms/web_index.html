@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="renderer" content="webkit">
-    <title>Home</title>
+    <title>资源管理系统</title>
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
     <link rel="stylesheet" href="/static/resource/rms/component/layui/css/layui.css" media="all" />
     <style>
@@ -138,7 +138,6 @@
             border-top: 5px solid #1AA094;
             border-left: 2px solid #1AA094;
         }
-
         /* #tabs-box {
             position: absolute;
             left: 0px;
@@ -324,9 +323,9 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">资源管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" data-url='web/users'><span>用户管理</span></a></dd>
-                    <dd><a href="javascript:;" data-url='t.html'><span>新闻管理</span></a></dd>
-                    <dd><a href="">跳转</a></dd>
+                    <dd><a href="javascript:;" data-url='web/userlist'><span>用户管理</span></a></dd>
+                    <dd><a href="javascript:;" data-url='web/newslist'><span>新闻管理</span></a></dd>
+                    <dd><a href="#">跳转</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="">文档管理</a></li>
@@ -338,17 +337,17 @@
     </div>
     <!-- 右侧内容 -->
     <div class="tab-form layui-form">
-        <div class="layui-tab right-body" lay-filter="mainTab" >
-                <!-- lay-allowClose="false" -->
+        <div class="layui-tab right-body" lay-filter="main_tab">
+            <!-- lay-allowClose="false" -->
             <ul class="layui-tab-title tab-title">
                 <li class="layui-this" lay-id='0'><span>首页</span></li>
             </ul>
-            <ul class="layui-nav closeBox">
+            <ul class="layui-nav closeBox" lay-filter="close_tab">
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="iconfont icon-caozuo"></i> 页面操作</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" class="closePageOther"><i class="iconfont icon-prohibit"></i> 关闭其他</a></dd>
-                        <dd><a href="javascript:;" class="closePageAll"><i class="iconfont icon-guanbi"></i> 关闭全部</a></dd>
+                        <dd apply="closePageOther"><a href="javascript:;"><i class="iconfont icon-prohibit"></i> 关闭其他</a></dd>
+                        <dd apply="closePageAll"><a href="javascript:;"><i class="iconfont icon-guanbi"></i> 关闭全部</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -361,7 +360,7 @@
     </div>
     <script type="text/javascript" src="/static/resource/rms/component/layui/layui.js"></script>
     <script>
-        layui.use(['element','jquery'], function () {
+        layui.use(['element', 'jquery'], function () {
             var element = layui.element,
                 $ = layui.jquery;
             //iframe自适应
@@ -396,7 +395,7 @@
                             //添加删除样式
                             tabTitle += '<i class="layui-icon layui-unselect layui-tab-close">&#x1006;</i>';
                             //添加tab
-                            element.tabAdd('mainTab', {
+                            element.tabAdd('main_tab', {
                                 title: tabTitle,
                                 content: '<iframe src="' + url + '"></iframe>',
                                 id: tabId + 1
@@ -426,7 +425,7 @@
                             })
                             //给tab-nav绑定关闭事件
                             $li.eq($li.length - 1).children('i.layui-tab-close').on('click', function () {
-                                element.tabDelete('mainTab', tabId);
+                                element.tabDelete('main_tab', tabId);
                                 var thisPage = $title.find('li.layui-this').find('span').text(); //当前显示页的标题
                                 var sidePage = $sideNav.find('dd.layui-this').find('a').text(); //当前侧面导航显示的标题
                                 if (thisPage != sidePage) {
@@ -442,14 +441,42 @@
                                 }
                             });
                             //获取焦点
-                            element.tabChange('mainTab', tabId);
+                            element.tabChange('main_tab', tabId);
                         } else {
                             //切换tab
-                            element.tabChange('mainTab', tabId);
+                            element.tabChange('main_tab', tabId);
                         }
                     });
                 }
             });
+            /**
+             * 功能： 删除选项卡
+             * 说明： 删除全部，删除其他
+             * 时间： 2017年09月30日
+             */
+            element.on('nav(close_tab)', function (elem) {
+                // console.log(elem); //得到当前点击的DOM对象
+                var apply = $(elem).attr('apply');
+                if (apply === 'closePageOther') {
+                    $('.tab-title li').each(function () {
+                        if ($(this).attr('lay-id') === '0' || $(this).attr('class') === 'layui-this') {
+                            return;
+                        } else {
+                            element.tabDelete('main_tab', $(this).attr('lay-id'));
+                        }
+                    });
+                } else if (apply === 'closePageAll') {
+                    $('.tab-title li').each(function () {
+                        if ($(this).attr('lay-id') === '0') {
+                            element.tabChange('main_tab', $(this).attr('lay-id'));
+                            $('.layui-nav-child >dd').removeClass('layui-this');
+                        } else {
+                            element.tabDelete('main_tab', $(this).attr('lay-id'));
+                        }
+                    }); 
+                }
+            });
+
         });
     </script>
 </body>

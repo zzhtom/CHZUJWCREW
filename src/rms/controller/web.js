@@ -13,10 +13,16 @@ export default class extends Base {
   userinfoAction() {
     return this.display();
   }
-  usersAction() {
+  userlistAction() {
     return this.display();
   }
   adduserAction() {
+    return this.display();
+  }
+  newslistAction() {
+    return this.display();
+  }
+  addnewsAction() {
     return this.display();
   }
 }
