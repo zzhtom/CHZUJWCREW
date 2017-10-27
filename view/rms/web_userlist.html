@@ -9,6 +9,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="/static/resource/rms/component/layui/css/layui.css" media="all">
 </head>
+<style>
+  .userlist {
+    width: 1300px;
+    margin: 0 auto;
+  }
+</style>
 
 <body>
 
@@ -17,27 +23,28 @@
   </blockquote>
 
   <div class="site-demo-button layui-form" id="optionGlobal" style="margin-bottom: 0; margin-right: 20px;" align="right">
-    <input type="checkbox" name="" title="全选" lay-skin="primary">
+    <!-- <input type="checkbox" name="" title="全选" lay-skin="primary"> -->
     <button data-method="addUser" class="layui-btn add-btn">新增</button>
     <button data-method="setTop" class="layui-btn delete-btn">删除</button>
   </div>
-  <div style="width:1000px; margin: 0 auto;">
+  <div class="userlist">
     <!-- table 信息 -->
-    <table class="layui-table" lay-size="lg" lay-data="{height:600, url:'http://www.layui.com/demo/table/user/1?page=1&limit=30', page:true, id:'test'}"
-      lay-filter="test">
+    <table class="layui-table" lay-size="lg" lay-data="{height:600, url:'/rms/data/getalladmin', page:true, id:'userlist'}" lay-filter="userlist">
       <thead>
         <tr>
-          <!-- <th lay-data="{checkbox:true, fixed: true}"></th> -->
-          <th lay-data="{field:'id', width:100, sort: true, fixed: true}">ID</th>
-          <th lay-data="{field:'uname', width:100, sort: true, fixed: true}">用户名</th>
-          <th lay-data="{field:'username', width:100}">姓名</th>
+          <th lay-data="{checkbox:true, fixed: true}"></th>
+          <th lay-data="{field:'id', width:90, sort: true, fixed: true}">序号</th>
+          <th lay-data="{field:'username', width:100, sort: true, fixed: true}">用户名</th>
+          <th lay-data="{field:'realname', width:100}">姓名</th>
           <th lay-data="{field:'sex', width:100, sort: true}">性别</th>
-          <th lay-data="{field:'city', width:100}">电话</th>
-          <th lay-data="{field:'sign', width:100}">邮箱</th>
-          <th lay-data="{field:'experience', width:100}">个人主页</th>
-          <th lay-data="{field:'rtime', width:100, sort: true}">注册时间</th>
-          <th lay-data="{field:'utime', width:100, sort: true}">更新时间</th>
-          <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barOption'}">操作</th>
+          <th lay-data="{field:'age', width:100, sort: true}">年龄</th>
+          <th lay-data="{field:'birthday', width:150, sort: true}">生日</th>
+          <th lay-data="{field:'telphone', width:150}">电话</th>
+          <th lay-data="{field:'email', width:150}">邮箱</th>
+          <th lay-data="{field:'website', width:200}">个人博客</th>
+          <!-- <th lay-data="{field:'rtime', width:100, sort: true}">注册时间</th>
+          <th lay-data="{field:'utime', width:100, sort: true}">更新时间</th> -->
+          <th lay-data="{fixed: 'right', width:170, align:'center', toolbar: '#barOption'}">操作</th>
         </tr>
       </thead>
     </table>
@@ -48,47 +55,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
   </script>
   <script src="/static/resource/rms/component/layui/layui.js" charset="utf-8"></script>
-  <script>
-    layui.use(['layer', 'table', 'form'], function () {
-      var $ = layui.jquery, layer = layui.layer, table = layui.table,
-        form = layui.form;
-
-      //触发事件
-      var active = {
-        addUser: function () {
-          var that = this;
-          //多窗口模式，层叠置顶
-          layer.open({
-            type: 2 //此处以iframe举例
-            , title: '添加用户'
-            , area: ['800px', '750px']
-            , shade: 0
-            , maxmin: true
-            , offset: [
-              // $(window).height() / 2 - 250
-              50
-              , $(window).width() / 2 - 400
-            ]
-            , content: 'adduser'
-            , yes: function () {
-              $(that).click();
-            }
-
-            , zIndex: layer.zIndex //重点1
-            , success: function (layero) {
-              layer.setTop(layero); //重点2
-            }
-          });
-        }
-      };
-
-      $('#optionGlobal .add-btn').on('click', function () {
-        var othis = $(this), method = othis.data('method');
-        active[method] ? active[method].call(this, othis) : '';
-      });
-
-    });
-  </script>
+  <script src="/static/resource/rms/javascript/userlist.js" charset="utf-8"></script>
 
 </body>
 

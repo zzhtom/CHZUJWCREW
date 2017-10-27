@@ -1,38 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="renderer" content="webkit">
-    <title>Login</title>
-    <link rel="stylesheet" href="/static/resource/rms/component/layui/css/layui.css" media="all" />
+<%include inc/header.html%>
     <link rel="stylesheet" href="/static/resource/rms/style/login.css" media="all">
-</head>
+    </head>
 
-<body>
-    <div class="player">
-        <video src="/static/resource/rms/video/login.mp4" type="video/mp4"  class="video" autoplay="autoplay" loop="loop">
+    <body>
+        <div class="player">
+            <video src="/static/resource/rms/video/login.mp4" type="video/mp4" class="video" autoplay="autoplay" loop="loop">
             您的浏览器不支持 video 标签
         </video>
-    </div>
-    <div class="mask"></div>
-    <div class="login">
-        <form class="layui-form">
-            <div class="layui-form-item">
-                <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
-            </div>
-            <div class="layui-form-item">
-                <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
-            </div>
-            <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
-        </form>
-    </div>
-    <script type="text/javascript" src="/static/resource/rms/component/layui/layui.js"></script>
-    <script type="text/javascript" src="/static/resource/rms/javascript/login.js"></script>
-</body>
+        </div>
+        <div class="mask"></div>
+        <div class="login">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
+                </div>
+                <div class="layui-form-item">
+                    <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
+                </div>
+                <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
+            </form>
+        </div>
+        <script type="text/javascript" src="/static/resource/rms/component/layui/layui.js"></script>
+        <script type="text/javascript" src="/static/resource/rms/javascript/login.js"></script>
+    </body>
 
-</html>
+    </html>

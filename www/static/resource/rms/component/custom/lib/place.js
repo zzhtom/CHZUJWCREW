@@ -70,7 +70,7 @@ layui.define(function (exports) {
                     } else if (places[i].cityCode() && places[i].cityCode() == code) {
                         var op = document.createElement("option");
                         op.text = places[i].name;
-                        op.value = places[i].areaCode;
+                        op.value = places[i].postcode;
                         elem.appendChild(op);
                     }
                 }
@@ -101,7 +101,7 @@ layui.define(function (exports) {
         },//省数组、市、县\区json数据   
     };
     exports('place', place);
-})
+});
 
 
 

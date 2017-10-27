@@ -56,7 +56,7 @@ $('.form').keypress(function (e) {
     submit.click();
 });
 
-/*函数区域*/
+/*post请求函数区域*/
 function post(url, auth) {
   var postForm = document.createElement("form");
   postForm.action = url;

@@ -59,13 +59,13 @@
           layer.open({
             type: 2 //此处以iframe举例
             , title: '添加新闻'
-            , area: ['800px', '750px']
+            , area: [$(window).width() / 2 + 'px', $(window).height()* 9.5 / 10 + 'px']
             , shade: 0
             , maxmin: true
             , offset: [ //为了演示，随机坐标
               // $(window).height() / 2 - 250
-              50
-              , $(window).width() / 2 - 400
+              2
+              , $(window).width() / 4
             ]
             , content: 'addnews'
             , yes: function () {
