@@ -9,22 +9,22 @@
         </fieldset>
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label">新闻标题</label>
+                <label class="layui-form-label">标题</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="newsname" class="layui-input" lay-verify="required">
+                    <input type="text" name="title" class="layui-input" lay-verify="required">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">类型</label>
                 <div class="layui-input-inline">
-                    <select name="interest" lay-filter="aihao">
+                    <select name="type" lay-filter="hobby">
                     <option value="">请选择</option>
-                    <option value="0">HipHop</option>
-                    <option value="1" >breaking</option>
-                    <option value="2">jazz</option>
-                    <option value="3">popin</option>
-                    <option value="4">locking</option>
+                    <option value="HipHop">HipHop</option>
+                    <option value="breaking">breaking</option>
+                    <option value="jazz">jazz</option>
+                    <option value="popin">popin</option>
+                    <option value="locking">locking</option>
                 </select>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="layui-form-item" style="margin: 0 aut0;text-align:center;">
                 <div class="layui-input-line">
-                    <button class="layui-btn" lay-submit lay-filter="addUser">立即提交</button>
+                    <button class="layui-btn" lay-submit lay-filter="addNews">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -45,9 +45,7 @@
         <script src="/static/resource/rms/component/layui/layui.js" charset="utf-8"></script>
         <script src="/static/resource/rms/component/custom/lib/simplemde.js" charset="utf-8"></script>
         <script src="/static/resource/rms/javascript/addnews.js"></script>
-        <script>
-            var simplemde = new SimpleMDE();
-        </script>
+
     </body>
 
     </html>

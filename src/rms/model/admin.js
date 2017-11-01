@@ -9,6 +9,6 @@ export default class extends think.model.base {
         }).find();
     }
     getAllAdmin(page, numsPerPage) {
-        return this.cache('getAllAdmin').field('username,realname,email,hobby,website,telphone,introduction,sex,age,province,city,town,DATE_FORMAT(birthday,"%Y-%c-%d") as birthday').page(page, numsPerPage).countSelect();;
+        return this.cache('getAllAdmin').field('username,realname,email,hobby,website,telphone,introduction,sex,age,province,city,town,DATE_FORMAT(birthday,"%Y-%c-%d") as birthday').page(page, numsPerPage).countSelect();
     }
 }
