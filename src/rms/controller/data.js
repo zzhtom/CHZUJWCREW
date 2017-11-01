@@ -97,6 +97,7 @@ export default class extends Base {
       handle.isDir(think.NEWS_MD_PATH);
       let flag = await handle.createMarkdown(think.NEWS_MD_PATH, data.mdname, article);
       await this.cache('getAllNews', null);
+      await this.cache('getNews', null);
       if (flag) {
         return this.json({
           success: true,
