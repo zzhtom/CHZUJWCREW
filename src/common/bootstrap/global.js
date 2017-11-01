@@ -20,7 +20,7 @@ global.theme = function (self) {
     return self.model('theme').getTheme();
 }
 global.news = function (self) {
-    return self.model('news').getNews();
+    return self.model('news').getAllNews();
 }
 global.activitys = function (self) {
     return self.model('activity').getActivity();
