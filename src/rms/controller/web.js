@@ -25,7 +25,8 @@ export default class extends Base {
     this.assign('data', await this.model('admin').getAdmin(ID.username));
     return this.display();
   }
-  userlistAction() {
+  async userlistAction() {
+    await this.cache('getAllAdmin', null);
     return this.display();
   }
   adduserAction() {

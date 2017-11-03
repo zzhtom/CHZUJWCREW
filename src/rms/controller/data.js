@@ -60,7 +60,28 @@ export default class extends Base {
       });
     }
   }
-
+  async deladminAction() {
+    if (this.isGet()) {
+      return this.json({
+        success: false,
+        msg: "请求类型错误!"
+      });
+    }
+    let model = this.model('admin');
+    let rst = await model.deleteAdmin(this.post().username);
+    if (typeof rst === 'boolean') {
+      await this.cache('getAllAdmin', null);
+      return this.json({
+        success: true,
+        msg: `可爱的用户:${this.post().username} 已删除!`
+      });
+    } else {
+      return this.json({
+        success: false,
+        msg: rst
+      });
+    }
+  }
   /**
    * area: for news
    */
@@ -96,7 +117,7 @@ export default class extends Base {
       await this.model('news').add(data);
       handle.isDir(think.NEWS_MD_PATH);
       let flag = await handle.createMarkdown(think.NEWS_MD_PATH, data.mdname, article);
-      await this.cache('getAllNews', null);
+      await this.cache('getaNews', null);
       await this.cache('getNews', null);
       if (flag) {
         return this.json({

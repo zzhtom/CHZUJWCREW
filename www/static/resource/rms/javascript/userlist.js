@@ -43,14 +43,47 @@ layui.use(['layer', 'table', 'form'], function () {
     //监听工具条
     table.on('tool(userlist)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data //获得当前行数据
-            ,layEvent = obj.event; //获得 lay-event 对应的值
+            ,
+            layEvent = obj.event; //获得 lay-event 对应的值
         if (layEvent === 'detail') {
             layer.msg('查看操作');
         } else if (layEvent === 'del') {
             layer.confirm('确定删除此条记录?', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构
-                layer.close(index);
-                //向服务端发送删除指令
+                layer.close(index)
+                let load = layer.load(1, {
+                    shade: [0.1, '#fff'] //0.1透明度的白色背景
+                });
+                $.ajax({
+                    url: '/rms/data/deladmin',
+                    data: {
+                        username: data.username
+                    },
+                    type: 'post',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            layer.msg(data.msg, {
+                                icon: 6
+                            });
+                            layer.close(load);
+                            obj.del(); //删除对应行（tr）的DOM结构
+                        } else {
+                            layer.close(load);
+                            layer.alert(data.msg, {
+                                icon: 5
+                            });
+                        }
+
+                    },
+                    error: function (XHR, textStatus, errorThrown) {
+                        var data = XHR.responseText;
+                        layer.close(load);
+                        layer.alert("错误信息: \n" + data, {
+                            icon: 5
+                        });
+                    }
+                });
             });
         } else if (layEvent === 'edit') {
             layer.msg('编辑操作');
