@@ -3,13 +3,14 @@ layui.config({
 }).extend({ //设定模块别名
     place: 'place' //如果place.js是在根目录，也可以不用设定别名
 });
-layui.use(['form', 'layedit', 'laydate', 'jquery', 'place'], function () {
+layui.use(['form', 'layedit', 'laydate', 'jquery', 'place', 'network'], function () {
     var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
         laydate = layui.laydate,
         $ = layui.jquery,
-        place = layui.place;
+        place = layui.place,
+        network = layui.network;
     var places = place.places();
     laydate.render({
         elem: '#birthday' //指定元素
@@ -39,38 +40,24 @@ layui.use(['form', 'layedit', 'laydate', 'jquery', 'place'], function () {
         adduser.province = $("select[name='province']").find("option:selected").text();
         adduser.city = $("select[name='city']").find("option:selected").text();
         adduser.town = $("select[name='town']").find("option:selected").text();
-        $.ajax({
-            url: '/rms/data/addadmin',
-            data: adduser,
-            type: 'post',
-            cache: false,
-            dataType: 'json',
-            success: function (data) {
-                if (data.success) {
-                    layer.close(load);
-                    layer.msg(data.msg, {
-                        icon: 6
-                    });
-                    $('.layui-form').get(0).reset();
-                } else {
-                    layer.close(load);
-                    if (data.success === undefined) {
-                        layer.msg('数据库连接失败，请告知管理人员检查！！', {
-                            icon: 5
-                        });
-                    } else {
-                        layer.alert(data.msg, {
-                            icon: 5
-                        });
-                    }
-                }
-
-            },
-            error: function () {
+        network.ajax($, '/rms/data/addadmin', adduser, 'post', 'json', false, function (data) {
+            if (data.success) {
                 layer.close(load);
-                layer.msg('网络错误！', {
-                    icon: 5
+                layer.msg(data.msg, {
+                    icon: 6
                 });
+                $('.layui-form').get(0).reset();
+            } else {
+                layer.close(load);
+                if (data.success === undefined) {
+                    layer.msg('数据库连接失败，请告知管理人员检查！！', {
+                        icon: 5
+                    });
+                } else {
+                    layer.alert(data.msg, {
+                        icon: 5
+                    });
+                }
             }
         });
         // console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
