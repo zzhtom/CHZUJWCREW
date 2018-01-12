@@ -5,12 +5,26 @@
 		document.getElementById("video").src =videoSrc;
 		}
 </script>-->
-	<%include inc/header.html%> 	
-      <div id="main_dv">
-	        <h2 align="center" style="margin-top:25px;">视频视界</h2><br />
-			<hr size="4" color="#FFFF99" width="100%" /><br />									
-			<div align="center" style=" height:485px;">
-				<embed id="video" src="<%-videoSrc%>" allowFullScreen="true" quality="high" width="865" height="485" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
-			</div>
-      </div>	
-<%include inc/footer.html%>   
+<%include inc/header.video.html%>
+	<div id="main_dv">
+		<h2 align="center" style="margin-top:25px;">视频视界</h2><br />
+		<hr size="4" color="#FFFF99" width="100%" /><br />
+		<div align="center" style=" height:485px;">
+			 <embed id="video" src="<%-videoSrc%>" allowFullScreen="true" quality="high" width="865" height="485" align="middle" allowScriptAccess="always"
+			      type="application/x-shockwave-flash"></embed> 
+		</div>
+		 <!-- <video id="my-player" class="video-js" controls preload="auto" poster="//vjs.zencdn.net/v/oceans.png" data-setup='{}'>
+			<source src="<%-videoSrc%>" type="video/flash"></source>
+			 <source src="/static/resource/rms/video/login.mp4" type="video/mp4"></source>
+			 <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source> 
+			 <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source> 
+			 <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>  
+			<p class="vjs-no-js">
+				To view this video please enable JavaScript, and consider upgrading to a web browser that
+				<a href="http://videojs.com/html5-video-support/" target="_blank">
+      supports HTML5 video
+    </a>
+			</p>
+		</video>  -->
+	</div>
+	<%include inc/footer.html%>

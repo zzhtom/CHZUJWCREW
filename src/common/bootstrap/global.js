@@ -11,7 +11,7 @@
  * }
  */
 // 网页标题
-global.title = '滁院J舞社'
+global.title = 'Peace & Love'
 // 随机数
 global.random = Math.random();
 // 查询数据库
