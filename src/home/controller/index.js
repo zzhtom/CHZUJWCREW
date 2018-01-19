@@ -59,9 +59,11 @@ export default class extends Base {
   }
   async videoAction() {
     //auto render template file index_ideo.html
-    let data = await global.theme(this);
+    let data = await global.theme(this),
+        videos = await global.video(this);
     this.assign('themes', data);
     this.assign('title', global.title);
+    this.assign('videos', videos);
     return this.display();
   }
   async communitydetailAction() {

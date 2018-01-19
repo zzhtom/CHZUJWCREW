@@ -43,3 +43,6 @@ global.team = function (self) {
 global.gallery = function (self) {
     return self.model('gallery').getGallery();
 }
+global.video = function (self) {
+    return self.model('video').getVideo();
+}
