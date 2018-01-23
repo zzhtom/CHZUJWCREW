@@ -32,16 +32,19 @@ body {
 }
 
 .mix {
-    background: #fff;
+    /* background: #fff; */
     border-radius: 2px;
     margin-bottom: 1rem;
     position: relative;
+    margin: 0 auto;
+    font-size: small;
+    padding-bottom: 5px;
 }
 
 .mix:before {
     content: '';
     display: inline-block;
-    padding-top: 56.25%;
+    /* padding-top: 56.25%; */
 }
 
 /* Grid Breakpoints
@@ -72,12 +75,12 @@ body {
     }
 }
 
-/* 5 Columns */
+/* 4 Columns */
 
 @media screen and (min-width: 1281px) {
     .mix,
     .gap {
-        width: calc(100%/5 - (((5 - 1) * 1rem) / 5));
+        width: calc(100%/4 - (((4 - 1) * 1rem) / 4));
     }
 }
 

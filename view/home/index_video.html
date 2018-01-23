@@ -3,33 +3,25 @@
         <div id="main1">
             <h2 align="center">视频视界</h2><br />
             <hr size="4" color="#FFFF99" width="100%" /><br />
-            <ul>
-                <%videos.forEach(function(video){%>
-                    <li>
-                        <a href="<%-video.action%>?src=<%-video.videoURL%>" target="_blank">
-                        <img src="<%-video.imageURL%>" border="0" width="204.8px" height="170px" /></a>
-                        <p>
-                            <a href="<%-video.action%>?src=<%-video.videoURL%>" target="_blank">
-                                <%-video.title%>
-                            </a>
-                        </p>
-                    </li>
-                    <%})%>
-
-            </ul>
 
             <div class="video">
-                <div class="mix"></div>
-                <div class="mix"></div>
-                <div class="mix"></div>
-                <div class="mix"></div>
-       
-            
-            -->
-
-                <div class="gap"></div>
-                <div class="gap"></div>
-                <div class="gap"></div>
+                <%videos.forEach(function(video){%>
+                    <div class="mix">
+                        <div style="width: 100%; height: 85%">
+                            <a href="<%-video.action%>?src=<%-video.videoURL%>" target="_blank">
+                                <img src="<%-video.imageURL%>" style="width: 100%; height: 100%" />
+                            </a>
+                        </div>
+                        <div style="width: 100%; height: 15%; padding: 1% 0px; text-align: center;">
+                            <a href="<%-video.action%>?src=<%-video.videoURL%>" target="_blank" >
+                                <%-video.title%>
+                            </a>
+                        </div>
+                    </div>
+                    <%})%>
+                        <div class="gap"></div>
+                        <div class="gap"></div>
+                        <div class="gap"></div>
             </div>
         </div>
     </div>
